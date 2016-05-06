@@ -1,5 +1,5 @@
 ####################################
-# plot bar plot for a gene
+# various ggplot2 themes
 # Authors: Pichai Raman, Komal Rathi
 # Organization: DBHi, CHOP
 ####################################
