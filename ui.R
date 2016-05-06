@@ -84,14 +84,23 @@ dashboardPage(
               DT::dataTableOutput('table')
               ),
       
+      # clge content
+      tabItem(tabName = "clge",
+              fluidRow(
+                box(textInput(inputId = "clgegene1", label = "Enter Gene 1", value = "MYC"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'clgesubmit1', label = "Get Expression Plot"))), br(), br(),
+              plotOutput("clgeplot1", width = 1000, height = 800)
+              ),
+      
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
-                box(textInput(inputId = "gene1", label = "Enter Gene 1", value = "MYC"), width = 3, background = "navy"),
-                box(textInput(inputId = "gene2", label = "Enter Gene 2", value = "MYCN"), width = 3, background = "navy")
+                box(textInput(inputId = "clggcgene1", label = "Enter Gene 1", value = "MYC"), width = 3, background = "navy"),
+                box(textInput(inputId = "clggcgene2", label = "Enter Gene 2", value = "MYCN"), width = 3, background = "navy")
               ),
-              fluidRow(column(3, actionButton(inputId = 'submit1', label = "Get Correlation"))), br(), br(),
-              plotOutput("plot1", width = 800, height = 800)
+              fluidRow(column(5, actionButton(inputId = 'clggcsubmit1', label = "Get Correlation Plot"))), br(), br(),
+              plotOutput("clggcplot1", width = 800, height = 800)
               ),
       
       # cldb content
