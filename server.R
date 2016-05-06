@@ -26,7 +26,7 @@ shinyServer(function(input, output, session){
   })
   
   # output original data in tab1
-  output$table <- DT::renderDataTable({
+  output$nbrcltable1 <- DT::renderDataTable({
     viewDataTable(datasetInput())
   })
   
@@ -35,8 +35,8 @@ shinyServer(function(input, output, session){
     if(input$clggcsubmit1){
       isolate({
         dat <- datasetInput()
-        gene1 <- as.character(input$clggcgene1)
-        gene2 <- as.character(input$clggcgene2)
+        gene1 <- as.character(input$clggctextinput1)
+        gene2 <- as.character(input$clggctextinput2)
         plotGeneScatter(dat = dat, gene1 = gene1, gene2 = gene2, customtheme = tbw)
       })
     }
@@ -46,7 +46,7 @@ shinyServer(function(input, output, session){
     if(input$clgesubmit1){
       isolate({
         dat <- datasetInput()
-        gene1 <- as.character(input$clgegene1)
+        gene1 <- as.character(input$clgetextinput1)
         plotGeneBar(dat = dat, gene1 = gene1, customtheme = tbw)
       })
     }
