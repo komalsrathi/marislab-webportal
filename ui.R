@@ -5,11 +5,12 @@ library(shiny)
 dashboardPage(
   
   # dashboardHeader begins
-  dashboardHeader(title = 'Maris\' Lab Web Portal', titleWidth = 500
-                  ), # dashboardHeader ends
+  dashboardHeader(title = 'Maris\' Lab Web Portal', titleWidth = 500), # dashboardHeader ends
   
   # dashboardSidebar begins
   dashboardSidebar(width = 500,
+                   
+    # enable vertical scrolling
     div(style="overflow-y: scroll"),
     
     # sidebarMenu begins
@@ -63,6 +64,7 @@ dashboardPage(
   
   # dashboardBody begins
   dashboardBody(
+    div(style="overflow-x: scroll"),
     
     # tabItems begins
     tabItems(
@@ -73,21 +75,21 @@ dashboardPage(
                 box(title = "Maris Lab", status = "danger", width = 12, solidHeader = TRUE, "Tools, analysis, and visualizations to support research on Neuroblastoma and other pediatric cancers.", br(), br(), actionButton(inputId='ab1', label="Learn More", icon = icon("th")))
               ),
               fluidRow(
-                box(title = "Cell Lines", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Tools and visualizations to support finding a cell line or set of cell lines that expressed a particular gene or pathway, looking at relevent correlations between genes, and examining cell line mutation. Currently internal Neuroblastoma cell line data is used but in the future data from CLE and Sanger will be imported.", br(), br(), actionButton(inputId='ab2', label="View Details >>")),
-                box(title = "Patient Data", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Visualizations and tools to analyze patient data in multiple ways. One can look at Gene Expression across cohorts, kaplan-meier curves based on a gene or set of genes, most correlated genes, etc... Currently two public data sets are included, in the future, our internal data set and other relevent data can be displayed.", br(), br(), actionButton(inputId='ab3', label="View Details >>")),
-                box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.", br(), br(), actionButton(inputId='ab4', label="View Details >>"))
+                box(title = "Cell Lines", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Tools and visualizations to support finding a cell line or set of cell lines that expressed a particular gene or pathway, looking at relevent correlations between genes, and examining cell line mutation. Currently internal Neuroblastoma cell line data is used but in the future data from CLE and Sanger will be imported.", br(), br(), actionButton(inputId='ab2', label="View Details", icon = icon("th"))),
+                box(title = "Patient Data", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Visualizations and tools to analyze patient data in multiple ways. One can look at Gene Expression across cohorts, kaplan-meier curves based on a gene or set of genes, most correlated genes, etc... Currently two public data sets are included, in the future, our internal data set and other relevent data can be displayed.", br(), br(), actionButton(inputId='ab3', label="View Details", icon = icon("th"))),
+                box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.", br(), br(), actionButton(inputId='ab4', label="View Details", icon = icon("th")))
               )
       ),
       
       # nbrcl content
       tabItem(tabName = "nbrcl",
-              DT::dataTableOutput('table')
+              DT::dataTableOutput('nbrcltable1')
               ),
       
       # clge content
       tabItem(tabName = "clge",
               fluidRow(
-                box(textInput(inputId = "clgegene1", label = "Enter Gene 1", value = "MYC"), width = 3, background = "navy")
+                box(textInput(inputId = "clgetextinput1", label = "Enter Gene", value = "MYC"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit1', label = "Get Expression Plot"))), br(), br(),
               plotOutput("clgeplot1", width = 1000, height = 800)
@@ -96,11 +98,63 @@ dashboardPage(
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
-                box(textInput(inputId = "clggcgene1", label = "Enter Gene 1", value = "MYC"), width = 3, background = "navy"),
-                box(textInput(inputId = "clggcgene2", label = "Enter Gene 2", value = "MYCN"), width = 3, background = "navy")
+                box(textInput(inputId = "clggctextinput1", label = "Enter Gene 1", value = "MYC"), width = 3, background = "navy"),
+                box(textInput(inputId = "clggctextinput2", label = "Enter Gene 2", value = "MYCN"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit1', label = "Get Correlation Plot"))), br(), br(),
               plotOutput("clggcplot1", width = 800, height = 800)
+              ),
+      
+      # clm content
+      tabItem(tabName = "clm",
+              fluidRow(
+                box(textInput(inputId = "clmtextinput1", label = "Enter Gene", value = "MYC"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'clmsubmit1', label = "Get Mutation Table"))), 
+              br(), br(),
+              DT::dataTableOutput('clmtable1')
+              ),
+      
+      # clgcn content
+      tabItem(tabName = "clgcn",
+              fluidRow(
+                box(textInput(inputId = "clgcntextinput1", label = "Enter Gene", value = "MYC"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'clgcnsubmit1', label = "Get Copy Number Barplot"))), 
+              br(), br(),
+              plotOutput('clgcnplot1', width = 800, height = 800)
+              ),
+      
+      # clcvm content
+      tabItem(tabName = "clcvm",
+              fluidRow(
+                box(textInput(inputId = "clcvmtextinput1", label = "Enter Gene", value = "MYC"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'clcvmsubmit1', label = "Get CN vs Mutation Plot"))), 
+              br(), br(),
+              plotOutput('clcvmplot1', width = 800, height = 800)
+              ),
+      
+      # clh content
+      tabItem(tabName = "clh",
+              fluidRow(
+                box(textInput(inputId = "clhtextinput1", label = "Enter Genes", value = "MYC"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))), 
+              br(), br(),
+              plotOutput('clhplot1', width = 800, height = 800)
+              ),
+      
+      # clct content
+      tabItem(tabName = "clct",
+              fluidRow(
+                box(selectInput(inputId = "clctselectinput1", label = "Set 1", choices = c("MYC","MYCN","ZNF844"), multiple = TRUE), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectinput2", label = "Set 2", choices = c("MYC","MYCN","ZNF844"), multiple = TRUE), width = 3, background = "navy"),
+                box(textInput(inputId = "clcttextinput1", label = "Enter Pvalue Cutoff", value = "0.0005"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'clctsubmit1', label = "Run Analysis"))), 
+              br(), br(), 
+              DT::dataTableOutput('clmtable1')
               ),
       
       # cldb content
@@ -108,13 +162,14 @@ dashboardPage(
               fluidRow(
                 box(title = "Maris Lab", status = "danger", width = 12, solidHeader = TRUE, "Tools, analysis, and visualizations to support research on Neuroblastoma and other pediatric cancers.", br(), br(), actionButton(inputId='ab1', label="Learn More >>"))
               )
-      ),
+              ),
       
       # contact content
       tabItem(tabName = "contact",
               fluidRow(
                 box(title = "Contact Info", status = "danger", width = 4, solidHeader = T)
-              ))
+              )
+              )
       
     ) # tabItems ends
   ) # dashboardBody ends
