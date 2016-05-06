@@ -1,3 +1,9 @@
+####################################
+# add data table options
+# Authors: Pichai Raman, Komal Rathi
+# Organization: DBHi, CHOP
+####################################
+
 viewDataTable <- function(dat){
   dt <- DT::datatable(dat,
                 extensions = c('TableTools', 'ColVis','Scroller'), 
