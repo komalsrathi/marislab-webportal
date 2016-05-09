@@ -17,4 +17,13 @@ Maris' Lab Web Portal
 Introduction
 ============
 
-This is the Maris Lab's Web Portal Repo. More to come later!
+This is the Maris Lab's Web Portal Repo.
+
+Updates:
+
+1. Changes all textInputs to selectInputs.
+	Circumvents error when typing gene names. 
+	Only available gene names can be selected.
+2. Changes all radiobuttons to either selectInputs or checkBoxInputs
+	Sleeker versions of radiobuttons.
+3. More to come later!
