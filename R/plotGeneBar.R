@@ -13,6 +13,9 @@ plotGeneBar <- function(dat, gene1, log=T, customtheme)
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
   colnames(dat.c)[1] = "Cell_Line"
   
+  # modify gene name, dashes present
+  gene1.mut <- paste('`',gene1,'`',sep='')
+  
   # plot log values?
   if(log==F)
   {
@@ -20,7 +23,7 @@ plotGeneBar <- function(dat, gene1, log=T, customtheme)
   }
   
   # plot 
-  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1, fill='Cell_Line')) + 
+  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill='Cell_Line')) + 
     geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + 
     ggtitle(gene1) + ylab('Expression Value\n')
   

@@ -5,7 +5,7 @@
 ####################################
 
 viewDataTable <- function(dat){
-  dt <- DT::datatable(dat,
+  DT::datatable(dat,
                 extensions = c('TableTools', 'ColVis','Scroller'), 
                 options = list(dom = 'RMDCT<"clear">lfrtip', 
                                searchHighlight = TRUE,
@@ -17,5 +17,4 @@ viewDataTable <- function(dat){
                                lengthMenu = list(c(5, 10, 15, 20, 25, -1), c('5', '10', '15', '20', '25', 'All')),
                                scrollX = TRUE),
                 selection = 'single')
-  return(dt)
 }

@@ -18,6 +18,10 @@
     cor.est <- round(cor$estimate,2)
     cor.title <- paste("Cor = ", cor.est, " | P-Val = ", cor.pval, sep="")
     
+    # modify gene name, dashes present
+    gene1.mut <- paste('`',gene1,'`',sep = '')
+    gene2.mut <- paste('`',gene2,'`',sep = '')
+    
     # plot log values? 
     if(log==F)
     {
@@ -25,7 +29,7 @@
     }
     
     # plot
-    p <- ggplot(data = dat.c, aes_string(x = gene1, y = gene2, label = 'variable')) + geom_point(size = 3) + geom_smooth(method = lm) + customtheme +
+    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'variable')) + geom_point(size = 3) + geom_smooth(method = lm) + customtheme +
       geom_text(vjust=-1.5, size = 4) + ggtitle(label = cor.title) + xlab(label = gene1) + ylab(label = gene2)
     
     return(p)
