@@ -83,79 +83,213 @@ dashboardPage(
       
       # nbrcl content
       tabItem(tabName = "nbrcl",
-              DT::dataTableOutput('nbrcltable1')
+              DT::dataTableOutput(outputId = "nbrcltable1")
               ),
       
+      ##### Cell Lines Utilities #####
       # clge content
       tabItem(tabName = "clge",
               fluidRow(
-                box(textInput(inputId = "clgetextinput1", label = "Enter Gene", value = "MYC"), width = 3, background = "navy")
+                box(selectInput(inputId = "clgeselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit1', label = "Get Expression Plot"))), br(), br(),
-              plotOutput("clgeplot1", width = 1000, height = 800)
+              plotOutput(outputId = "clgeplot1", width = 1000, height = 800)
               ),
       
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
-                box(textInput(inputId = "clggctextinput1", label = "Enter Gene 1", value = "MYC"), width = 3, background = "navy"),
-                box(textInput(inputId = "clggctextinput2", label = "Enter Gene 2", value = "MYCN"), width = 3, background = "navy")
+                box(selectInput(inputId = "clggcselectInput1", label = "Select Gene 1", choices = "none"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 2", choices = "none"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit1', label = "Get Correlation Plot"))), br(), br(),
-              plotOutput("clggcplot1", width = 800, height = 800)
+              plotOutput(outputId = "clggcplot1", width = 800, height = 800)
               ),
       
       # clm content
       tabItem(tabName = "clm",
               fluidRow(
-                box(textInput(inputId = "clmtextinput1", label = "Enter Gene", value = "MYC"), width = 3, background = "navy")
+                box(selectInput(inputId = "clmselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clmsubmit1', label = "Get Mutation Table"))), 
               br(), br(),
-              DT::dataTableOutput('clmtable1')
+              DT::dataTableOutput(outputId = 'clmtable1')
               ),
       
       # clgcn content
       tabItem(tabName = "clgcn",
               fluidRow(
-                box(textInput(inputId = "clgcntextinput1", label = "Enter Gene", value = "MYC"), width = 3, background = "navy")
+                box(selectInput(inputId = "clgcnselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit1', label = "Get Copy Number Barplot"))), 
               br(), br(),
-              plotOutput('clgcnplot1', width = 800, height = 800)
+              plotOutput(outputId = 'clgcnplot1', width = 800, height = 800)
               ),
       
       # clcvm content
       tabItem(tabName = "clcvm",
               fluidRow(
-                box(textInput(inputId = "clcvmtextinput1", label = "Enter Gene", value = "MYC"), width = 3, background = "navy")
+                box(selectInput(inputId = "clcvmselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clcvmsubmit1', label = "Get CN vs Mutation Plot"))), 
               br(), br(),
-              plotOutput('clcvmplot1', width = 800, height = 800)
+              plotOutput(outputId = 'clcvmplot1', width = 800, height = 800)
               ),
       
       # clh content
       tabItem(tabName = "clh",
               fluidRow(
-                box(textInput(inputId = "clhtextinput1", label = "Enter Genes", value = "MYC"), width = 3, background = "navy")
+                box(fileInput(inputId = 'clhfileInput', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy"),
+                box(selectInput(inputId='clhselectInput1', label = 'Genes Uploaded',choices = c('none'), selected = 'none'), width = 3, background = "navy"),
+                box(selectInput(inputId='clhselectInput2', label = 'Count',choices = c('none'), selected = 'none'), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))), 
+              fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))),
               br(), br(),
-              plotOutput('clhplot1', width = 800, height = 800)
+              plotOutput(outputId = 'clhplot1', width = 800, height = 800)
               ),
       
       # clct content
       tabItem(tabName = "clct",
               fluidRow(
-                box(selectInput(inputId = "clctselectinput1", label = "Set 1", choices = c("MYC","MYCN","ZNF844"), multiple = TRUE), width = 3, background = "navy"),
-                box(selectInput(inputId = "clctselectinput2", label = "Set 2", choices = c("MYC","MYCN","ZNF844"), multiple = TRUE), width = 3, background = "navy"),
-                box(textInput(inputId = "clcttextinput1", label = "Enter Pvalue Cutoff", value = "0.0005"), width = 3, background = "navy")
+                box(selectInput(inputId = "clctselectInput1", label = "Set 1", choices = "none", multiple = TRUE), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectInput2", label = "Set 2", choices = "none", multiple = TRUE), width = 3, background = "navy"),
+                box(textInput(inputId = "clcttextInput1", label = "Enter Pvalue Cutoff", value = "0.0005"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clctsubmit1', label = "Run Analysis"))), 
               br(), br(), 
-              DT::dataTableOutput('clmtable1')
+              DT::dataTableOutput(outputId = 'clcttable1')
               ),
+      ##### Cell Lines Utilities #####
+      
+      ##### Patient Samples Utilities #####
+      tabItem(tabName = "pgeh",
+              fluidRow(
+                box(selectInput(inputId = "pgehselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),width = 3, background = "navy"),
+                box(checkboxGroupInput(inputId = "pgehcheckboxInput1", label = "Select Parameters", choices = c("Sort Data", "Log Data", "Density")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pgehsubmit1', label = "Get Expression Plot"))), br(), br(),
+              plotOutput(outputId = "pgehplot1", width = 1000, height = 800)
+      ),
+      tabItem(tabName = "pgebp",
+              fluidRow(
+                box(selectInput(inputId = "pgebpselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                    checkboxGroupInput(inputId = "pgebpcheckboxInput1", label = "Select Parameters", choices = c("Log Data")),
+                    selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")),
+                    selectInput(inputId = "pgebpselectInput3", label = "Select gene", choices = c("none")),
+                    width = 4, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pgebpsubmit1', label = "Get Patient Boxplot"))), br(), br(),
+              plotOutput(outputId = "pgebpplot1", width = 1000, height = 800)
+      ),
+      tabItem(tabName = "pkm",
+              fluidRow(
+                box(selectInput(inputId = "pkmselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                    selectInput(inputId = "pkmselectInput2", label = "Choose endpoint", choices = c("os", "efs")),
+                    selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none")),
+                    width = 4, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pkmsubmit1', label = "Get Kaplan-Meier Plot"))), br(), br(),
+              plotOutput(outputId = "pkmplot1", width = 1000, height = 800)
+      ),
+      tabItem(tabName = "pggc",
+              fluidRow(
+                box(selectInput(inputId = "pggcselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), 
+                    checkboxGroupInput(inputId = "pggccheckboxInput1", label = "Select Parameters", choices = c("Log Data")),
+                    selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")),
+                    selectInput(inputId = "pggcselectInput3", label = "Select gene 1", choices = c("none")),
+                    selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")),
+                    width = 4, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pggcsubmit1', label = "Get Gene Correlation Plot"))), br(), br(),
+              plotOutput(outputId = "pggcpplot1", width = 1000, height = 800)
+      ),
+      tabItem(tabName = "pmcg",
+              fluidRow(
+                box(selectInput(inputId = "pmcgselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), 
+                    selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")),
+                    width = 4, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pmcgsubmit1', label = "Get Top Gene Correlations"))), br(), br(),
+              DT::dataTableOutput(outputId = 'pmcgtable1')
+      ),
+      tabItem(tabName = "pgcn",
+              fluidRow(
+                box(selectInput(inputId = "pgcnselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), 
+                    checkboxGroupInput(inputId = "pgcncheckboxInput1", label = "Select Parameters", choices = c("Sort Data", "Log Data", "Density")),
+                    selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")),
+                    width = 4, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pgcnsubmit1', label = "Get Copy Number Barplot"))), br(), br(),
+              plotOutput(outputId = "pgcnplot1", width = 1000, height = 800)
+      ),
+      tabItem(tabName = "pgcvm",
+              fluidRow(
+                box(selectInput(inputId = "pgcvmselectInput1", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pgcvmsubmit1', label = "Get mRNA/CNA Correlation Plot"))), br(), br(),
+              plotOutput(outputId = "pgcvmplot1", width = 1000, height = 800)
+      ),
+      ##### Patient Samples Utilities #####
+      
+      ##### RNASeq Target Data #####
+      tabItem(tabName = "tvnb",
+              fluidRow(
+                box(selectInput(inputId = "tvnbselectInput1", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'tvnbsubmit1', label = "Comparison with Normal GTEx data"))), br(), br(),
+              plotOutput(outputId = "tvnbplot1", width = 1000, height = 800)
+      ),
+      tabItem(tabName = "tvnba",
+              fluidRow(
+                box(selectInput(inputId = "tvnbaselectInput1", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'tvnbasubmit1', label = "Comparison with Normal GTEx data"))), br(), br(),
+              plotOutput(outputId = "tvnbaplot1", width = 1000, height = 800)
+      ),
+      ##### RNASeq Target Data #####
+      
+      ##### Compendia Analysis #####
+      tabItem(tabName = "aoa",
+              fluidRow(
+                box(selectInput(inputId = "aoaselectInput1", label = "Select Gene", choices = c("All")),
+                    selectInput(inputId = "aoaselectInput2", label = "Select Tissue", choices = "none"),
+                    checkboxInput(inputId = "aoacheckboxInput1", label = "Normals only?"),
+                    selectInput(inputId = "aoaselectInput1", label = "Threshold", choices = c("All", 8)),
+                    textInput(inputId = "aoatextInput1", label = "Frequency", value = 0),
+                    textInput(inputId = "aoatextInput2", label = "Rank", value = 10000),
+                    width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'aoasubmit1', label = "Get overexpression analysis"))), br(), br(),
+              DT::dataTableOutput(outputId = 'aoatable1')
+      ),
+  
+      tabItem(tabName = "atpc",
+              fluidRow(
+                box(selectInput(inputId = "atpcselectInput1", label = "Select Gene", choices = "none"),
+                    selectInput(inputId = "atpcselectInput2", label = "Select Source", choices = c(0,1,2,3,4)),
+                    width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'atpcsubmit1', label = "Get TM annotation"))), br(), br(),
+              DT::dataTableOutput(outputId = 'atpctable1')
+      ),
+      
+      tabItem(tabName = "atnda",
+              fluidRow(
+                box(selectInput(inputId = "atndaselectInput1", label = "Select Gene", choices = "none"),
+                    selectInput(inputId = "atndaselectInput2", label = "Select Disease Tissue", choices = "none"),
+                    selectInput(inputId = "atndaselectInput3", label = "Select Normal Tissue", choices = "none"),
+                    textInput(inputId = "atndatextInput1", label = "LogFC", value = -10),
+                    textInput(inputId = "atndatextInput2", label = "Pvalue", value = 1),
+                    textInput(inputId = "atndatextInput3", label = "Rank", value = 10000),
+                    width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'atndasubmit1', label = "Get Tumor-Normal Diff. Analysis"))), br(), br(),
+              DT::dataTableOutput(outputId = 'atndatable1')
+      ),
+      
+      ##### Compendia Analysis #####
       
       # cldb content
       tabItem(tabName = "cldb",
