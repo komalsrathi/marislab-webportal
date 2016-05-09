@@ -19,7 +19,8 @@ Introduction
 
 This is the Maris Lab's Web Portal Repo.
 
-Updates:
+Updates
+^^^^^^^
 
 1. Changes all textInputs to selectInputs.
 	Circumvents error when typing gene names. 
