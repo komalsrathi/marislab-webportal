@@ -1,6 +1,11 @@
+library(shiny)
+library(reshape2)
+library(plotly)
+library(ggplot2)
+library(Rgraphviz)
+library(DT)
 library(shinydashboard)
 library(shinyIncubator)
-library(shiny)
 
 dashboardPage(
   
@@ -81,6 +86,9 @@ dashboardPage(
               )
       ),
       
+      # cldb content
+      
+      
       # nbrcl content
       tabItem(tabName = "nbrcl",
               DT::dataTableOutput(outputId = "nbrcltable1")
@@ -93,7 +101,7 @@ dashboardPage(
                 box(selectInput(inputId = "clgeselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit1', label = "Get Expression Plot"))), br(), br(),
-              plotOutput(outputId = "clgeplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
               ),
       
       # clggc content
@@ -103,7 +111,7 @@ dashboardPage(
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 2", choices = "none"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit1', label = "Get Correlation Plot"))), br(), br(),
-              plotOutput(outputId = "clggcplot1", width = 800, height = 800)
+              plotlyOutput(outputId = "clggcplot1", width = 800, height = 800)
               ),
       
       # clm content
@@ -174,52 +182,47 @@ dashboardPage(
       ),
       tabItem(tabName = "pgebp",
               fluidRow(
-                box(selectInput(inputId = "pgebpselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
-                    checkboxGroupInput(inputId = "pgebpcheckboxInput1", label = "Select Parameters", choices = c("Log Data")),
-                    selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")),
-                    selectInput(inputId = "pgebpselectInput3", label = "Select gene", choices = c("none")),
-                    width = 4, background = "navy")
+                box(selectInput(inputId = "pgebpselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
+                box(checkboxInput(inputId = "pgebpcheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgebpselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgebpsubmit1', label = "Get Patient Boxplot"))), br(), br(),
               plotOutput(outputId = "pgebpplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pkm",
               fluidRow(
-                box(selectInput(inputId = "pkmselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
-                    selectInput(inputId = "pkmselectInput2", label = "Choose endpoint", choices = c("os", "efs")),
-                    selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none")),
-                    width = 4, background = "navy")
+                box(selectInput(inputId = "pkmselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
+                box(selectInput(inputId = "pkmselectInput2", label = "Choose endpoint", choices = c("os", "efs")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pkmsubmit1', label = "Get Kaplan-Meier Plot"))), br(), br(),
               plotOutput(outputId = "pkmplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pggc",
               fluidRow(
-                box(selectInput(inputId = "pggcselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), 
-                    checkboxGroupInput(inputId = "pggccheckboxInput1", label = "Select Parameters", choices = c("Log Data")),
-                    selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")),
-                    selectInput(inputId = "pggcselectInput3", label = "Select gene 1", choices = c("none")),
-                    selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")),
-                    width = 4, background = "navy")
+                box(selectInput(inputId = "pggcselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
+                box(checkboxInput(inputId = "pggccheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pggcselectInput3", label = "Select gene 1", choices = c("none")), 
+                    selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pggcsubmit1', label = "Get Gene Correlation Plot"))), br(), br(),
               plotOutput(outputId = "pggcpplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pmcg",
               fluidRow(
-                box(selectInput(inputId = "pmcgselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), 
-                    selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")),
-                    width = 4, background = "navy")
+                box(selectInput(inputId = "pmcgselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
+                box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pmcgsubmit1', label = "Get Top Gene Correlations"))), br(), br(),
               DT::dataTableOutput(outputId = 'pmcgtable1')
       ),
       tabItem(tabName = "pgcn",
               fluidRow(
-                box(selectInput(inputId = "pgcnselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), 
-                    checkboxGroupInput(inputId = "pgcncheckboxInput1", label = "Select Parameters", choices = c("Sort Data", "Log Data", "Density")),
-                    selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")),
-                    width = 4, background = "navy")
+                box(selectInput(inputId = "pgcnselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
+                box(checkboxGroupInput(inputId = "pgcncheckboxInput1", label = "Select Parameters", choices = c("Sort Data", "Log Data", "Density")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgcnsubmit1', label = "Get Copy Number Barplot"))), br(), br(),
               plotOutput(outputId = "pgcnplot1", width = 1000, height = 800)
@@ -253,13 +256,12 @@ dashboardPage(
       ##### Compendia Analysis #####
       tabItem(tabName = "aoa",
               fluidRow(
-                box(selectInput(inputId = "aoaselectInput1", label = "Select Gene", choices = c("All")),
-                    selectInput(inputId = "aoaselectInput2", label = "Select Tissue", choices = "none"),
-                    checkboxInput(inputId = "aoacheckboxInput1", label = "Normals only?"),
-                    selectInput(inputId = "aoaselectInput1", label = "Threshold", choices = c("All", 8)),
-                    textInput(inputId = "aoatextInput1", label = "Frequency", value = 0),
-                    textInput(inputId = "aoatextInput2", label = "Rank", value = 10000),
-                    width = 3, background = "navy")
+                box(selectInput(inputId = "aoaselectInput1", label = "Select Gene", choices = c("All")), 
+                    selectInput(inputId = "aoaselectInput2", label = "Select Tissue", choices = "none"), width = 3, background = "navy"),
+                box(checkboxInput(inputId = "aoacheckboxInput1", label = "Normals only?"), width = 3, background = "navy"),
+                box(selectInput(inputId = "aoaselectInput1", label = "Threshold", choices = c("All", 8)), 
+                    textInput(inputId = "aoatextInput1", label = "Frequency", value = 0), 
+                    textInput(inputId = "aoatextInput2", label = "Rank", value = 10000), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'aoasubmit1', label = "Get overexpression analysis"))), br(), br(),
               DT::dataTableOutput(outputId = 'aoatable1')
@@ -267,9 +269,8 @@ dashboardPage(
   
       tabItem(tabName = "atpc",
               fluidRow(
-                box(selectInput(inputId = "atpcselectInput1", label = "Select Gene", choices = "none"),
-                    selectInput(inputId = "atpcselectInput2", label = "Select Source", choices = c(0,1,2,3,4)),
-                    width = 3, background = "navy")
+                box(selectInput(inputId = "atpcselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(selectInput(inputId = "atpcselectInput2", label = "Select Source", choices = c(0,1,2,3,4)), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'atpcsubmit1', label = "Get TM annotation"))), br(), br(),
               DT::dataTableOutput(outputId = 'atpctable1')
@@ -280,7 +281,8 @@ dashboardPage(
                 box(selectInput(inputId = "atndaselectInput1", label = "Select Gene", choices = "none"),
                     selectInput(inputId = "atndaselectInput2", label = "Select Disease Tissue", choices = "none"),
                     selectInput(inputId = "atndaselectInput3", label = "Select Normal Tissue", choices = "none"),
-                    textInput(inputId = "atndatextInput1", label = "LogFC", value = -10),
+                    width = 3, background = "navy"),
+                box(textInput(inputId = "atndatextInput1", label = "LogFC", value = -10),
                     textInput(inputId = "atndatextInput2", label = "Pvalue", value = 1),
                     textInput(inputId = "atndatextInput3", label = "Rank", value = 10000),
                     width = 3, background = "navy")
@@ -291,17 +293,10 @@ dashboardPage(
       
       ##### Compendia Analysis #####
       
-      # cldb content
-      tabItem(tabName = "cldb",
-              fluidRow(
-                box(title = "Maris Lab", status = "danger", width = 12, solidHeader = TRUE, "Tools, analysis, and visualizations to support research on Neuroblastoma and other pediatric cancers.", br(), br(), actionButton(inputId='ab1', label="Learn More >>"))
-              )
-              ),
-      
       # contact content
       tabItem(tabName = "contact",
               fluidRow(
-                box(title = "Contact Info", status = "danger", width = 4, solidHeader = T)
+                box(title = "Contact Info", status = "danger", width = 4, solidHeader = TRUE)
               )
               )
       
