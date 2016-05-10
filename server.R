@@ -1,10 +1,3 @@
-library(shiny)
-library(reshape2)
-library(ggplot2)
-library(Rgraphviz)
-library(DT)
-library(shinydashboard)
-library(shinyIncubator)
 
 # source functions
 source('R/viewDataTable.R')
@@ -36,6 +29,7 @@ shinyServer(function(input, output, session){
                                                    "}"),
                                  tableTools = list(sSwfPath = '//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/swf/copy_csv_xls_pdf.swf'),
                                  pageLength = 5,
+                                 filter = 'top',
                                  lengthMenu = list(c(5, 10, 15, 20, 25, -1), c('5', '10', '15', '20', '25', 'All')),
                                  scrollX = TRUE),
                   selection = 'single')
@@ -54,25 +48,27 @@ shinyServer(function(input, output, session){
   })
   
   # output correlation plot in plot1
-  output$clggcplot1 <- renderPlot({
-    if(input$clggcsubmit1){
+  output$clggcplot1 <- renderPlotly({
+    if(input$clggcsubmit1==0){
+      return()
+    }
       isolate({
         dat <- datasetInput()
         gene1 <- as.character(input$clggcselectInput1)
         gene2 <- as.character(input$clggcselectInput2)
         plotGeneScatter(dat = dat, gene1 = `gene1`, gene2 = `gene2`, customtheme = tbw)
       })
-    }
   })
   
-  output$clgeplot1 <- renderPlot({
-    if(input$clgesubmit1){
+  output$clgeplot1 <- renderPlotly({
+    if(input$clgesubmit1==0){
+      return()
+    }
       isolate({
         dat <- datasetInput()
         gene1 <- as.character(input$clgeselectInput1)
         plotGeneBar(dat = dat, gene1 = gene1, customtheme = tbw)
       })
-    }
   })
   
   # heatmap
