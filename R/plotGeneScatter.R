@@ -28,9 +28,12 @@
       dat.c <- 2^dat.c
     }
     
-    # plot
+    # ggplot
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'variable')) + geom_point(size = 3) + geom_smooth(method = lm) + customtheme +
       geom_text(vjust=-1.5, size = 4) + ggtitle(label = cor.title) + xlab(label = gene1) + ylab(label = gene2)
+    
+    # ggplotly
+    p <- ggplotly(p)
     
     return(p)
   } # plotGeneScatter ends
