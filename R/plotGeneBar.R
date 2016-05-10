@@ -22,10 +22,13 @@ plotGeneBar <- function(dat, gene1, log=T, customtheme)
     dat.c <- 2^dat.c
   }
   
-  # plot 
+  # ggplot 
   p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill='Cell_Line')) + 
     geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + 
     ggtitle(gene1) + ylab('Expression Value\n')
+  
+  # ggplotly
+  p <- ggplotly(p)
   
   return(p)
   
