@@ -7,6 +7,7 @@
 viewDataTable <- function(dat){
   DT::datatable(dat,
                 extensions = c('TableTools', 'ColVis','Scroller'), 
+                filter = "bottom",
                 options = list(dom = 'RMDCT<"clear">lfrtip', 
                                searchHighlight = TRUE,
                                initComplete = JS("function(settings, json) {",
