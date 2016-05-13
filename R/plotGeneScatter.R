@@ -23,14 +23,18 @@
     gene2.mut <- paste('`',gene2,'`',sep = '')
     
     # plot log values? 
-    if(log==F)
+    if(log==FALSE)
     {
-      dat.c <- 2^dat.c
+      dat.tmp <- dat.c[,-1]
+      dat.tmp <- as.data.frame(2^dat.tmp)
+      dat.tmp <- cbind(variable=dat.c$variable, dat.tmp)
+      dat.c <- dat.tmp
     }
     
     # ggplot
-    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'variable')) + geom_point(size = 3) + geom_smooth(method = lm) + customtheme +
-      geom_text(vjust=-1.5, size = 4) + ggtitle(label = cor.title) + xlab(label = gene1) + ylab(label = gene2)
+    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
+      geom_point(size = 2) + geom_smooth(method = lm) + customtheme +
+      geom_text(aes(label = variable), vjust=-1.5, size = 3) + ggtitle(label = cor.title) + xlab(label = gene1) + ylab(label = gene2)
     
     # ggplotly
     p <- ggplotly(p)
