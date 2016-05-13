@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 ####################################
 
-plotGeneBar <- function(dat, gene1, log=T, customtheme)
+plotGeneBar <- function(dat, gene1, log, customtheme)
 {
   
   # load initial dataset
@@ -17,9 +17,12 @@ plotGeneBar <- function(dat, gene1, log=T, customtheme)
   gene1.mut <- paste('`',gene1,'`',sep='')
   
   # plot log values?
-  if(log==F)
+  if(log==FALSE)
   {
-    dat.c <- 2^dat.c
+    dat.tmp <- dat.c[,-1]
+    dat.tmp <- as.data.frame(2^dat.tmp)
+    dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
+    dat.c <- dat.tmp
   }
   
   # ggplot 
