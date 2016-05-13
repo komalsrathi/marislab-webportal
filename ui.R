@@ -1,11 +1,18 @@
 library(shiny)
-library(reshape2)
-library(plotly)
-library(ggplot2)
-library(Rgraphviz)
-library(DT)
 library(shinydashboard)
-library(shinyIncubator)
+library(DT)
+
+inputTextarea <- function(inputId, value="", nrows, ncols) {
+  tagList(
+    singleton(tags$head(tags$script(src = "textarea.js"))),
+    tags$textarea(id = inputId,
+                  class = "inputtextarea",
+                  rows = nrows,
+                  cols = ncols,
+                  as.character(value))
+  )
+}
+
 
 dashboardPage(
   
@@ -18,14 +25,11 @@ dashboardPage(
     # enable vertical scrolling
     div(style="overflow-y: scroll"),
     
-    # sidebarMenu begins
+    # sidebarMenu begin
     sidebarMenu(
       
       menuItem("Dashboard", icon = icon("dashboard"), tabName = "dashboard"),
-      menuItem("Cell Lines Database", icon = icon("database"), tabName = "cldb",
-               menuSubItem("Neuroblastoma Cell Line", icon = icon("file"), tabName = "nbcl"),
-               menuSubItem("Neuroblastoma RNAseq Cell Line", icon = icon("file"), tabName = "nbrcl")
-               ),
+      menuItem("Cell Lines Database", icon = icon("database"), tabName = "cldb"),
       menuItem("Cell Lines Utilities", tabName = "celllines", icon = icon("gears"),
                menuSubItem("Cell Line Gene Expression", icon = icon("bar-chart"), tabName = "clge"),
                menuSubItem("Cell Line Gene/Gene Correlation", icon = icon("line-chart"), tabName = "clggc"),
@@ -34,7 +38,7 @@ dashboardPage(
                menuSubItem("Cell Line CNA vs mRNA", icon = icon("line-chart"), tabName = "clcvm"),
                menuSubItem("Cell Line Heatmap", icon = icon("th"), tabName = "clh"),
                menuSubItem("Cell Line Comparison Tool", icon = icon("table"), tabName = "clct")
-               ),
+      ),
       menuItem("Patient Samples Utilities", tabName = "patientsamples", icon = icon("gears"),
                menuSubItem("Patient Gene Expression Histogram", icon = icon("bar-chart"), tabName = "pgeh"),
                menuSubItem("Patient Gene Expression Box Plot", icon = icon("bar-chart"), tabName = "pgebp"),
@@ -43,31 +47,29 @@ dashboardPage(
                menuSubItem("Patient Most Correlated Genes", icon = icon("table"), tabName = "pmcg"),
                menuSubItem("Patient Gene Copy Number", icon = icon("bar-chart"), tabName = "pgcn"),
                menuSubItem("Patient Gene CNA vs mRNA", icon = icon("line-chart"), tabName = "pgcvm")
-               ),
+      ),
       menuItem("RNASeq Target Data", tabName = "targetdata", icon = icon("gears"),
                menuSubItem("Tumor vs Normal Boxplot", icon = icon("bar-chart"), tabName = "tvnb"),
                menuSubItem("Tumor vs Normal Boxplot Abstracted", icon = icon("bar-chart"), tabName = "tvnba")
-               ),
+      ),
       menuItem("Compendia Analysis", tabName = "compendiaanalysis", icon = icon("gears"),
                menuSubItem("Aim 3 Overexpression Analysis", icon = icon("table"), tabName = "aoa"),
                menuSubItem("Aim 3 Transmembrane Protein Calls", icon = icon("table"), tabName = "atpc"),
                menuSubItem("Aim 3 Tumor Normal Differential Analysis", icon = icon("table"), tabName = "atnda")
-               ),
+      ),
       menuItem("Analysis Tools", tabName = "analysistools", icon = icon("gears"),
                menuSubItem("Venn Diagrams (Ext)", icon = icon("pie-chart"), tabName = "vd"),
                menuSubItem("Gene Set Enrichment", icon = icon("star"), tabName = "gse"),
                menuSubItem("IC50 Analysis", icon = icon("star"), tabName = "ia")
-               ),
+      ),
       menuItem("More Info", tabName = "moreinfo", icon = icon("th"),
                menuSubItem("Readme", icon = icon("navicon"), tabName = "readme"),
                menuSubItem("About", icon = icon("info-circle"), tabName = "about"),
                menuSubItem("Contact", icon = icon("envelope"), tabName = "contact")
-               )
-      
-    ) # sidebarMenu ends
-  ), # dashboardSidebar ends
-  
-  # dashboardBody begins
+      )
+    ) # sidebarMenu
+    ), # dashboardSidebar
+
   dashboardBody(
     div(style="overflow-x: scroll"),
     
@@ -87,32 +89,35 @@ dashboardPage(
       ),
       
       # cldb content
-      
-      
-      # nbrcl content
-      tabItem(tabName = "nbrcl",
-              DT::dataTableOutput(outputId = "nbrcltable1")
+      tabItem(tabName = "cldb",
+              fluidRow(
+                box(selectInput(inputId = 'cldbselectInput1', label = 'Database',choices = c('none'), selected = 'none'), width = 5, background = "navy")
               ),
+              fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load Data"))), br(), br(),
+              DT::dataTableOutput(outputId = "cldbtable1")
+      ),
       
       ##### Cell Lines Utilities #####
       # clge content
       tabItem(tabName = "clge",
               fluidRow(
-                box(selectInput(inputId = "clgeselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+                box(selectInput(inputId = "clgeselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = TRUE), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit1', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
-              ),
+      ),
       
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
                 box(selectInput(inputId = "clggcselectInput1", label = "Select Gene 1", choices = "none"), width = 3, background = "navy"),
-                box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 2", choices = "none"), width = 3, background = "navy")
+                box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
+                box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = TRUE), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit1', label = "Get Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "clggcplot1", width = 800, height = 800)
-              ),
+      ),
       
       # clm content
       tabItem(tabName = "clm",
@@ -122,7 +127,7 @@ dashboardPage(
               fluidRow(column(5, actionButton(inputId = 'clmsubmit1', label = "Get Mutation Table"))), 
               br(), br(),
               DT::dataTableOutput(outputId = 'clmtable1')
-              ),
+      ),
       
       # clgcn content
       tabItem(tabName = "clgcn",
@@ -131,8 +136,8 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit1', label = "Get Copy Number Barplot"))), 
               br(), br(),
-              plotOutput(outputId = 'clgcnplot1', width = 800, height = 800)
-              ),
+              plotlyOutput(outputId = 'clgcnplot1', width = 800, height = 800)
+      ),
       
       # clcvm content
       tabItem(tabName = "clcvm",
@@ -141,32 +146,120 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'clcvmsubmit1', label = "Get CN vs Mutation Plot"))), 
               br(), br(),
-              plotOutput(outputId = 'clcvmplot1', width = 800, height = 800)
-              ),
+              plotlyOutput(outputId = 'clcvmplot1', width = 800, height = 800)
+      ),
       
       # clh content
       tabItem(tabName = "clh",
               fluidRow(
-                box(fileInput(inputId = 'clhfileInput', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy"),
-                box(selectInput(inputId='clhselectInput1', label = 'Genes Uploaded',choices = c('none'), selected = 'none'), width = 3, background = "navy"),
-                box(selectInput(inputId='clhselectInput2', label = 'Count',choices = c('none'), selected = 'none'), width = 3, background = "navy")
+                box(fileInput(inputId = 'clhfileInput1', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))),
               br(), br(),
               plotOutput(outputId = 'clhplot1', width = 800, height = 800)
-              ),
+      ),
       
       # clct content
       tabItem(tabName = "clct",
               fluidRow(
-                box(selectInput(inputId = "clctselectInput1", label = "Set 1", choices = "none", multiple = TRUE), width = 3, background = "navy"),
-                box(selectInput(inputId = "clctselectInput2", label = "Set 2", choices = "none", multiple = TRUE), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectInput1", label = "Set 1", choices = c("BE2(e)"="BE2",
+                                                                                           "BE2C(e)"="BE2C",
+                                                                                           "CHLA136"="CHLA136",
+                                                                                           "CHLA15"="CHLA15",
+                                                                                           "CHLA150"="CHLA150",
+                                                                                           "CHLA20"="CHLA20",
+                                                                                           "CHP100"="CHP100",
+                                                                                           "CHP134(e)"="CHP134",
+                                                                                           "CHP212"="CHP212",
+                                                                                           "COGN415"="COGN415",
+                                                                                           "COGN426"="COGN426",
+                                                                                           "EBC1(e)"="EBC1",
+                                                                                           "IMR32"="IMR32",
+                                                                                           "IMR5(e)"="IMR5",
+                                                                                           "KELLY(e)"="KELLY",
+                                                                                           "LAN1(e)"="LAN1",
+                                                                                           "LAN5(e)"="LAN5",
+                                                                                           "LAN6(e)"="LAN6",
+                                                                                           "NB1(e)"="NB1",
+                                                                                           "NB16(e)"="NB16",
+                                                                                           "NB1643(e)"="NB1643",
+                                                                                           "NB1691(e)"="NB1691",
+                                                                                           "NB1771"="NB1771",
+                                                                                           "NB69(e)"="NB69",
+                                                                                           "NBLS(e)"="NBLS",
+                                                                                           "NBSD(e)"="NBSD",
+                                                                                           "NGP(e)"="NGP",
+                                                                                           "NLF(e)"="NLF",
+                                                                                           "NMB"="NMB",
+                                                                                           "RPE1(e)"="RPE1",
+                                                                                           "RPE1MYCN40HT(e)"="RPE1MYCN40HT",
+                                                                                           "RPE1MYCNWT(e)"="RPE1MYCNWT",
+                                                                                           "RPE1WT40HT(e)"="RPE1WT40HT",
+                                                                                           "SKNAS(e)"="SKNAS",
+                                                                                           "SKNBE1"="SKNBE1",
+                                                                                           "SKNDZ(e)"="SKNDZ",
+                                                                                           "SKNFI(e)"="SKNFI",
+                                                                                           "SKNKAN(e)"="SKNKAN",
+                                                                                           "SKNKANR"="SKNKANR",
+                                                                                           "SKNSH(e)"="SKNSH",
+                                                                                           "SMSKAN"="SMSKAN",
+                                                                                           "SMSKCN"="SMSKCN",
+                                                                                           "SMSKCNR"="SMSKCNR",
+                                                                                           "SMSLHN"="SMSLHN",
+                                                                                           "SMSSAN(e)"="SMSSAN",
+                                                                                           "SY5Y(e)"="SY5Y"), multiple = TRUE), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectInput2", label = "Set 2", choices = c("BE2(e)"="BE2",
+                                                                                           "BE2C(e)"="BE2C",
+                                                                                           "CHLA136"="CHLA136",
+                                                                                           "CHLA15"="CHLA15",
+                                                                                           "CHLA150"="CHLA150",
+                                                                                           "CHLA20"="CHLA20",
+                                                                                           "CHP100"="CHP100",
+                                                                                           "CHP134(e)"="CHP134",
+                                                                                           "CHP212"="CHP212",
+                                                                                           "COGN415"="COGN415",
+                                                                                           "COGN426"="COGN426",
+                                                                                           "EBC1(e)"="EBC1",
+                                                                                           "IMR32"="IMR32",
+                                                                                           "IMR5(e)"="IMR5",
+                                                                                           "KELLY(e)"="KELLY",
+                                                                                           "LAN1(e)"="LAN1",
+                                                                                           "LAN5(e)"="LAN5",
+                                                                                           "LAN6(e)"="LAN6",
+                                                                                           "NB1(e)"="NB1",
+                                                                                           "NB16(e)"="NB16",
+                                                                                           "NB1643(e)"="NB1643",
+                                                                                           "NB1691(e)"="NB1691",
+                                                                                           "NB1771"="NB1771",
+                                                                                           "NB69(e)"="NB69",
+                                                                                           "NBLS(e)"="NBLS",
+                                                                                           "NBSD(e)"="NBSD",
+                                                                                           "NGP(e)"="NGP",
+                                                                                           "NLF(e)"="NLF",
+                                                                                           "NMB"="NMB",
+                                                                                           "RPE1(e)"="RPE1",
+                                                                                           "RPE1MYCN40HT(e)"="RPE1MYCN40HT",
+                                                                                           "RPE1MYCNWT(e)"="RPE1MYCNWT",
+                                                                                           "RPE1WT40HT(e)"="RPE1WT40HT",
+                                                                                           "SKNAS(e)"="SKNAS",
+                                                                                           "SKNBE1"="SKNBE1",
+                                                                                           "SKNDZ(e)"="SKNDZ",
+                                                                                           "SKNFI(e)"="SKNFI",
+                                                                                           "SKNKAN(e)"="SKNKAN",
+                                                                                           "SKNKANR"="SKNKANR",
+                                                                                           "SKNSH(e)"="SKNSH",
+                                                                                           "SMSKAN"="SMSKAN",
+                                                                                           "SMSKCN"="SMSKCN",
+                                                                                           "SMSKCNR"="SMSKCNR",
+                                                                                           "SMSLHN"="SMSLHN",
+                                                                                           "SMSSAN(e)"="SMSSAN",
+                                                                                           "SY5Y(e)"="SY5Y"), multiple = TRUE), width = 3, background = "navy"),
                 box(textInput(inputId = "clcttextInput1", label = "Enter Pvalue Cutoff", value = "0.0005"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clctsubmit1', label = "Run Analysis"))), 
               br(), br(), 
               DT::dataTableOutput(outputId = 'clcttable1')
-              ),
+      ),
       ##### Cell Lines Utilities #####
       
       ##### Patient Samples Utilities #####
@@ -266,7 +359,7 @@ dashboardPage(
               fluidRow(column(5, actionButton(inputId = 'aoasubmit1', label = "Get overexpression analysis"))), br(), br(),
               DT::dataTableOutput(outputId = 'aoatable1')
       ),
-  
+      
       tabItem(tabName = "atpc",
               fluidRow(
                 box(selectInput(inputId = "atpcselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
@@ -290,7 +383,6 @@ dashboardPage(
               fluidRow(column(5, actionButton(inputId = 'atndasubmit1', label = "Get Tumor-Normal Diff. Analysis"))), br(), br(),
               DT::dataTableOutput(outputId = 'atndatable1')
       ),
-      
       ##### Compendia Analysis #####
       
       # contact content
@@ -298,8 +390,7 @@ dashboardPage(
               fluidRow(
                 box(title = "Contact Info", status = "danger", width = 4, solidHeader = TRUE)
               )
-              )
-      
+      )
     ) # tabItems ends
   ) # dashboardBody ends
 ) # dashboardPage ends
