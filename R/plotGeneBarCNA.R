@@ -21,10 +21,18 @@ plotGeneBarCNA <- function(gene1, dat, customtheme)
 	# plot
 	p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill='Cell_Line')) + 
 	  geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + 
-	  ggtitle(gene1) + ylab('Copy Number\n')
+	  ggtitle(gene1)
 
 	# ggplotly
-  	p <- ggplotly(p)
+  p <- ggplotly(p + ylab(" ") + xlab(" "))
+  
+  x <- list(
+    title = "Cell Line"
+  )
+  y <- list(
+    title = "Copy Number"
+  )
+  p <- p %>% layout(xaxis = x, yaxis = y)
 
 	return(p)
 
