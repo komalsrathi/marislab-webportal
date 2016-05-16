@@ -34,10 +34,18 @@
     # ggplot
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
       geom_point(size = 2) + geom_smooth(method = lm) + customtheme +
-      geom_text(aes(label = variable), vjust=-1.5, size = 3) + ggtitle(label = cor.title) + xlab(label = gene1) + ylab(label = gene2)
+      geom_text(aes(label = variable), vjust=-1.5, size = 3) + ggtitle(label = cor.title)
     
     # ggplotly
-    p <- ggplotly(p)
+    p <- ggplotly(p + ylab(" ") + xlab(" "))
+    
+    x <- list(
+      title = gene1
+    )
+    y <- list(
+      title = gene2
+    )
+    p <- p %>% layout(xaxis = x, yaxis = y)
     
     return(p)
   } # plotGeneScatter ends
