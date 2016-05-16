@@ -1,18 +1,14 @@
 library(shiny)
 library(shinydashboard)
 library(DT)
-
-inputTextarea <- function(inputId, value="", nrows, ncols) {
-  tagList(
-    singleton(tags$head(tags$script(src = "textarea.js"))),
-    tags$textarea(id = inputId,
-                  class = "inputtextarea",
-                  rows = nrows,
-                  cols = ncols,
-                  as.character(value))
-  )
-}
-
+library(plotly)
+library(reshape2)
+library(ggplot2)
+options(gsubfn.engine = "R")
+library(sqldf)
+library(limma)
+library(gridExtra)
+library(shinyIncubator)
 
 dashboardPage(
   
@@ -31,11 +27,13 @@ dashboardPage(
       menuItem("Dashboard", icon = icon("dashboard"), tabName = "dashboard"),
       menuItem("Cell Lines Database", icon = icon("database"), tabName = "cldb"),
       menuItem("Cell Lines Utilities", tabName = "celllines", icon = icon("gears"),
-               menuSubItem("Cell Line Gene Expression", icon = icon("bar-chart"), tabName = "clge"),
-               menuSubItem("Cell Line Gene/Gene Correlation", icon = icon("line-chart"), tabName = "clggc"),
-               menuSubItem("Cell Line Mutation Table", icon = icon("table"), tabName = "clm"),
-               menuSubItem("Cell Line Gene Copy Number", icon = icon("bar-chart"), tabName = "clgcn"),
-               menuSubItem("Cell Line CNA vs mRNA", icon = icon("line-chart"), tabName = "clcvm"),
+               menuSubItem("Gene Expression", icon = icon("bar-chart"), tabName = "clge"),
+               menuSubItem("Gene/Gene Correlation", icon = icon("line-chart"), tabName = "clggc")
+      ),
+      menuItem("Microarray Utilities", tabName = "microarray", icon = icon("gears"),
+               menuSubItem("Mutation Table", icon = icon("table"), tabName = "clm"),
+               menuSubItem("Gene Copy Number plot", icon = icon("bar-chart"), tabName = "clgcn"),
+               menuSubItem("CNA vs mRNA plot", icon = icon("line-chart"), tabName = "clcvm"),
                menuSubItem("Cell Line Heatmap", icon = icon("th"), tabName = "clh"),
                menuSubItem("Cell Line Comparison Tool", icon = icon("table"), tabName = "clct")
       ),
@@ -82,16 +80,17 @@ dashboardPage(
                 box(title = "Maris Lab", status = "danger", width = 12, solidHeader = TRUE, "Tools, analysis, and visualizations to support research on Neuroblastoma and other pediatric cancers.", br(), br(), actionButton(inputId='ab1', label="Learn More", icon = icon("th")))
               ),
               fluidRow(
-                box(title = "Cell Lines", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Tools and visualizations to support finding a cell line or set of cell lines that expressed a particular gene or pathway, looking at relevent correlations between genes, and examining cell line mutation. Currently internal Neuroblastoma cell line data is used but in the future data from CLE and Sanger will be imported.", br(), br(), actionButton(inputId='ab2', label="View Details", icon = icon("th"))),
-                box(title = "Patient Data", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Visualizations and tools to analyze patient data in multiple ways. One can look at Gene Expression across cohorts, kaplan-meier curves based on a gene or set of genes, most correlated genes, etc... Currently two public data sets are included, in the future, our internal data set and other relevent data can be displayed.", br(), br(), actionButton(inputId='ab3', label="View Details", icon = icon("th"))),
-                box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = T, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.", br(), br(), actionButton(inputId='ab4', label="View Details", icon = icon("th")))
+                box(title = "Cell Lines", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Tools and visualizations to support finding a cell line or set of cell lines that expressed a particular gene or pathway, looking at relevent correlations between genes, and examining cell line mutation. Currently internal Neuroblastoma cell line data is used but in the future data from CLE and Sanger will be imported.", br(), br(), actionButton(inputId='ab2', label="View Details", icon = icon("th"))),
+                box(title = "Patient Data", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Visualizations and tools to analyze patient data in multiple ways. One can look at Gene Expression across cohorts, kaplan-meier curves based on a gene or set of genes, most correlated genes, etc... Currently two public data sets are included, in the future, our internal data set and other relevent data can be displayed.", br(), br(), actionButton(inputId='ab3', label="View Details", icon = icon("th"))),
+                box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.", br(), br(), actionButton(inputId='ab4', label="View Details", icon = icon("th")))
               )
       ),
       
       # cldb content
       tabItem(tabName = "cldb",
               fluidRow(
-                box(selectInput(inputId = 'cldbselectInput1', label = 'Database',choices = c('none'), selected = 'none'), width = 5, background = "navy")
+                box(selectInput(inputId = 'cldbselectInput1', label = 'Database',choices = c('Neuroblastoma RNAseq Cell Line'='rnaseqcelllinedata.txt',
+                                                                                             'Neuroblastoma Cell Line'='celllinedata.txt'), selected = 'none'), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load Data"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
@@ -102,7 +101,8 @@ dashboardPage(
       tabItem(tabName = "clge",
               fluidRow(
                 box(selectInput(inputId = "clgeselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = TRUE), width = 3, background = "navy")
+                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = TRUE), width = 3, background = "navy"),
+                box(selectInput(inputId = "clgeselectInput2", label = "Sort by", choices = c('Variable', 'Value'), selected = 'none'), width = 3, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit1', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
