@@ -11,6 +11,7 @@ source('R/plotGeneBarCNA.R')
 source('R/plotGeneCNAvsRNA.R')
 source('R/createTargets.R')
 source('R/runLimma.R')
+source('R/plotOncoPrint.R')
 
 shinyServer(function(input, output, session){
   
@@ -21,10 +22,10 @@ shinyServer(function(input, output, session){
                                              dataAnnBin = newList$dataAnnBin, 
                                              dataMutBin = newList$dataMutBin)
   
+  
   # update projects selectInput
   observe({
-    project <- paste('data/', 'db.txt', sep = "")
-    project <- read.csv(file = project, stringsAsFactors = F)
+    project <- read.csv(file = 'data/db.txt', stringsAsFactors = F)
     n <- project$Project
     updateSelectInput(session = session, inputId = "cldbselectInput1", choices = n)
   })
@@ -41,8 +42,10 @@ shinyServer(function(input, output, session){
     if(input$cldbsubmit1==0){
       return()
     }
-    isolate({
-      viewDataTable(datasetInput())
+    withProgress(session = session, message = "Getting Data...", detail = "This may take a while...", {
+      isolate({
+        viewDataTable(datasetInput())
+      })
     })
   })
   
@@ -84,7 +87,8 @@ shinyServer(function(input, output, session){
       dat <- datasetInput()
       gene1 <- as.character(input$clgeselectInput1)
       logvalue <- input$clgecheckboxInput1
-      plotGeneBar(dat = dat, gene1 = gene1, customtheme = tbw, log = logvalue)
+      sortby <- input$clgeselectInput2
+      plotGeneBar(dat = dat, gene1 = gene1, customtheme = tbw, log = logvalue, sortby)
     })
   })
   
