@@ -24,7 +24,15 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme)
     geom_point(size = 2) + geom_smooth(method = lm) + customtheme +
     geom_text(vjust=-1.5, size = 3, aes(label=CL_NAME)) + ggtitle(label = myText)
   
-  p <- ggplotly(p)
+  p <- ggplotly(p + ylab(" ") + xlab(" "))
+  
+  x <- list(
+    title = "mRNA"
+  )
+  y <- list(
+    title = "CNA"
+  )
+  p <- p %>% layout(xaxis = x, yaxis = y)
   
   return(p)
   
