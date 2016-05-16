@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 ####################################
 
-plotGeneBar <- function(dat, gene1, log, customtheme)
+plotGeneBar <- function(dat, gene1, log, customtheme, sortby)
 {
   
   # load initial dataset
@@ -25,14 +25,26 @@ plotGeneBar <- function(dat, gene1, log, customtheme)
     dat.c <- dat.tmp
   }
   
+  # sorting of bars
+  if(sortby == "Value"){
+    dat.c$Cell_Line <- reorder(dat.c$Cell_Line,dat.c[,gene1])
+  }
+  
   # ggplot 
   p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill='Cell_Line')) + 
     geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + 
-    ggtitle(gene1) + ylab('Expression Value\n')
+    ggtitle(gene1)
   
   # ggplotly
-  p <- ggplotly(p)
+  p <- ggplotly(p + ylab(" ") + xlab(" "))
   
+  x <- list(
+    title = "Cell Line"
+  )
+  y <- list(
+    title = "Expression Value"
+  )
+  p <- p %>% layout(xaxis = x, yaxis = y)
   return(p)
   
 }
