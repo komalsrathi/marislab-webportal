@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 #####################################
 
-plotGeneBarCNA <- function(gene1, dat, customtheme)
+plotGeneBarCNA <- function(gene1, dat, customtheme, sortby)
 {
 	
 	dat$gene <- rownames(dat)
@@ -13,11 +13,16 @@ plotGeneBarCNA <- function(gene1, dat, customtheme)
 	colnames(dat.c)[1] <- "Cell_Line"
 
 	gene1.mut <- paste('`', gene1, '`', sep = "")
-
+  
 	# reorder labels
 	idx <- sort(as.character(dat.c$Cell_Line), index=T)$ix
 	dat.c$Cell_Line <- factor(dat.c$Cell_Line, levels = dat.c[idx,"Cell_Line"])
-
+  
+	# sorting of bars
+	if(sortby == "Value"){
+	  dat.c$Cell_Line <- reorder(dat.c$Cell_Line,dat.c[,gene1])
+	}
+	
 	# plot
 	p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill='Cell_Line')) + 
 	  geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + 
