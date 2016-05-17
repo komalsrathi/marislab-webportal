@@ -12,9 +12,11 @@ source('R/plotGeneCNAvsRNA.R')
 source('R/createTargets.R')
 source('R/runLimma.R')
 source('R/plotOncoPrint.R')
+source('R/viewDataTable.fixedcols.R')
 
 shinyServer(function(input, output, session){
   
+  # num <- NULL
   tbw <- themebw()
   newList <- processRawData()
   processedList <- postProcessDataForHeatmap(dataCNA = newList$dataCNA, 
@@ -23,18 +25,27 @@ shinyServer(function(input, output, session){
                                              dataMutBin = newList$dataMutBin)
   
   
-  # update projects selectInput
-  observe({
-    project <- read.csv(file = 'data/db.txt', stringsAsFactors = F)
-    n <- project$Project
-    updateSelectInput(session = session, inputId = "cldbselectInput1", choices = n)
-  })
+  # # update projects selectInput
+  # observe({
+  #   project <- read.csv(file = 'data/db.txt', stringsAsFactors = F)
+  #   n <- project$Project
+  #   updateSelectInput(session = session, inputId = "cldbselectInput1", choices = n)
+  # })
+  # 
+  # # update datasetInput based on what project is selected
+  # datasetInput <- reactive({
+  #   filename <- as.character(input$cldbselectInput1)
+  #   project <- dataCollect(filename)
+  #   dat <- read.delim(file = project, stringsAsFactors = FALSE)
+  # })
   
   # update datasetInput based on what project is selected
   datasetInput <- reactive({
     filename <- as.character(input$cldbselectInput1)
-    project <- dataCollect(filename)
+    project <- paste('data/',filename,sep='')
     dat <- read.delim(file = project, stringsAsFactors = FALSE)
+    # num <<- rownames(dat)
+    # dat
   })
 
   # update the table only if submit button is clicked
@@ -42,10 +53,8 @@ shinyServer(function(input, output, session){
     if(input$cldbsubmit1==0){
       return()
     }
-    withProgress(session = session, message = "Getting Data...", detail = "This may take a while...", {
-      isolate({
-        viewDataTable(datasetInput())
-      })
+    isolate({
+      viewDataTable(datasetInput())
     })
   })
   
@@ -55,13 +64,13 @@ shinyServer(function(input, output, session){
       return()
     }
     dat <- datasetInput()
-    n <- rownames(dat)
-    updateSelectInput(session = session, inputId = "clgeselectInput1", choices = n)
-    updateSelectInput(session = session, inputId = "clggcselectInput1", choices = n)
-    updateSelectInput(session = session, inputId = "clggcselectInput2", choices = n)
-    updateSelectInput(session = session, inputId = "clmselectInput1", choices = n)
-    updateSelectInput(session = session, inputId = "clgcnselectInput1", choices = n)
-    updateSelectInput(session = session, inputId = "clcvmselectInput1", choices = n)
+    num <- rownames(dat)
+    updateSelectInput(session = session, inputId = "clgeselectInput1", choices = num)
+    updateSelectInput(session = session, inputId = "clggcselectInput1", choices = num)
+    updateSelectInput(session = session, inputId = "clggcselectInput2", choices = num)
+    updateSelectInput(session = session, inputId = "clmselectInput1", choices = num)
+    updateSelectInput(session = session, inputId = "clgcnselectInput1", choices = num)
+    updateSelectInput(session = session, inputId = "clcvmselectInput1", choices = num)
   })
   
   # output correlation plot for selected genes
@@ -98,7 +107,7 @@ shinyServer(function(input, output, session){
     }
     isolate({
       gene <- as.character(input$clmselectInput1)
-      viewDataTable(dat = cellMutationTable(gene))
+      viewDataTable.fixedcols(dat = cellMutationTable(gene))
     })
   })
   
@@ -109,7 +118,8 @@ shinyServer(function(input, output, session){
     isolate({
       gene1 <- as.character(input$clgcnselectInput1)
       dat <- newList$dataCNA
-      plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = tbw)
+      sortby <- input$clgcnselectInput2
+      plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = tbw, sortby)
     })
   })
   
@@ -165,7 +175,7 @@ shinyServer(function(input, output, session){
                       probeAnnot = newList$probeAnnot,
                       gs = F,
                       dataExp = newList$dataExp)
-      viewDataTable(dat = dat)
+      viewDataTable.fixedcols(dat = dat)
     })
   })
   

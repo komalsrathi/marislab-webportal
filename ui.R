@@ -26,18 +26,18 @@ dashboardPage(
       
       menuItem("Dashboard", icon = icon("dashboard"), tabName = "dashboard"),
       menuItem("Cell Lines Database", icon = icon("database"), tabName = "cldb"),
-      menuItem("Cell Lines Utilities", tabName = "celllines", icon = icon("gears"),
+      menuItem("Visualization Tools", tabName = "celllines", icon = icon("gears"),
                menuSubItem("Gene Expression", icon = icon("bar-chart"), tabName = "clge"),
-               menuSubItem("Gene/Gene Correlation", icon = icon("line-chart"), tabName = "clggc")
-      ),
-      menuItem("Microarray Utilities", tabName = "microarray", icon = icon("gears"),
-               menuSubItem("Mutation Table", icon = icon("table"), tabName = "clm"),
+               menuSubItem("Gene/Gene Correlation", icon = icon("line-chart"), tabName = "clggc"),
                menuSubItem("Gene Copy Number plot", icon = icon("bar-chart"), tabName = "clgcn"),
                menuSubItem("CNA vs mRNA plot", icon = icon("line-chart"), tabName = "clcvm"),
-               menuSubItem("Cell Line Heatmap", icon = icon("th"), tabName = "clh"),
+               menuSubItem("Cell Line Heatmap", icon = icon("th"), tabName = "clh")
+      ),
+      menuItem("Analysis Tools", tabName = "microarray", icon = icon("gears"),
+               menuSubItem("Mutation Table", icon = icon("table"), tabName = "clm"),
                menuSubItem("Cell Line Comparison Tool", icon = icon("table"), tabName = "clct")
       ),
-      menuItem("Patient Samples Utilities", tabName = "patientsamples", icon = icon("gears"),
+      menuItem("Patient Sample Tools", tabName = "patientsamples", icon = icon("gears"),
                menuSubItem("Patient Gene Expression Histogram", icon = icon("bar-chart"), tabName = "pgeh"),
                menuSubItem("Patient Gene Expression Box Plot", icon = icon("bar-chart"), tabName = "pgebp"),
                menuSubItem("Patient Kaplan-meier", icon = icon("line-chart"), tabName = "pkm"),
@@ -46,7 +46,7 @@ dashboardPage(
                menuSubItem("Patient Gene Copy Number", icon = icon("bar-chart"), tabName = "pgcn"),
                menuSubItem("Patient Gene CNA vs mRNA", icon = icon("line-chart"), tabName = "pgcvm")
       ),
-      menuItem("RNASeq Target Data", tabName = "targetdata", icon = icon("gears"),
+      menuItem("GTEx Comparison Tools", tabName = "targetdata", icon = icon("gears"),
                menuSubItem("Tumor vs Normal Boxplot", icon = icon("bar-chart"), tabName = "tvnb"),
                menuSubItem("Tumor vs Normal Boxplot Abstracted", icon = icon("bar-chart"), tabName = "tvnba")
       ),
@@ -55,7 +55,7 @@ dashboardPage(
                menuSubItem("Aim 3 Transmembrane Protein Calls", icon = icon("table"), tabName = "atpc"),
                menuSubItem("Aim 3 Tumor Normal Differential Analysis", icon = icon("table"), tabName = "atnda")
       ),
-      menuItem("Analysis Tools", tabName = "analysistools", icon = icon("gears"),
+      menuItem("Other Tools", tabName = "analysistools", icon = icon("gears"),
                menuSubItem("Venn Diagrams (Ext)", icon = icon("pie-chart"), tabName = "vd"),
                menuSubItem("Gene Set Enrichment", icon = icon("star"), tabName = "gse"),
                menuSubItem("IC50 Analysis", icon = icon("star"), tabName = "ia")
@@ -89,8 +89,8 @@ dashboardPage(
       # cldb content
       tabItem(tabName = "cldb",
               fluidRow(
-                box(selectInput(inputId = 'cldbselectInput1', label = 'Database',choices = c('Neuroblastoma RNAseq Cell Line'='rnaseqcelllinedata.txt',
-                                                                                             'Neuroblastoma Cell Line'='celllinedata.txt'), selected = 'none'), width = 5, background = "navy")
+                box(selectInput(inputId = 'cldbselectInput1', label = 'Database',choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata.txt',
+                                                                                             'Neuroblastoma Microarray data'='celllinedata.txt'), selected = 'none'), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load Data"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
@@ -105,7 +105,7 @@ dashboardPage(
                 box(selectInput(inputId = "clgeselectInput2", label = "Sort by", choices = c('Variable', 'Value'), selected = 'none'), width = 3, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit1', label = "Get Expression Plot"))), br(), br(),
-              plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "clgeplot1", width = 800, height = 800)
       ),
       
       # clggc content
@@ -132,7 +132,8 @@ dashboardPage(
       # clgcn content
       tabItem(tabName = "clgcn",
               fluidRow(
-                box(selectInput(inputId = "clgcnselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+                box(selectInput(inputId = "clgcnselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clgcnselectInput2", label = "Sort by", choices = c('Variable', 'Value'), selected = 'none'), width = 3, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit1', label = "Get Copy Number Barplot"))), 
               br(), br(),
@@ -388,7 +389,10 @@ dashboardPage(
       # contact content
       tabItem(tabName = "contact",
               fluidRow(
-                box(title = "Contact Info", status = "danger", width = 4, solidHeader = TRUE)
+                box(title = "Contact Info",
+                    helpText(a("Komal Rathi", href="mailto:rathik@email.chop.edu")),
+                    helpText(a("Pichai Raman", href="mailto:ramanp@email.chop.edu")),
+                    status = "danger", width = 4, solidHeader = TRUE)
               )
       )
     ) # tabItems ends
