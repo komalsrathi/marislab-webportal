@@ -14,7 +14,7 @@
     
     # compute correlation
     cor <- cor.test(dat.c[,gene1], dat.c[,gene2])
-    cor.pval <- round(cor$p.val,2)
+    cor.pval <- round(cor$p.val,5)
     cor.est <- round(cor$estimate,2)
     cor.title <- paste("Cor = ", cor.est, " | P-Val = ", cor.pval, sep="")
     
@@ -32,20 +32,31 @@
     }
     
     # ggplot
-    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
-      geom_point(size = 2) + geom_smooth(method = lm) + customtheme +
-      geom_text(aes(label = variable), vjust=-1.5, size = 3) + ggtitle(label = cor.title)
+    # p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
+    #   geom_point(size = 2) + geom_smooth(method = lm) + customtheme +
+    #   geom_text(aes(label = variable), vjust=-1.5, size = 3) + ggtitle(label = cor.title)
     
     # ggplotly
-    p <- ggplotly(p + ylab(" ") + xlab(" "))
+    # p <- ggplotly(p + ylab(" ") + xlab(" "))
+    # 
+    # x <- list(
+    #   title = gene1
+    # )
+    # y <- list(
+    #   title = gene2
+    # )
+    # p <- p %>% layout(xaxis = x, yaxis = y)
+  
+    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
+      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
     
-    x <- list(
-      title = gene1
-    )
-    y <- list(
-      title = gene2
-    )
-    p <- p %>% layout(xaxis = x, yaxis = y)
+    p <- plotly_build(p)
+    p$data[[1]]$text <- dat.c$variable
+    p$data[[1]]$mode <- "markers+text"
+    p$data[[1]]$textposition <- "top center"
+    p$data[[1]]$marker$size <- 4
+    p$data[[1]]$marker$color <- "rgb(220,20,60)"
+    p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
     
     return(p)
   } # plotGeneScatter ends
