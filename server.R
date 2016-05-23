@@ -83,7 +83,9 @@ shinyServer(function(input, output, session){
       gene1 <- as.character(input$clggcselectInput1)
       gene2 <- as.character(input$clggcselectInput2)
       logvalue <- input$clggccheckboxInput1
-      plotGeneScatter(dat = dat, gene1 = `gene1`, gene2 = `gene2`, customtheme = tbw, log = logvalue)
+      correlation <- input$clggcselectInput3
+      plotGeneScatter(dat = dat, gene1 = `gene1`, gene2 = `gene2`, 
+                      customtheme = tbw, log = logvalue, corr = correlation)
     })
   })
   
@@ -129,7 +131,9 @@ shinyServer(function(input, output, session){
     }
     isolate({
       gene1 <- as.character(input$clcvmselectInput1)
-      plotGeneCNAvsRNA(mrna = newList$dataExpGeneName, cna = newList$dataCNA, gene1 = gene1, customtheme = tbw)
+      correlation <- as.character(input$clcvmselectInput2)
+      plotGeneCNAvsRNA(mrna = newList$dataExpGeneName, cna = newList$dataCNA, 
+                       gene1 = gene1, customtheme = tbw, correlation = correlation)
     })
   })
   
