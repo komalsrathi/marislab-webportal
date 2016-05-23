@@ -113,7 +113,8 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = "clggcselectInput1", label = "Select Gene 1", choices = "none"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = TRUE), width = 3, background = "navy")
+                box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = TRUE), width = 3, background = "navy"),
+                box(selectInput(inputId = "clggcselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit1', label = "Get Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "clggcplot1", width = 800, height = 800)
@@ -143,7 +144,8 @@ dashboardPage(
       # clcvm content
       tabItem(tabName = "clcvm",
               fluidRow(
-                box(selectInput(inputId = "clcvmselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+                box(selectInput(inputId = "clcvmselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clcvmselectInput2", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clcvmsubmit1', label = "Get CN vs Mutation Plot"))), 
               br(), br(),
