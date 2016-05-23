@@ -52,11 +52,13 @@
     
     p <- plotly_build(p)
     p$data[[1]]$text <- dat.c$variable
+    p$data[[1]]$hoverinfo <- "x+y"
     p$data[[1]]$mode <- "markers+text"
     p$data[[1]]$textposition <- "top center"
     p$data[[1]]$marker$size <- 4
     p$data[[1]]$marker$color <- "rgb(220,20,60)"
     p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
+    p$layout$font$size <- 12
     
     return(p)
   } # plotGeneScatter ends
