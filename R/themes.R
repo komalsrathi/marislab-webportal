@@ -6,6 +6,6 @@
 
 themebw <- function(){
 
-	tt <- theme_bw() + theme(plot.margin = unit(c(2, 2, 2, 2), "cm"))
+	tt <- theme_bw() + theme(plot.margin = unit(c(1.5, 1.5, 1.5, 1.5), "cm"))
 	return(tt)
 }
