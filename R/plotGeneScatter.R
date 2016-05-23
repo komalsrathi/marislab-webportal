@@ -5,7 +5,7 @@
 ####################################
 
 # plotGeneScatter begins
-  plotGeneScatter <- function(dat, gene1, gene2, log=T, customtheme){
+  plotGeneScatter <- function(dat, gene1, gene2, log=T, customtheme, correlation){
     
     # load initial dataset
     dat$gene <- rownames(dat)
@@ -13,9 +13,19 @@
     dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
     
     # compute correlation
-    cor <- cor.test(dat.c[,gene1], dat.c[,gene2])
-    cor.pval <- round(cor$p.val,5)
-    cor.est <- round(cor$estimate,2)
+    cor <- cor.test(dat.c[,gene1], dat.c[,gene2], method = correlation)
+    if(cor$p.value==0){
+      cor.pval <- '< 2.2e-16'
+    }
+    if(cor$p.value>0){
+      cor.pval <- format(cor$p.value, scientific = T)
+    }
+    if(cor$estimate==1){
+      cor.est <- 1
+    }
+    if(cor$estimate!=1){
+      cor.est <- format(cor$estimate, scientific = T)
+    }
     cor.title <- paste("Cor = ", cor.est, " | P-Val = ", cor.pval, sep="")
     
     # modify gene name, dashes present
