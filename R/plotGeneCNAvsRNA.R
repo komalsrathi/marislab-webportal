@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 #####################################
 
-plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme)
+plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation)
 {
   
   #Let's do other stuff
@@ -13,10 +13,20 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme)
   colnames(tmpDataGC) <- c("mRNA", "CNA")
   
   #For title correlation and p-value
-  tmpcor <- cor.test(tmpDataGC[,"mRNA"], tmpDataGC[,"CNA"])
-  tmpcorp <- round(tmpcor$p.val,2)
-  tmpcor <- round(tmpcor$estimate,2)
-  myText <- paste("Cor=", tmpcor, " | P-Val=", tmpcorp, sep="")
+  tmpcor <- cor.test(tmpDataGC[,"mRNA"], tmpDataGC[,"CNA"], method = correlation)
+  if(tmpcor$p.value==0){
+    tmpcorp <- '< 2.2e-16'
+  }
+  if(tmpcor$p.value>0){
+    tmpcorp <- format(tmpcor$p.value, scientific = T)
+  }
+  if(tmpcor$estimate==1){
+    tmpcore <- 1
+  }
+  if(tmpcor$estimate!=1){
+    tmpcore <- format(tmpcor$estimate, scientific = T)
+  }
+  myText <- paste("Cor=", tmpcore, " | P-Val=", tmpcorp, sep="")
   
   tmpDataGC[,"CL_NAME"] <- rownames(tmpDataGC)
   
