@@ -24,14 +24,14 @@ Updates
 
 1. Creates dropdown to select between datasets.
 2. Changes all textInputs to selectInputs.
-
-	- Circumvents error when typing gene names. 
-	- Only available gene names can be selected.
+  
+  - Circumvents error when typing gene names. 
+  - Only available gene names can be selected.
 	
 4. Changes all radiobuttons to either selectInputs or checkBoxInputs
-	
-	- Sleeker versions of radiobuttons.
-	
+
+  - Sleeker versions of radiobuttons.
+  
 5. Adds log checkbox to various plots to get output in log or delogged format.
 6. Generates plots in plotly.
 7. Allows users to choose between correlation types.
