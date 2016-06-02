@@ -23,12 +23,12 @@ Updates
 ^^^^^^^
 
 1. Creates dropdown to select between datasets.
-2. Changes all textInputs to selectInputs.
+2. Changes all textInputs to selectInputs:
   
   - Circumvents error when typing gene names. 
   - Only available gene names can be selected.
 	
-4. Changes all radiobuttons to either selectInputs or checkBoxInputs
+4. Changes all radiobuttons to either selectInputs or checkBoxInputs:
 
   - Sleeker versions of radiobuttons.
   
