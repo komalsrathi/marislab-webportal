@@ -268,12 +268,15 @@ dashboardPage(
       ##### Patient Samples Utilities #####
       tabItem(tabName = "pgeh",
               fluidRow(
-                box(selectInput(inputId = "pgehselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),width = 3, background = "navy"),
-                box(checkboxGroupInput(inputId = "pgehcheckboxInput1", label = "Select Parameters", choices = c("Sort Data", "Log Data", "Density")), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgehselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                    actionButton(inputId = "pgehsubmit1", label = "Load dataset"),width = 3, background = "navy"),
+                box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Sort Data"),
+                    checkboxInput(inputId = "pgehcheckboxInput2", label = "Log Data"),
+                    checkboxInput(inputId = "pgehcheckboxInput3", label = "Density"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput2", label = "Color by", choices = c("None","STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgehselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'pgehsubmit1', label = "Get Expression Plot"))), br(), br(),
+              fluidRow(column(5, actionButton(inputId = 'pgehsubmit2', label = "Get Expression Plot"))), br(), br(),
               plotOutput(outputId = "pgehplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pgebp",
