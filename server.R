@@ -16,6 +16,7 @@ source('R/viewDataTable.fixedcols.R')
 source('R/plotGeneBarPatientAnalysis.R')
 source('R/plotBoxplotPatientAnalysis.R')
 source('R/kapmChoose.R')
+source('R/plotGeneScatterPatientData.R')
 
 shinyServer(function(input, output, session){
   
@@ -275,6 +276,42 @@ shinyServer(function(input, output, session){
       endpoint <- as.character(input$pkmselectInput2)
       genes <- as.character(input$pkmselectInput3)
       kapmChoose(dataset = dataset, genes = genes, endpoint = endpoint)
+    })
+  })
+  
+  # patient gene scatter plot
+  observe ({
+    if(input$pggcsubmit1 == 0){
+      return()
+    }
+    isolate({
+      # load dataset and get rownames
+      load('data/allDataPatient3.RData')
+      dataset <- input$pggcselectInput1
+      myData <- paste(dataset,'_All',sep='')
+      myData <- get(myData)
+      num <- rownames(myData[[1]])
+      updateSelectInput(session = session, inputId = "pggcselectInput3", choices = num)
+      updateSelectInput(session = session, inputId = "pggcselectInput4", choices = num)
+    })
+  })
+  
+  # patient gene scatter plot
+  output$pggcplot1 <- renderPlotly({
+    if(input$pggcsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- as.character(input$pggcselectInput1)
+      log <- input$pggccheckboxInput1
+      colorby <- input$pggcselectInput2
+      gene1 <- as.character(input$pggcselectInput3)
+      gene2 <- as.character(input$pggcselectInput4)
+      correlation <- input$pggcselectInput5
+      plotGeneScatterPatientData(gene1 = gene1, gene2 = gene2, 
+                                 dataset = dataset, log = log, 
+                                 colorby = colorby, correlation = correlation,
+                                 customtheme = tbw)
     })
   })
   
