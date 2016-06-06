@@ -41,6 +41,8 @@ plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, col
   
   # add annotation data to expression set
   myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="Cell_Line",by.y='row.names')
+  
+  # eliminate confusion between MYCN gene and status
   coln <- grep("MYCN.x", colnames(myDataExp.c))
   colnames(myDataExp.c)[coln] <- 'MYCN'
   coln <- grep("MYCN.y", colnames(myDataExp.c))
@@ -79,6 +81,7 @@ plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, col
         theme(axis.text.x  = element_text(angle=90), legend.position = "none") + ggtitle(gene1) 
     }
   }
+  p <- ggplotly(p)
   return(p)
   
 }
