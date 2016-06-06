@@ -9,6 +9,7 @@ library(sqldf)
 library(limma)
 library(gridExtra)
 library(shinyIncubator)
+library(survival)
 
 dashboardPage(
   
@@ -277,26 +278,28 @@ dashboardPage(
                 box(selectInput(inputId = "pgehselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgehsubmit2', label = "Get Expression Plot"))), br(), br(),
-              plotOutput(outputId = "pgehplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "pgehplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pgebp",
               fluidRow(
-                box(selectInput(inputId = "pgebpselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgebpselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                    actionButton(inputId = "pgebpsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgebpcheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgebpselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'pgebpsubmit1', label = "Get Patient Boxplot"))), br(), br(),
-              plotOutput(outputId = "pgebpplot1", width = 1000, height = 800)
+              fluidRow(column(5, actionButton(inputId = 'pgebpsubmit2', label = "Get Patient Boxplot"))), br(), br(),
+              plotlyOutput(outputId = "pgebpplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pkm",
               fluidRow(
-                box(selectInput(inputId = "pkmselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
+                box(selectInput(inputId = "pkmselectInput1", label = "Choose dataset", choices = c('NB88','IH250')),
+                    actionButton(inputId = 'pkmsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pkmselectInput2", label = "Choose endpoint", choices = c("os", "efs")), width = 3, background = "navy"),
-                box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
+                box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none"), multiple = TRUE), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'pkmsubmit1', label = "Get Kaplan-Meier Plot"))), br(), br(),
-              plotOutput(outputId = "pkmplot1", width = 1000, height = 800)
+              fluidRow(column(5, actionButton(inputId = 'pkmsubmit2', label = "Get Kaplan-Meier Plot"))), br(), br(),
+              plotlyOutput(outputId = "pkmplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pggc",
               fluidRow(
