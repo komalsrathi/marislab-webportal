@@ -13,6 +13,8 @@ source('R/createTargets.R')
 source('R/runLimma.R')
 source('R/plotOncoPrint.R')
 source('R/viewDataTable.fixedcols.R')
+source('R/plotGeneBarPatientAnalysis.R')
+
 
 shinyServer(function(input, output, session){
   
@@ -71,6 +73,7 @@ shinyServer(function(input, output, session){
     updateSelectInput(session = session, inputId = "clmselectInput1", choices = num)
     updateSelectInput(session = session, inputId = "clgcnselectInput1", choices = num)
     updateSelectInput(session = session, inputId = "clcvmselectInput1", choices = num)
+    updateSelectInput(session = session, inputId = "pgehselectInput3", choices = num)
   })
   
   # output correlation plot for selected genes
@@ -180,6 +183,38 @@ shinyServer(function(input, output, session){
                       gs = F,
                       dataExp = newList$dataExp)
       viewDataTable.fixedcols(dat = dat)
+    })
+  })
+  
+  observe({
+    if(input$pgehsubmit1==0){
+      return()
+    }
+    
+    # load dataset and get rownames
+    load('data/allDataPatient3.RData')
+    dataset <- input$pgehselectInput1
+    myData <- paste(dataset,'_All',sep='')
+    myData <- get(myData)
+    num <- rownames(myData[[1]])
+    updateSelectInput(session = session, inputId = "pgehselectInput3", choices = num)
+  })
+
+  # patient gene bar plot
+  output$pgehplot1 <- renderPlot({
+    if(input$pgehsubmit2==0){
+      return()
+    }
+    isolate({
+      dataset <- input$pgehselectInput1
+      sortby <- as.character(input$pgehcheckboxInput1)
+      log <- as.character(input$pgehcheckboxInput2)
+      density <- as.character(input$pgehcheckboxInput3)
+      colorby <- as.character(input$pgehselectInput2)
+      gene1 <- as.character(input$pgehselectInput3)
+      plotGeneBarPatientAnalysis(gene1 = gene1, dataset = dataset, 
+                                 sortby = sortby, log = log, density = density, 
+                                 colorby = colorby)
     })
   })
   
