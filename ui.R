@@ -303,14 +303,16 @@ dashboardPage(
       ),
       tabItem(tabName = "pggc",
               fluidRow(
-                box(selectInput(inputId = "pggcselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
+                box(selectInput(inputId = "pggcselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                    actionButton(inputId = 'pggcsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pggccheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
                 box(selectInput(inputId = "pggcselectInput3", label = "Select gene 1", choices = c("none")), 
-                    selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")), width = 3, background = "navy")
+                    selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pggcselectInput5", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'pggcsubmit1', label = "Get Gene Correlation Plot"))), br(), br(),
-              plotOutput(outputId = "pggcpplot1", width = 1000, height = 800)
+              fluidRow(column(5, actionButton(inputId = 'pggcsubmit2', label = "Get Gene Correlation Plot"))), br(), br(),
+              plotlyOutput(outputId = "pggcplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pmcg",
               fluidRow(
