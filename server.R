@@ -14,7 +14,8 @@ source('R/runLimma.R')
 source('R/plotOncoPrint.R')
 source('R/viewDataTable.fixedcols.R')
 source('R/plotGeneBarPatientAnalysis.R')
-
+source('R/plotBoxplotPatientAnalysis.R')
+source('R/kapmChoose.R')
 
 shinyServer(function(input, output, session){
   
@@ -52,7 +53,7 @@ shinyServer(function(input, output, session){
 
   # update the table only if submit button is clicked
   output$cldbtable1 <- DT::renderDataTable({
-    if(input$cldbsubmit1==0){
+    if(input$cldbsubmit1 == 0){
       return()
     }
     isolate({
@@ -62,7 +63,7 @@ shinyServer(function(input, output, session){
   
   # update all select inputs with available gene names
   observe({
-    if(input$cldbsubmit1==0){
+    if(input$cldbsubmit1 == 0){
       return()
     }
     dat <- datasetInput()
@@ -78,7 +79,7 @@ shinyServer(function(input, output, session){
   
   # output correlation plot for selected genes
   output$clggcplot1 <- renderPlotly({
-    if(input$clggcsubmit1==0){
+    if(input$clggcsubmit1 == 0){
       return()
     }
     isolate({
@@ -94,7 +95,7 @@ shinyServer(function(input, output, session){
   
   # output expression plot for selected gene
   output$clgeplot1 <- renderPlotly({
-    if(input$clgesubmit1==0){
+    if(input$clgesubmit1 == 0){
       return()
     }
     isolate({
@@ -107,7 +108,7 @@ shinyServer(function(input, output, session){
   })
   
   output$clmtable1 <- renderDataTable({
-    if(input$clmsubmit1==0){
+    if(input$clmsubmit1 == 0){
       return()
     }
     isolate({
@@ -117,7 +118,7 @@ shinyServer(function(input, output, session){
   })
   
   output$clgcnplot1 <- renderPlotly({
-    if(input$clgcnsubmit1==0){
+    if(input$clgcnsubmit1 == 0){
       return()
     }
     isolate({
@@ -129,7 +130,7 @@ shinyServer(function(input, output, session){
   })
   
   output$clcvmplot1 <- renderPlotly({
-    if(input$clcvmsubmit1==0){
+    if(input$clcvmsubmit1 == 0){
       return()
     }
     isolate({
@@ -150,7 +151,7 @@ shinyServer(function(input, output, session){
   
   # heatmap - update select input with the list of genes uploaded
   output$clhplot1 <- renderPlot({
-    if(input$clhsubmit1==0){
+    if(input$clhsubmit1 == 0){
       return()
     }
     isolate({
@@ -168,7 +169,7 @@ shinyServer(function(input, output, session){
   
   # cell line comparison table
   output$clcttable1 <- renderDataTable({
-    if(input$clctsubmit1==0){
+    if(input$clctsubmit1 == 0){
       return()
     }
     isolate({
@@ -186,8 +187,9 @@ shinyServer(function(input, output, session){
     })
   })
   
+  # patient gene bar plot
   observe({
-    if(input$pgehsubmit1==0){
+    if(input$pgehsubmit1 == 0){
       return()
     }
     
@@ -201,8 +203,8 @@ shinyServer(function(input, output, session){
   })
 
   # patient gene bar plot
-  output$pgehplot1 <- renderPlot({
-    if(input$pgehsubmit2==0){
+  output$pgehplot1 <- renderPlotly({
+    if(input$pgehsubmit2 == 0){
       return()
     }
     isolate({
@@ -215,6 +217,64 @@ shinyServer(function(input, output, session){
       plotGeneBarPatientAnalysis(gene1 = gene1, dataset = dataset, 
                                  sortby = sortby, log = log, density = density, 
                                  colorby = colorby)
+    })
+  })
+  
+  # patient box plot
+  observe({
+    if(input$pgebpsubmit1 == 0){
+      return()
+    }
+    
+    # load dataset and get rownames
+    load('data/allDataPatient3.RData')
+    dataset <- input$pgebpselectInput1
+    myData <- paste(dataset,'_All',sep='')
+    myData <- get(myData)
+    num <- rownames(myData[[1]])
+    updateSelectInput(session = session, inputId = "pgebpselectInput3", choices = num)
+  })
+  
+  # patient box plot
+  output$pgebpplot1 <- renderPlotly({
+    if(input$pgebpsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- input$pgebpselectInput1
+      log <- input$pgebpcheckboxInput1
+      colorby <- input$pgebpselectInput2
+      gene1 <- input$pgebpselectInput3
+      plotBoxplotPatientAnalysis(gene1 = gene1, colorby = colorby, dataset = dataset, log = log)
+    })
+  })
+  
+  # kaplan meier plot
+  observe ({
+    if(input$pkmsubmit1 == 0){
+      return()
+    }
+    isolate({
+      # load dataset and get rownames
+      load('data/allDataPatient3.RData')
+      dataset <- input$pkmselectInput1
+      myData <- paste(dataset,'_All',sep='')
+      myData <- get(myData)
+      num <- rownames(myData[[1]])
+      updateSelectInput(session = session, inputId = "pkmselectInput3", choices = num)
+    })
+  })
+  
+  # kaplan meier plot
+  output$pkmplot1 <- renderPlotly({
+    if(input$pkmsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- as.character(input$pkmselectInput1)
+      endpoint <- as.character(input$pkmselectInput2)
+      genes <- as.character(input$pkmselectInput3)
+      kapmChoose(dataset = dataset, genes = genes, endpoint = endpoint)
     })
   })
   
