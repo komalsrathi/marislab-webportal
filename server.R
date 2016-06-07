@@ -17,6 +17,11 @@ source('R/plotGeneBarPatientAnalysis.R')
 source('R/plotBoxplotPatientAnalysis.R')
 source('R/kapmChoose.R')
 source('R/plotGeneScatterPatientData.R')
+source('R/getCorrelationPatientAnalysis.R')
+source('R/plotGeneBarCNAPatientAnalysis.R')
+source('R/plotGeneCNAvsRNAPatientAnalysis.R')
+source('R/boxPlotGeneSUTC.R')
+source('R/boxPlotGeneHighSUTC.R')
 
 shinyServer(function(input, output, session){
   
@@ -42,7 +47,7 @@ shinyServer(function(input, output, session){
   #   project <- dataCollect(filename)
   #   dat <- read.delim(file = project, stringsAsFactors = FALSE)
   # })
-  
+
   # update datasetInput based on what project is selected
   datasetInput <- reactive({
     filename <- as.character(input$cldbselectInput1)
@@ -108,7 +113,7 @@ shinyServer(function(input, output, session){
     })
   })
   
-  output$clmtable1 <- renderDataTable({
+  output$clmtable1 <- DT::renderDataTable({
     if(input$clmsubmit1 == 0){
       return()
     }
@@ -169,7 +174,7 @@ shinyServer(function(input, output, session){
   })
   
   # cell line comparison table
-  output$clcttable1 <- renderDataTable({
+  output$clcttable1 <- DT::renderDataTable({
     if(input$clctsubmit1 == 0){
       return()
     }
@@ -314,5 +319,152 @@ shinyServer(function(input, output, session){
                                  customtheme = tbw)
     })
   })
+  
+  # patient most correlated genes
+  observe({
+    if(input$pmcgsubmit1 == 0){
+      return()
+    }
+    isolate({
+      # load dataset and get rownames
+      load('data/allDataPatient3.RData')
+      dataset <- input$pmcgselectInput1
+      myData <- paste(dataset,'_data',sep='')
+      myData <- get(myData)
+      num <- rownames(myData)
+      n <- as.numeric(nrow(myData))
+      updateSelectInput(session = session, inputId = "pmcgselectInput2", choices = num)
+      updateTextInput(session = session, inputId = "pmcgtextInput1", value = n)
+    })
+  })
+  
+  # patient most correlated genes
+  output$pmcgtable1 <- DT::renderDataTable({
+    if(input$pmcgsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- as.character(input$pmcgselectInput1)
+      gene1 <- as.character(input$pmcgselectInput2)
+      numRet <- as.numeric(input$pmcgtextInput1)
+      cortab <- getCorrelationPatientAnalysis(gene1 = gene1, dataset = dataset, numRet = numRet)
+      viewDataTable(dat = cortab)
+    })
+  })
+  
+  # patient gene bar CNA
+  observe({
+    if(input$pgcnsubmit1 == 0){
+      return()
+    }
+    isolate({
+      # load dataset and get rownames
+      load('data/allDataPatient3.RData')
+      dataset <- input$pgcnselectInput1
+      myData <- paste(dataset,'_cdata',sep='')
+      myData <- get(myData)
+      num <- rownames(myData)
+      updateSelectInput(session = session, inputId = "pgcnselectInput2", choices = num)
+    })
+  })
+  
+  # patient gene bar CNA
+  output$pgcnplot1 <- renderPlot({
+    if(input$pgcnsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- input$pgcnselectInput1
+      sortby <- input$pgcncheckboxInput1
+      log <- input$pgcncheckboxInput2
+      gene1 <- as.character(input$pgcnselectInput2)
+      plotGeneBarCNAPatientAnalysis(gene1 = gene1, dataset = dataset, log = log, sortby = sortby)
+    })
+  })
+  
+  # plot gene CNA vs RNA patient analysis
+  observe({
+    if(input$pgcvmsubmit1 == 0){
+      return()
+    }
+    isolate({
+      # load dataset and get rownames
+      load('data/allDataPatient.RData')
+      dataset <- input$pgcvmselectInput1
+      myData <- paste(dataset,'_data',sep='')
+      myData <- get(myData)
+      mycData <- paste(dataset,'_cdata',sep = '')
+      mycData <- get(mycData)
+      num <- intersect(rownames(myData),rownames(mycData))
+      updateSelectInput(session = session, inputId = "pgcvmselectInput2", choices = num)
+    })
+  })
+  
+  # plot gene CNA vs RNA patient analysis
+  output$pgcvmplot1 <- renderPlotly({
+    if(input$pgcvmsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- input$pgcvmselectInput1
+      gene1 <- as.character(input$pgcvmselectInput2)
+      plotGeneCNAvsRNAPatientAnalysis(gene1 = gene1, dataset = dataset)
+    })
+  })
+  
+  # plot tumor vs normal RNA data
+  observe({
+    if(input$tvnbsubmit1==0){
+      return()
+    }
+    load('data/TumNormData.RData')
+    num <- as.character(intersect(tumData$gene_id,normData$Description))
+    updateSelectInput(session = session, inputId = "tvnbselectInput2", choices = num)
+  })
+  
+  # plot tumor vs normal RNA data
+  output$tvnbplot1 <- renderPlotly({
+    if(input$tvnbsubmit2==0){
+      return()
+    }
+    gene1 <- input$tvnbselectInput2
+    boxPlotGeneSUTC(gene1 = gene1)
+  })
+  
+  # plot tumor vs normal RNA data (high)
+  observe({
+    if(input$tvnbasubmit1==0){
+      return()
+    }
+    load('data/TumNormData.RData')
+    num <- as.character(intersect(tumData$gene_id,normData$Description))
+    updateSelectInput(session = session, inputId = "tvnbaselectInput2", choices = num)
+  })
+  
+  # plot tumor vs normal RNA data (high)
+  output$tvnbaplot1 <- renderPlotly({
+    if(input$tvnbasubmit2==0){
+      return()
+    }
+    gene1 <- input$tvnbaselectInput2
+    boxPlotGeneHighSUTC(gene1 = gene1)
+  })
+  
+  # list external and internal resources
+  output$rdbitable1 <- DT::renderDataTable({
+    isolate({
+      dat <- read.csv('data/internal.txt')
+      dat$Link <- paste0("<a href='",dat$Link,"' target='_blank'>",dat$Link,"</a>")
+      return(dat)
+    })
+  }, escape = FALSE)
+  
+  output$rdbetable1 <- DT::renderDataTable({
+    isolate({
+      dat <- read.csv('data/external.txt')
+      dat$Link <- paste0("<a href='",dat$Link,"' target='_blank'>",dat$Link,"</a>")
+      return(dat)
+    })
+  }, escape = FALSE)
   
 }) # shinyServer ends
