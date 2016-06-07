@@ -427,8 +427,10 @@ shinyServer(function(input, output, session){
     if(input$tvnbsubmit2==0){
       return()
     }
-    gene1 <- input$tvnbselectInput2
-    boxPlotGeneSUTC(gene1 = gene1)
+    isolate({
+      gene1 <- input$tvnbselectInput2
+      boxPlotGeneSUTC(gene1 = gene1)
+    })
   })
   
   # plot tumor vs normal RNA data (high)
@@ -446,8 +448,70 @@ shinyServer(function(input, output, session){
     if(input$tvnbasubmit2==0){
       return()
     }
-    gene1 <- input$tvnbaselectInput2
-    boxPlotGeneHighSUTC(gene1 = gene1)
+    isolate({
+      gene1 <- input$tvnbaselectInput2
+      boxPlotGeneHighSUTC(gene1 = gene1)
+    })
+  })
+  
+  # compendia overexpression analysis
+  output$aoatable1 <- DT::renderDataTable({
+    if(input$aoasubmit1 == 0){
+      return()
+    }
+    isolate({
+      dat <- paste0('data/',input$aoaselectInput1,'.RData')
+      dat <- get(load(dat))
+      thres <- as.numeric(input$aoatextInput1)
+      freq <- as.numeric(input$aoatextInput2)
+      rank <- as.numeric(input$aoatextInput3)
+      dat <- dat[which(dat$Threshold == thres),]
+      if(freq !=0 ){
+        dat <- dat[which(dat$Frequency > freq),]
+      }
+      if(rank != 10000){
+        dat <- na.omit(dat)
+        dat <- dat[dat$Rank < rank,]
+      }
+      viewDataTable(dat = dat)
+    })
+  })
+  
+  # compendia TM calls
+  output$atpctable1 <- DT::renderDataTable({
+    if(input$atpcsubmit1 == 0){
+      return()
+    }
+    isolate({
+      dat <- paste0('data/',input$atpcselectInput1,'.RData')
+      dat <- get(load(dat))
+      viewDataTable(dat = dat)
+    })
+  })
+  
+  # compendia diffexp analysis
+  output$atndatable1 <- DT::renderDataTable({
+    if(input$atndasubmit1 == 0){
+      return()
+    }
+    isolate({
+      dat <- paste0('data/',input$atndaselectInput1,'.RData')
+      dat <- get(load(dat))
+      logfc <- as.numeric(input$atndatextInput1)
+      pval <- as.numeric(input$atndatextInput2)
+      rank <- as.numeric(input$atndatextInput3)
+      if (logfc != -10){
+        dat <- dat[dat$LogFC > logfc,]
+      }
+      if (pval != 1){
+        dat <- dat[dat$pValue< pval,]
+      }
+      if (rank != 10000){
+        dat <- na.omit(dat)
+        dat <- dat[dat$Rank < rank,]
+      }
+      viewDataTable(dat = dat)
+    })
   })
   
   # list external and internal resources
