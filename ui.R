@@ -26,6 +26,10 @@ dashboardPage(
     sidebarMenu(
       
       menuItem("Dashboard", icon = icon("dashboard"), tabName = "dashboard"),
+      menuItem("Resources", icon = icon("database"), tabName = "rdb",
+               menuSubItem("Internal", icon = icon("database"), tabName = "rdbi"),
+               menuSubItem("External", icon = icon("database"), tabName = "rdbe")
+      ),
       menuItem("Cell Lines Database", icon = icon("database"), tabName = "cldb"),
       menuItem("Visualization Tools", tabName = "celllines", icon = icon("gears"),
                menuSubItem("Gene Expression", icon = icon("bar-chart"), tabName = "clge"),
@@ -85,6 +89,15 @@ dashboardPage(
                 box(title = "Patient Data", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Visualizations and tools to analyze patient data in multiple ways. One can look at Gene Expression across cohorts, kaplan-meier curves based on a gene or set of genes, most correlated genes, etc... Currently two public data sets are included, in the future, our internal data set and other relevent data can be displayed.", br(), br(), actionButton(inputId='ab3', label="View Details", icon = icon("th"))),
                 box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.", br(), br(), actionButton(inputId='ab4', label="View Details", icon = icon("th")))
               )
+      ),
+      
+      # rdbi content
+      tabItem(tabName = "rdbi",
+              DT::dataTableOutput(outputId = "rdbitable1")
+      ),
+      
+      tabItem(tabName = "rdbe",
+              DT::dataTableOutput(outputId = "rdbetable1")
       ),
       
       # cldb content
@@ -316,44 +329,54 @@ dashboardPage(
       ),
       tabItem(tabName = "pmcg",
               fluidRow(
-                box(selectInput(inputId = "pmcgselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
-                box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy")
+                box(selectInput(inputId = "pmcgselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250')),
+                    actionButton(inputId = 'pmcgsubmit1', label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy"),
+                box(textInput(inputId = "pmcgtextInput1", label = "Number", value = "10"), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'pmcgsubmit1', label = "Get Top Gene Correlations"))), br(), br(),
+              fluidRow(column(5, actionButton(inputId = 'pmcgsubmit2', label = "Get Top Gene Correlations"))), br(), br(),
               DT::dataTableOutput(outputId = 'pmcgtable1')
       ),
       tabItem(tabName = "pgcn",
               fluidRow(
-                box(selectInput(inputId = "pgcnselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')), width = 3, background = "navy"),
-                box(checkboxGroupInput(inputId = "pgcncheckboxInput1", label = "Select Parameters", choices = c("Sort Data", "Log Data", "Density")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgcnselectInput1", label = "Choose dataset", choices = c('IH250')),
+                    actionButton(inputId = "pgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(checkboxInput(inputId = "pgcncheckboxInput1", label = "Sort Data"),
+                    checkboxInput(inputId = "pgcncheckboxInput2", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'pgcnsubmit1', label = "Get Copy Number Barplot"))), br(), br(),
+              fluidRow(column(5, actionButton(inputId = 'pgcnsubmit2', label = "Get Copy Number Barplot"))), br(), br(),
               plotOutput(outputId = "pgcnplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "pgcvm",
               fluidRow(
-                box(selectInput(inputId = "pgcvmselectInput1", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
+                box(selectInput(inputId = "pgcvmselectInput1", label = "Choose dataset", choices = c('IH251')),
+                    actionButton(inputId = "pgcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgcvmselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'pgcvmsubmit1', label = "Get mRNA/CNA Correlation Plot"))), br(), br(),
-              plotOutput(outputId = "pgcvmplot1", width = 1000, height = 800)
+              fluidRow(column(5, actionButton(inputId = 'pgcvmsubmit2', label = "Get mRNA/CNA Correlation Plot"))), br(), br(),
+              plotlyOutput(outputId = "pgcvmplot1", width = 1000, height = 800)
       ),
       ##### Patient Samples Utilities #####
       
       ##### RNASeq Target Data #####
       tabItem(tabName = "tvnb",
               fluidRow(
-                box(selectInput(inputId = "tvnbselectInput1", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
+                box(selectInput(inputId = "tvnbselectInput1", label = "Choose dataset", choices = c("GTEx vs Tumor")),
+                    actionButton(inputId = "tvnbsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "tvnbselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'tvnbsubmit1', label = "Comparison with Normal GTEx data"))), br(), br(),
-              plotOutput(outputId = "tvnbplot1", width = 1000, height = 800)
+              fluidRow(column(5, actionButton(inputId = 'tvnbsubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
+              plotlyOutput(outputId = "tvnbplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "tvnba",
               fluidRow(
-                box(selectInput(inputId = "tvnbaselectInput1", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
+                box(selectInput(inputId = "tvnbaselectInput1", label = "Choose dataset", choices = c("GTEx vs Tumor")),
+                    actionButton(inputId = "tvnbasubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "tvnbaselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'tvnbasubmit1', label = "Comparison with Normal GTEx data"))), br(), br(),
-              plotOutput(outputId = "tvnbaplot1", width = 1000, height = 800)
+              fluidRow(column(5, actionButton(inputId = 'tvnbasubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
+              plotlyOutput(outputId = "tvnbaplot1", width = 1000, height = 800)
       ),
       ##### RNASeq Target Data #####
       
