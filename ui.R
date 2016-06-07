@@ -61,7 +61,7 @@ dashboardPage(
                menuSubItem("Aim 3 Tumor Normal Differential Analysis", icon = icon("table"), tabName = "atnda")
       ),
       menuItem("Other Tools", tabName = "analysistools", icon = icon("gears"),
-               menuSubItem("Venn Diagrams (Ext)", icon = icon("pie-chart"), tabName = "vd"),
+               menuSubItem("Venn Diagrams (Ext)", icon = icon("pie-chart"), href = "http://bioinfogp.cnb.csic.es/tools/venny"),
                menuSubItem("Gene Set Enrichment", icon = icon("star"), tabName = "gse"),
                menuSubItem("IC50 Analysis", icon = icon("star"), tabName = "ia")
       ),
@@ -91,6 +91,7 @@ dashboardPage(
               )
       ),
       
+      ######## Resources ###########
       # rdbi content
       tabItem(tabName = "rdbi",
               DT::dataTableOutput(outputId = "rdbitable1")
@@ -99,6 +100,7 @@ dashboardPage(
       tabItem(tabName = "rdbe",
               DT::dataTableOutput(outputId = "rdbetable1")
       ),
+      ######## Resources ###########
       
       # cldb content
       tabItem(tabName = "cldb",
@@ -383,12 +385,10 @@ dashboardPage(
       ##### Compendia Analysis #####
       tabItem(tabName = "aoa",
               fluidRow(
-                box(selectInput(inputId = "aoaselectInput1", label = "Select Gene", choices = c("All")), 
-                    selectInput(inputId = "aoaselectInput2", label = "Select Tissue", choices = "none"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "aoacheckboxInput1", label = "Normals only?"), width = 3, background = "navy"),
-                box(selectInput(inputId = "aoaselectInput1", label = "Threshold", choices = c("All", 8)), 
-                    textInput(inputId = "aoatextInput1", label = "Frequency", value = 0), 
-                    textInput(inputId = "aoatextInput2", label = "Rank", value = 10000), width = 3, background = "navy")
+                box(selectInput(inputId = "aoaselectInput1", label = "Choose dataset", choices = c("Aim3 Overexpression"="compAim3_OE")), width = 4, background = "navy"),
+                box(textInput(inputId = "aoatextInput1", label = "Threshold", value = "8"),
+                    textInput(inputId = "aoatextInput2", label = "Frequency", value = "0"),
+                    textInput(inputId = "aoatextInput3", label = "Rank", value = "10000"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'aoasubmit1', label = "Get overexpression analysis"))), br(), br(),
               DT::dataTableOutput(outputId = 'aoatable1')
@@ -396,8 +396,9 @@ dashboardPage(
       
       tabItem(tabName = "atpc",
               fluidRow(
-                box(selectInput(inputId = "atpcselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(selectInput(inputId = "atpcselectInput2", label = "Select Source", choices = c(0,1,2,3,4)), width = 3, background = "navy")
+                box(selectInput(inputId = "atpcselectInput1", label = "Choose dataset", choices = c("Aim3 TM Protein Calls"="compAim3_TM")), width = 3, background = "navy"),
+                box(selectInput(inputId = "atpcselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(selectInput(inputId = "atpcselectInput3", label = "Select Source", choices = c(0,1,2,3,4)), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'atpcsubmit1', label = "Get TM annotation"))), br(), br(),
               DT::dataTableOutput(outputId = 'atpctable1')
@@ -405,13 +406,10 @@ dashboardPage(
       
       tabItem(tabName = "atnda",
               fluidRow(
-                box(selectInput(inputId = "atndaselectInput1", label = "Select Gene", choices = "none"),
-                    selectInput(inputId = "atndaselectInput2", label = "Select Disease Tissue", choices = "none"),
-                    selectInput(inputId = "atndaselectInput3", label = "Select Normal Tissue", choices = "none"),
-                    width = 3, background = "navy"),
-                box(textInput(inputId = "atndatextInput1", label = "LogFC", value = -10),
-                    textInput(inputId = "atndatextInput2", label = "Pvalue", value = 1),
-                    textInput(inputId = "atndatextInput3", label = "Rank", value = 10000),
+                box(selectInput(inputId = "atndaselectInput1", label = "Choose dataset", choices = c("Aim3 Differential Analysis"="compAim3_DE")), width = 3, background = "navy"),
+                box(textInput(inputId = "atndatextInput1", label = "LogFC", value = "-10"),
+                    textInput(inputId = "atndatextInput2", label = "Pvalue", value = "1"),
+                    textInput(inputId = "atndatextInput3", label = "Rank", value = "10000"),
                     width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'atndasubmit1', label = "Get Tumor-Normal Diff. Analysis"))), br(), br(),
