@@ -48,3 +48,4 @@ Improvements required
 6. look through plots to optimize viewing.
 7. user traffic record
 8. statistics on how many datasets/samples we have.
+9. check if bottom filter is visible or not.
