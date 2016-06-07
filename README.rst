@@ -44,3 +44,7 @@ Improvements required
 2. add description for each project
 3. for a plot, get raw data from which the plot came
 4. add functionality for b/w plots
+5. add datatype on Y axis to show whether it is FPKM/TPM/log.
+6. look through plots to optimize viewing.
+7. user traffic record
+8. statistics on how many datasets/samples we have.
