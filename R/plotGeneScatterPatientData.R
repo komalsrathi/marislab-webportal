@@ -5,7 +5,7 @@
 ####################################
 
 # load patient sample set
-load('data/allDataPatient3.RData')
+load('data/allDataPatient.RData')
 
 # plot scatter plot of 2 genes##################
 plotGeneScatterPatientData <- function(gene1, gene2, dataset, log, colorby, correlation, customtheme)
