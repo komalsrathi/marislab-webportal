@@ -170,10 +170,12 @@ dashboardPage(
       # clcvm content
       tabItem(tabName = "clcvm",
               fluidRow(
-                box(selectInput(inputId = "clcvmselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(selectInput(inputId = "clcvmselectInput2", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
+                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Neuroblastoma Microarray data'='celllinedata'), selected = NULL),
+                    actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'clcvmsubmit1', label = "Get CN vs Mutation Plot"))), 
+              fluidRow(column(5, actionButton(inputId = 'clcvmsubmit2', label = "Get CN vs Mutation Plot"))), 
               br(), br(),
               plotlyOutput(outputId = 'clcvmplot1', width = 800, height = 800)
       ),
@@ -181,6 +183,7 @@ dashboardPage(
       # clh content
       tabItem(tabName = "clh",
               fluidRow(
+                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Neuroblastoma Microarray data'='celllinedata')), width = 3, background = "navy"),
                 box(fileInput(inputId = 'clhfileInput1', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))),
@@ -191,7 +194,8 @@ dashboardPage(
       # clct content
       tabItem(tabName = "clct",
               fluidRow(
-                box(selectInput(inputId = "clctselectInput1", label = "Set 1", choices = c("BE2(e)"="BE2",
+                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Neuroblastoma Microarray data'='celllinedata')), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectInput2", label = "Set 1", choices = c("BE2(e)"="BE2",
                                                                                            "BE2C(e)"="BE2C",
                                                                                            "CHLA136"="CHLA136",
                                                                                            "CHLA15"="CHLA15",
@@ -237,7 +241,7 @@ dashboardPage(
                                                                                            "SMSLHN"="SMSLHN",
                                                                                            "SMSSAN(e)"="SMSSAN",
                                                                                            "SY5Y(e)"="SY5Y"), multiple = TRUE), width = 3, background = "navy"),
-                box(selectInput(inputId = "clctselectInput2", label = "Set 2", choices = c("BE2(e)"="BE2",
+                box(selectInput(inputId = "clctselectInput3", label = "Set 2", choices = c("BE2(e)"="BE2",
                                                                                            "BE2C(e)"="BE2C",
                                                                                            "CHLA136"="CHLA136",
                                                                                            "CHLA15"="CHLA15",
