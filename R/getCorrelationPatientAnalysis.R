@@ -16,6 +16,7 @@ myCorTest <- function(x,y)
 
 getCorrelationPatientAnalysis <- function(gene1, dataset, numRet)
 {
+
   # get selected dataset
   myData <- paste(dataset,'_data',sep='')
   myData <- get(myData)
