@@ -105,10 +105,10 @@ dashboardPage(
       # cldb content
       tabItem(tabName = "cldb",
               fluidRow(
-                box(selectInput(inputId = 'cldbselectInput1', label = 'Database',choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata.txt',
-                                                                                             'Neuroblastoma Microarray data'='celllinedata.txt'), selected = 'none'), width = 5, background = "navy")
+                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata.RData',
+                                                                                             'Neuroblastoma Microarray data'='celllinedata.RData')), width = 5, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load Data"))), br(), br(),
+              fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
       ),
       
@@ -116,32 +116,40 @@ dashboardPage(
       # clge content
       tabItem(tabName = "clge",
               fluidRow(
-                box(selectInput(inputId = "clgeselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = TRUE), width = 3, background = "navy"),
-                box(selectInput(inputId = "clgeselectInput2", label = "Sort by", choices = c('Variable', 'Value'), selected = 'none'), width = 3, background = 'navy')
+                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata.RData',
+                                                                                                    'Neuroblastoma Microarray data'='celllinedata.RData')),
+                    actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
+                box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = TRUE), width = 2, background = "navy"),
+                box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 3, background = 'navy')
               ),
-              fluidRow(column(5, actionButton(inputId = 'clgesubmit1', label = "Get Expression Plot"))), br(), br(),
+              fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "clgeplot1", width = 800, height = 800)
       ),
       
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
-                box(selectInput(inputId = "clggcselectInput1", label = "Select Gene 1", choices = "none"), width = 3, background = "navy"),
-                box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = TRUE), width = 3, background = "navy"),
-                box(selectInput(inputId = "clggcselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
+                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata.RData',
+                                                                                                     'Neuroblastoma Microarray data'='celllinedata.RData')),
+                    actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
+                box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
+                    selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
+                box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = TRUE), width = 2, background = "navy"),
+                box(selectInput(inputId = "clggcselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'clggcsubmit1', label = "Get Correlation Plot"))), br(), br(),
+              fluidRow(column(5, actionButton(inputId = 'clggcsubmit2', label = "Get Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "clggcplot1", width = 800, height = 800)
       ),
       
       # clm content
       tabItem(tabName = "clm",
               fluidRow(
-                box(selectInput(inputId = "clmselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+                box(selectInput(inputId = "clmselectInput1", label = "Select dataset", choices = c("Exome Calls 85K8"="ExomeCalls85K8_10_13.txt")),
+                    actionButton(inputId = "clmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'clmsubmit1', label = "Get Mutation Table"))), 
+              fluidRow(column(5, actionButton(inputId = 'clmsubmit2', label = "Get Mutation Table"))), 
               br(), br(),
               DT::dataTableOutput(outputId = 'clmtable1')
       ),
@@ -149,10 +157,12 @@ dashboardPage(
       # clgcn content
       tabItem(tabName = "clgcn",
               fluidRow(
-                box(selectInput(inputId = "clgcnselectInput1", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(selectInput(inputId = "clgcnselectInput2", label = "Sort by", choices = c('Variable', 'Value'), selected = 'none'), width = 3, background = 'navy')
+                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Neuroblastoma Microarray data'='celllinedata')),
+                    actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 3, background = 'navy')
               ),
-              fluidRow(column(5, actionButton(inputId = 'clgcnsubmit1', label = "Get Copy Number Barplot"))), 
+              fluidRow(column(5, actionButton(inputId = 'clgcnsubmit2', label = "Get Copy Number Barplot"))), 
               br(), br(),
               plotlyOutput(outputId = 'clgcnplot1', width = 800, height = 800)
       ),
@@ -284,7 +294,7 @@ dashboardPage(
       ##### Patient Samples Utilities #####
       tabItem(tabName = "pgeh",
               fluidRow(
-                box(selectInput(inputId = "pgehselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                box(selectInput(inputId = "pgehselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649')),
                     actionButton(inputId = "pgehsubmit1", label = "Load dataset"),width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Sort Data"),
                     checkboxInput(inputId = "pgehcheckboxInput2", label = "Log Data"),
@@ -297,7 +307,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pgebp",
               fluidRow(
-                box(selectInput(inputId = "pgebpselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                box(selectInput(inputId = "pgebpselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649')),
                     actionButton(inputId = "pgebpsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgebpcheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
@@ -308,9 +318,9 @@ dashboardPage(
       ),
       tabItem(tabName = "pkm",
               fluidRow(
-                box(selectInput(inputId = "pkmselectInput1", label = "Choose dataset", choices = c('NB88','IH250')),
+                box(selectInput(inputId = "pkmselectInput1", label = "Select dataset", choices = c('NB88','IH250')),
                     actionButton(inputId = 'pkmsubmit1', label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pkmselectInput2", label = "Choose endpoint", choices = c("os", "efs")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pkmselectInput2", label = "Select endpoint", choices = c("os", "efs")), width = 3, background = "navy"),
                 box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none"), multiple = TRUE), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pkmsubmit2', label = "Get Kaplan-Meier Plot"))), br(), br(),
@@ -318,7 +328,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pggc",
               fluidRow(
-                box(selectInput(inputId = "pggcselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                box(selectInput(inputId = "pggcselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649')),
                     actionButton(inputId = 'pggcsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pggccheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
@@ -331,7 +341,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pmcg",
               fluidRow(
-                box(selectInput(inputId = "pmcgselectInput1", label = "Choose dataset", choices = c('NB88','HI51','IH250')),
+                box(selectInput(inputId = "pmcgselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250')),
                     actionButton(inputId = 'pmcgsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy"),
                 box(textInput(inputId = "pmcgtextInput1", label = "Number", value = "10"), width = 3, background = "navy")
@@ -341,7 +351,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pgcn",
               fluidRow(
-                box(selectInput(inputId = "pgcnselectInput1", label = "Choose dataset", choices = c('IH250')),
+                box(selectInput(inputId = "pgcnselectInput1", label = "Select dataset", choices = c('IH250')),
                     actionButton(inputId = "pgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgcncheckboxInput1", label = "Sort Data"),
                     checkboxInput(inputId = "pgcncheckboxInput2", label = "Log Data"), width = 3, background = "navy"),
@@ -352,7 +362,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pgcvm",
               fluidRow(
-                box(selectInput(inputId = "pgcvmselectInput1", label = "Choose dataset", choices = c('IH251')),
+                box(selectInput(inputId = "pgcvmselectInput1", label = "Select dataset", choices = c('IH251')),
                     actionButton(inputId = "pgcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgcvmselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
               ),
@@ -364,7 +374,7 @@ dashboardPage(
       ##### RNASeq Target Data #####
       tabItem(tabName = "tvnb",
               fluidRow(
-                box(selectInput(inputId = "tvnbselectInput1", label = "Choose dataset", choices = c("GTEx vs Tumor")),
+                box(selectInput(inputId = "tvnbselectInput1", label = "Select dataset", choices = c("GTEx vs Tumor")),
                     actionButton(inputId = "tvnbsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "tvnbselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
               ),
@@ -373,7 +383,7 @@ dashboardPage(
       ),
       tabItem(tabName = "tvnba",
               fluidRow(
-                box(selectInput(inputId = "tvnbaselectInput1", label = "Choose dataset", choices = c("GTEx vs Tumor")),
+                box(selectInput(inputId = "tvnbaselectInput1", label = "Select dataset", choices = c("GTEx vs Tumor")),
                     actionButton(inputId = "tvnbasubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "tvnbaselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
               ),
@@ -385,10 +395,10 @@ dashboardPage(
       ##### Compendia Analysis #####
       tabItem(tabName = "aoa",
               fluidRow(
-                box(selectInput(inputId = "aoaselectInput1", label = "Choose dataset", choices = c("Aim3 Overexpression"="compAim3_OE")), width = 4, background = "navy"),
-                box(textInput(inputId = "aoatextInput1", label = "Threshold", value = "8"),
-                    textInput(inputId = "aoatextInput2", label = "Frequency", value = "0"),
-                    textInput(inputId = "aoatextInput3", label = "Rank", value = "10000"), width = 3, background = "navy")
+                box(selectInput(inputId = "aoaselectInput1", label = "Select dataset", choices = c("Aim3 Overexpression"="compAim3_OE")), width = 4, background = "navy"),
+                box(textInput(inputId = "aoatextInput1", label = "Threshold", value = "8"), width = 2, background = "navy"),
+                box(textInput(inputId = "aoatextInput2", label = "Frequency", value = "0"), width = 2, background = "navy"),
+                box(textInput(inputId = "aoatextInput3", label = "Rank", value = "10000"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'aoasubmit1', label = "Get overexpression analysis"))), br(), br(),
               DT::dataTableOutput(outputId = 'aoatable1')
@@ -396,7 +406,7 @@ dashboardPage(
       
       tabItem(tabName = "atpc",
               fluidRow(
-                box(selectInput(inputId = "atpcselectInput1", label = "Choose dataset", choices = c("Aim3 TM Protein Calls"="compAim3_TM")), width = 3, background = "navy"),
+                box(selectInput(inputId = "atpcselectInput1", label = "Select dataset", choices = c("Aim3 TM Protein Calls"="compAim3_TM")), width = 4, background = "navy"),
                 box(selectInput(inputId = "atpcselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
                 box(selectInput(inputId = "atpcselectInput3", label = "Select Source", choices = c(0,1,2,3,4)), width = 3, background = "navy")
               ),
@@ -406,11 +416,10 @@ dashboardPage(
       
       tabItem(tabName = "atnda",
               fluidRow(
-                box(selectInput(inputId = "atndaselectInput1", label = "Choose dataset", choices = c("Aim3 Differential Analysis"="compAim3_DE")), width = 3, background = "navy"),
-                box(textInput(inputId = "atndatextInput1", label = "LogFC", value = "-10"),
-                    textInput(inputId = "atndatextInput2", label = "Pvalue", value = "1"),
-                    textInput(inputId = "atndatextInput3", label = "Rank", value = "10000"),
-                    width = 3, background = "navy")
+                box(selectInput(inputId = "atndaselectInput1", label = "Select dataset", choices = c("Aim3 Differential Analysis"="compAim3_DE")), width = 4, background = "navy"),
+                box(textInput(inputId = "atndatextInput1", label = "LogFC", value = "-10"), width = 2, background = "navy"),
+                box(textInput(inputId = "atndatextInput2", label = "Pvalue", value = "1"), width = 2, background = "navy"),
+                box(textInput(inputId = "atndatextInput3", label = "Rank", value = "10000"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'atndasubmit1', label = "Get Tumor-Normal Diff. Analysis"))), br(), br(),
               DT::dataTableOutput(outputId = 'atndatable1')
