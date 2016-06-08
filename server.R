@@ -25,36 +25,17 @@ source('R/boxPlotGeneHighSUTC.R')
 
 shinyServer(function(input, output, session){
   
-  # num <- NULL
   tbw <- themebw()
   newList <- processRawData()
   processedList <- postProcessDataForHeatmap(dataCNA = newList$dataCNA, 
                                              dataExpGeneName = newList$dataExpGeneName, 
                                              dataAnnBin = newList$dataAnnBin, 
                                              dataMutBin = newList$dataMutBin)
-  
-  
-  # # update projects selectInput
-  # observe({
-  #   project <- read.csv(file = 'data/db.txt', stringsAsFactors = F)
-  #   n <- project$Project
-  #   updateSelectInput(session = session, inputId = "cldbselectInput1", choices = n)
-  # })
-  # 
-  # # update datasetInput based on what project is selected
-  # datasetInput <- reactive({
-  #   filename <- as.character(input$cldbselectInput1)
-  #   project <- dataCollect(filename)
-  #   dat <- read.delim(file = project, stringsAsFactors = FALSE)
-  # })
 
   # update datasetInput based on what project is selected
   datasetInput <- reactive({
-    filename <- as.character(input$cldbselectInput1)
-    project <- paste('data/',filename,sep='')
-    dat <- read.delim(file = project, stringsAsFactors = FALSE)
-    # num <<- rownames(dat)
-    # dat
+    dat <- as.character(input$cldbselectInput1)
+    dat <- get(load(paste0('data/',dat)))
   })
 
   # update the table only if submit button is clicked
@@ -63,7 +44,7 @@ shinyServer(function(input, output, session){
       return()
     }
     isolate({
-      viewDataTable(datasetInput())
+      viewDataTable(dat = datasetInput())
     })
   })
   
@@ -72,65 +53,114 @@ shinyServer(function(input, output, session){
     if(input$cldbsubmit1 == 0){
       return()
     }
-    dat <- datasetInput()
+    dat <- as.character(input$cldbselectInput1)
+    dat <- get(load(paste0('data/',dat)))
     num <- rownames(dat)
-    updateSelectInput(session = session, inputId = "clgeselectInput1", choices = num)
-    updateSelectInput(session = session, inputId = "clggcselectInput1", choices = num)
-    updateSelectInput(session = session, inputId = "clggcselectInput2", choices = num)
-    updateSelectInput(session = session, inputId = "clmselectInput1", choices = num)
-    updateSelectInput(session = session, inputId = "clgcnselectInput1", choices = num)
+    #updateSelectInput(session = session, inputId = "clgcnselectInput1", choices = num)
     updateSelectInput(session = session, inputId = "clcvmselectInput1", choices = num)
     updateSelectInput(session = session, inputId = "pgehselectInput3", choices = num)
   })
   
   # output correlation plot for selected genes
-  output$clggcplot1 <- renderPlotly({
+  observe({
     if(input$clggcsubmit1 == 0){
       return()
     }
+    dat <- as.character(input$clggcselectInput1)
+    dat <- get(load(paste0('data/',dat)))
+    num <- rownames(dat)
+    updateSelectInput(session = session, inputId = "clggcselectInput2", choices = num)
+    updateSelectInput(session = session, inputId = "clggcselectInput3", choices = num)
+  })
+  
+  output$clggcplot1 <- renderPlotly({
+    if(input$clggcsubmit2 == 0){
+      return()
+    }
     isolate({
-      dat <- datasetInput()
-      gene1 <- as.character(input$clggcselectInput1)
-      gene2 <- as.character(input$clggcselectInput2)
+      dat <- as.character(input$clggcselectInput1)
+      dat <- get(load(paste0('data/',dat)))
+      gene1 <- as.character(input$clggcselectInput2)
+      gene2 <- as.character(input$clggcselectInput3)
       logvalue <- input$clggccheckboxInput1
-      correlation <- input$clggcselectInput3
+      correlation <- input$clggcselectInput4
       plotGeneScatter(dat = dat, gene1 = `gene1`, gene2 = `gene2`, 
                       customtheme = tbw, log = logvalue, corr = correlation)
     })
   })
   
   # output expression plot for selected gene
-  output$clgeplot1 <- renderPlotly({
+  observe({
     if(input$clgesubmit1 == 0){
       return()
     }
+    dat <- as.character(input$clgeselectInput1)
+    dat <- get(load(paste0('data/',dat)))
+    num <- rownames(dat)
+    updateSelectInput(session = session, inputId = "clgeselectInput2", choices = num)
+  })
+  
+  output$clgeplot1 <- renderPlotly({
+    if(input$clgesubmit2 == 0){
+      return()
+    }
     isolate({
-      dat <- datasetInput()
-      gene1 <- as.character(input$clgeselectInput1)
+      dat <- as.character(input$clgeselectInput1)
+      dat <- get(load(paste0('data/',dat)))
+      gene1 <- as.character(input$clgeselectInput2)
       logvalue <- input$clgecheckboxInput1
-      sortby <- input$clgeselectInput2
+      sortby <- input$clgeselectInput3
       plotGeneBar(dat = dat, gene1 = gene1, customtheme = tbw, log = logvalue, sortby)
     })
   })
   
-  output$clmtable1 <- DT::renderDataTable({
+  # mutation table
+  observe({
     if(input$clmsubmit1 == 0){
       return()
     }
     isolate({
-      gene <- as.character(input$clmselectInput1)
-      viewDataTable.fixedcols(dat = cellMutationTable(gene))
+      dat <- as.character(input$clmselectInput1)
+      dat <- paste0('data/',dat)
+      dat <- read.delim(dat, stringsAsFactors = FALSE)
+      num <- unique(as.character(dat$Gene))
+      updateSelectInput(session = session, inputId = "clmselectInput2", choices = num)
     })
   })
   
-  output$clgcnplot1 <- renderPlotly({
+  output$clmtable1 <- DT::renderDataTable({
+    if(input$clmsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- as.character(input$clmselectInput1)
+      gene <- as.character(input$clmselectInput2)
+      viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
+    })
+  })
+  
+  # Gene CNA plot
+  observe({
     if(input$clgcnsubmit1 == 0){
       return()
     }
     isolate({
-      gene1 <- as.character(input$clgcnselectInput1)
-      dat <- newList$dataCNA
-      sortby <- input$clgcnselectInput2
+      dat <- input$clgcnselectInput1
+      dat <- get(load(paste0('data/',dat,'_cna.RData')))
+      num <- rownames(dat)
+      updateSelectInput(session = session, inputId = "clgcnselectInput2", choices = num)
+    })
+  })
+  
+  output$clgcnplot1 <- renderPlotly({
+    if(input$clgcnsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dat <- input$clgcnselectInput1
+      dat <- get(load(paste0('data/',dat,'_cna.RData')))
+      gene1 <- as.character(input$clgcnselectInput2)
+      sortby <- input$clgcnselectInput3
       plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = tbw, sortby)
     })
   })
@@ -200,7 +230,7 @@ shinyServer(function(input, output, session){
     }
     
     # load dataset and get rownames
-    load('data/allDataPatient3.RData')
+    load('data/allDataPatient.RData')
     dataset <- input$pgehselectInput1
     myData <- paste(dataset,'_All',sep='')
     myData <- get(myData)
@@ -233,7 +263,7 @@ shinyServer(function(input, output, session){
     }
     
     # load dataset and get rownames
-    load('data/allDataPatient3.RData')
+    load('data/allDataPatient.RData')
     dataset <- input$pgebpselectInput1
     myData <- paste(dataset,'_All',sep='')
     myData <- get(myData)
@@ -262,7 +292,7 @@ shinyServer(function(input, output, session){
     }
     isolate({
       # load dataset and get rownames
-      load('data/allDataPatient3.RData')
+      load('data/allDataPatient.RData')
       dataset <- input$pkmselectInput1
       myData <- paste(dataset,'_All',sep='')
       myData <- get(myData)
@@ -291,7 +321,7 @@ shinyServer(function(input, output, session){
     }
     isolate({
       # load dataset and get rownames
-      load('data/allDataPatient3.RData')
+      load('data/allDataPatient.RData')
       dataset <- input$pggcselectInput1
       myData <- paste(dataset,'_All',sep='')
       myData <- get(myData)
@@ -327,7 +357,7 @@ shinyServer(function(input, output, session){
     }
     isolate({
       # load dataset and get rownames
-      load('data/allDataPatient3.RData')
+      load('data/allDataPatient.RData')
       dataset <- input$pmcgselectInput1
       myData <- paste(dataset,'_data',sep='')
       myData <- get(myData)
@@ -359,7 +389,7 @@ shinyServer(function(input, output, session){
     }
     isolate({
       # load dataset and get rownames
-      load('data/allDataPatient3.RData')
+      load('data/allDataPatient.RData')
       dataset <- input$pgcnselectInput1
       myData <- paste(dataset,'_cdata',sep='')
       myData <- get(myData)
