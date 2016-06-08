@@ -10,7 +10,7 @@ load('data/allDataPatient.RData')
 # plot Copy Number Patient Data
 plotGeneBarCNAPatientAnalysis <- function(gene1, dataset, logby, sortby)
 {
-  
+
   # get selected dataset
   myData <- paste(dataset,'_cdata',sep='')
   myData <- get(myData)
