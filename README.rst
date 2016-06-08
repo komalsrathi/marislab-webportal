@@ -19,6 +19,13 @@ Introduction
 
 This is the Maris Lab's Web Portal Repo.
 
+Abstract
+========
+
+`Abstract`_ for the 2016 MidAtlantic Bioinformatics Conference.
+
+.. _Abstract: ./docs/abstract.rst
+
 Updates
 ^^^^^^^
 
