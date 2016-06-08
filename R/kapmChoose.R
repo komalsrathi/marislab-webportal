@@ -5,7 +5,7 @@
 #####################################################
 
 source('R/kapmPlot.R')
-load('data/allDataPatient3.RData')
+load('data/allDataPatient.RData')
 
 kapmChoose <- function(dataset, genes, endpoint="os")
 {
