@@ -5,7 +5,7 @@
 #############################################
 
 # load patient sample set
-load('data/allDataPatient3.RData')
+load('data/allDataPatient.RData')
 
 # function to plot bar charts
 plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, colorby)
