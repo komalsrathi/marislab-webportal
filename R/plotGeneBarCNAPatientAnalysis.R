@@ -5,7 +5,7 @@
 #############################################
 
 # load patient sample set
-load('data/allDataPatient3.RData')
+load('data/allDataPatient.RData')
 
 # plot Copy Number Patient Data
 plotGeneBarCNAPatientAnalysis <- function(gene1, dataset, logby, sortby)
