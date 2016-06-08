@@ -10,7 +10,7 @@ load('data/allDataPatient.RData')
 # function to plot bar charts
 plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, colorby)
 {
-  
+
   # get selected dataset
   myData <- paste(dataset,'_All',sep='')
   myData <- get(myData)
