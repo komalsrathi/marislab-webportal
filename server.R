@@ -1,6 +1,4 @@
 # source functions
-source('R/processRawData.R')
-source('R/postProcessDataForHeatmap.R')
 source('R/viewDataTable.R')
 source('R/plotGeneScatter.R')
 source('R/plotGeneBar.R')
@@ -26,11 +24,6 @@ source('R/boxPlotGeneHighSUTC.R')
 shinyServer(function(input, output, session){
   
   tbw <- themebw()
-  newList <- processRawData()
-  processedList <- postProcessDataForHeatmap(dataCNA = newList$dataCNA, 
-                                             dataExpGeneName = newList$dataExpGeneName, 
-                                             dataAnnBin = newList$dataAnnBin, 
-                                             dataMutBin = newList$dataMutBin)
 
   # update datasetInput based on what project is selected
   datasetInput <- reactive({
@@ -46,19 +39,6 @@ shinyServer(function(input, output, session){
     isolate({
       viewDataTable(dat = datasetInput())
     })
-  })
-  
-  # update all select inputs with available gene names
-  observe({
-    if(input$cldbsubmit1 == 0){
-      return()
-    }
-    dat <- as.character(input$cldbselectInput1)
-    dat <- get(load(paste0('data/',dat)))
-    num <- rownames(dat)
-    #updateSelectInput(session = session, inputId = "clgcnselectInput1", choices = num)
-    updateSelectInput(session = session, inputId = "clcvmselectInput1", choices = num)
-    updateSelectInput(session = session, inputId = "pgehselectInput3", choices = num)
   })
   
   # output correlation plot for selected genes
@@ -165,14 +145,31 @@ shinyServer(function(input, output, session){
     })
   })
   
-  output$clcvmplot1 <- renderPlotly({
+  # CNA vs mRNA plot
+  observe({
     if(input$clcvmsubmit1 == 0){
       return()
     }
     isolate({
-      gene1 <- as.character(input$clcvmselectInput1)
-      correlation <- as.character(input$clcvmselectInput2)
-      plotGeneCNAvsRNA(mrna = newList$dataExpGeneName, cna = newList$dataCNA, 
+      dat <- input$clcvmselectInput1
+      dat <- get(load(paste0('data/',dat,'_expgene.RData')))
+      num <- rownames(dat)
+      updateSelectInput(session = session, inputId = "clcvmselectInput2", choices = num)
+    })
+  })
+  
+  output$clcvmplot1 <- renderPlotly({
+    if(input$clcvmsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dat <- input$clcvmselectInput1
+      mrna <- get(load(paste0('data/',dat,'_expgene.RData')))
+      cna <- get(load(paste0('data/',dat,'_cna.RData')))
+      gene1 <- as.character(input$clcvmselectInput2)
+      correlation <- as.character(input$clcvmselectInput3)
+      plotGeneCNAvsRNA(mrna = mrna, 
+                       cna = cna, 
                        gene1 = gene1, customtheme = tbw, correlation = correlation)
     })
   })
@@ -185,20 +182,25 @@ shinyServer(function(input, output, session){
     read.table(file = infile$datapath, check.names = F, header = FALSE, stringsAsFactors = F)
   })
   
-  # heatmap - update select input with the list of genes uploaded
   output$clhplot1 <- renderPlot({
     if(input$clhsubmit1 == 0){
       return()
     }
     isolate({
-      dat <- fileInput()
-      genes <- dat[,1]
+      data <- fileInput()
+      genes <- data[,1]
+      dat <- input$clhselectInput1
+      dataCNABin <- get(load(paste0('data/',dat,'_heatmapcnabin.RData')))
+      dataMutBin <- get(load(paste0('data/',dat,'_heatmapmutbin.RData')))
+      dataAnnBin <- get(load(paste0('data/',dat,'_heatmapannbin.RData')))
+      dataExpGeneNameBin <- get(load(paste0('data/',dat,'_heatmapexpgenebin.RData')))
+      commonCellLines <- get(load(paste0('data/',dat,'_heatmapcommoncelllines.RData')))
       plotOncoPrint(genes = genes, 
-                    dataCNABin = processedList$dataCNABin, 
-                    dataMutBin = processedList$dataMutBin, 
-                    dataAnnBin = processedList$dataAnnBin, 
-                    dataExpGeneNameBin = processedList$dataExpGeneNameBin, 
-                    commonCellLines = processedList$commonCellLines)
+                    dataCNABin = dataCNABin, 
+                    dataMutBin = dataMutBin, 
+                    dataAnnBin = dataAnnBin, 
+                    dataExpGeneNameBin = dataExpGeneNameBin, 
+                    commonCellLines = commonCellLines)
       
     })
   })
@@ -209,16 +211,19 @@ shinyServer(function(input, output, session){
       return()
     }
     isolate({
-      set1 <- as.character(input$clctselectInput1)
-      set2 <- as.character(input$clctselectInput2)
+      dat <- input$clctselectInput1
+      probeAnnot <- get(load(paste0('data/', dat, '_probeannot.RData')))
+      dataExp <- get(load(paste0('data/', dat, '_expprobe.RData')))
+      set1 <- as.character(input$clctselectInput2)
+      set2 <- as.character(input$clctselectInput3)
       targets <- createTargets(set1, set2)
       pvalue <- as.numeric(input$clcttextInput1)
       dat <- runLimma(targets = targets, 
                       contrast = "SET1-SET2", 
                       pvalue = pvalue,
-                      probeAnnot = newList$probeAnnot,
+                      probeAnnot = probeAnnot,
                       gs = F,
-                      dataExp = newList$dataExp)
+                      dataExp = dataExp)
       viewDataTable.fixedcols(dat = dat)
     })
   })
