@@ -14,10 +14,10 @@ library(survival)
 dashboardPage(
   
   # dashboardHeader begins
-  dashboardHeader(title = 'Maris\' Lab Web Portal', titleWidth = 500), # dashboardHeader ends
+  dashboardHeader(title = 'Maris\' Lab Web Portal', titleWidth = 400), # dashboardHeader ends
   
   # dashboardSidebar begins
-  dashboardSidebar(width = 500,
+  dashboardSidebar(width = 400,
                    
     # enable vertical scrolling
     div(style="overflow-y: scroll"),
@@ -88,17 +88,19 @@ dashboardPage(
                 box(title = "Cell Lines", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Tools and visualizations to support finding a cell line or set of cell lines that expressed a particular gene or pathway, looking at relevent correlations between genes, and examining cell line mutation. Currently internal Neuroblastoma cell line data is used but in the future data from CLE and Sanger will be imported.", br(), br(), actionButton(inputId='ab2', label="View Details", icon = icon("th"))),
                 box(title = "Patient Data", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Visualizations and tools to analyze patient data in multiple ways. One can look at Gene Expression across cohorts, kaplan-meier curves based on a gene or set of genes, most correlated genes, etc... Currently two public data sets are included, in the future, our internal data set and other relevent data can be displayed.", br(), br(), actionButton(inputId='ab3', label="View Details", icon = icon("th"))),
                 box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.", br(), br(), actionButton(inputId='ab4', label="View Details", icon = icon("th")))
-              )
+              ),
+              DT::datatable(data = get(load('data/data_summary.RData')))
       ),
       
       ######## Resources ###########
       # rdbi content
       tabItem(tabName = "rdbi",
-              DT::dataTableOutput(outputId = "rdbitable1")
+              DT::datatable(data = read.csv('data/internal.txt'), escape = FALSE)
+              #DT::dataTableOutput(outputId = "rdbitable1")
       ),
       
       tabItem(tabName = "rdbe",
-              DT::dataTableOutput(outputId = "rdbetable1")
+              DT::datatable(data = read.csv('data/external.txt'), escape = FALSE)
       ),
       ######## Resources ###########
       
@@ -433,10 +435,10 @@ dashboardPage(
       # contact content
       tabItem(tabName = "contact",
               fluidRow(
-                box(title = "Contact Info",
-                    helpText(a("Komal Rathi", href="mailto:rathik@email.chop.edu")),
-                    helpText(a("Pichai Raman", href="mailto:ramanp@email.chop.edu")),
-                    status = "danger", width = 4, solidHeader = TRUE)
+                infoBox(title = "Contact", value = "Pichai Raman", href = "mailto:ramanp@email.chop.edu", icon = icon("send-o"), color = "yellow")
+              ),
+              fluidRow(
+                infoBox(title = "Contact", value = "Komal Rathi", href = "mailto:rathik@email.chop.edu", icon = icon("send-o"), color = "red")
               )
       )
     ) # tabItems ends
