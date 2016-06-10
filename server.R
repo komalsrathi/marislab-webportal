@@ -549,21 +549,4 @@ shinyServer(function(input, output, session){
     })
   })
   
-  # list external and internal resources
-  output$rdbitable1 <- DT::renderDataTable({
-    isolate({
-      dat <- read.csv('data/internal.txt')
-      dat$Link <- paste0("<a href='",dat$Link,"' target='_blank'>",dat$Link,"</a>")
-      return(dat)
-    })
-  }, escape = FALSE)
-  
-  output$rdbetable1 <- DT::renderDataTable({
-    isolate({
-      dat <- read.csv('data/external.txt')
-      dat$Link <- paste0("<a href='",dat$Link,"' target='_blank'>",dat$Link,"</a>")
-      return(dat)
-    })
-  }, escape = FALSE)
-  
 }) # shinyServer ends
