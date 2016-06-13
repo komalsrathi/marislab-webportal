@@ -257,7 +257,8 @@ shinyServer(function(input, output, session){
       gene1 <- as.character(input$pgehselectInput3)
       plotGeneBarPatientAnalysis(gene1 = gene1, dataset = dataset, 
                                  sortby = sortby, log = log, density = density, 
-                                 colorby = colorby)
+                                 colorby = colorby,
+                                 customtheme = tbw)
     })
   })
   
@@ -286,7 +287,9 @@ shinyServer(function(input, output, session){
       log <- input$pgebpcheckboxInput1
       colorby <- input$pgebpselectInput2
       gene1 <- input$pgebpselectInput3
-      plotBoxplotPatientAnalysis(gene1 = gene1, colorby = colorby, dataset = dataset, log = log)
+      plotBoxplotPatientAnalysis(gene1 = gene1, colorby = colorby, 
+                                 dataset = dataset, log = log,
+                                 customtheme = tbw)
     })
   })
   
