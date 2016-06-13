@@ -19,8 +19,13 @@ plotGeneBar <- function(dat, gene1, log, customtheme, sortby)
   # plot log values?
   if(log==FALSE)
   {
-    dat.tmp <- dat.c[,-1]
-    dat.tmp <- as.data.frame(2^dat.tmp)
+    y.axis <- 'Value'
+  }
+  if(log==TRUE)
+  {
+    y.axis <- 'Log2(Value)'
+    dat.tmp <- dat.c[,-1]+1
+    dat.tmp <- log2(dat.tmp)
     dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
     dat.c <- dat.tmp
   }
@@ -35,16 +40,10 @@ plotGeneBar <- function(dat, gene1, log, customtheme, sortby)
     geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + 
     ggtitle(gene1)
   
-  # ggplotly
-  p <- ggplotly(p + ylab(" ") + xlab(" "))
-  
-  x <- list(
-    title = "Cell Line"
-  )
-  y <- list(
-    title = "Expression Value"
-  )
-  p <- p %>% layout(xaxis = x, yaxis = y)
+  p <- plotly_build(p)
+  p$layout$annotations[[1]]$text <- ""
+  p$layout$yaxis$title <- y.axis
+
   return(p)
   
 }
