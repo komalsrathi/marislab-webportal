@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 #############################################
 
-plotBoxplotPatientAnalysis <- function(gene1, colorby, dataset, log)
+plotBoxplotPatientAnalysis <- function(gene1, colorby, dataset, log, customtheme)
 {
   myData <- paste(dataset,'_All',sep='')
   myData <- get(myData)
@@ -41,6 +41,9 @@ plotBoxplotPatientAnalysis <- function(gene1, colorby, dataset, log)
     colorby = "MYCNS"
   }
   
+  # modify gene name, dashes present
+  gene1.mut <- paste('`',gene1,'`',sep='')
+  
   # change colorby to factor
   myDataExp.c[,colorby] <- as.factor(myDataExp.c[,colorby])
   
@@ -49,11 +52,11 @@ plotBoxplotPatientAnalysis <- function(gene1, colorby, dataset, log)
     pval <- summary(aov(lm(myDataExp.c[,gene1]~myDataExp.c[,colorby])))[[1]][[5]][1]
     pval <- round(pval, 6)
     myText <- paste("Anova P-Val=", pval, sep="")
-    p <- ggplot(myDataExp.c, aes_string(x=colorby, y=gene1, fill=colorby)) + geom_boxplot()+ggtitle(paste0(gene1,'\n',myText)) + theme(legend.position = "none")
+    p <- ggplot(myDataExp.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + geom_boxplot() + customtheme + ggtitle(paste0(gene1,'\n',myText)) + theme(legend.position = "none")
   }
   if(length(levels(myDataExp.c[,colorby]))==1)
   {
-    p <- ggplot(myDataExp.c, aes(x=colorby, y=gene1, fill=colorby)) + geom_boxplot() + theme(legend.position = "none")
+    p <- ggplot(myDataExp.c, aes(x=colorby, y=gene1.mut, fill=colorby)) + customtheme + geom_boxplot() + theme(legend.position = "none")
   }
   return(p)
   
