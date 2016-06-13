@@ -8,7 +8,7 @@
 load('data/allDataPatient.RData')
 
 # function to plot bar charts
-plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, colorby)
+plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, colorby, customtheme)
 {
 
   # get selected dataset
@@ -60,11 +60,12 @@ plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, col
     if(density == FALSE)
     {
       p <- ggplot(myDataExp.c, aes_string(x='Cell_Line', y=gene1.mut)) + 
-        geom_bar(stat="identity") + theme(axis.text.x  = element_text(angle=90)) + ggtitle(gene1)
+        geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + ggtitle(gene1)
     }
     if(density == TRUE)
     {
       p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=1)) + geom_density() + 
+        customtheme +
         theme(axis.text.x  = element_text(angle=90), legend.position = "none") + ggtitle(gene1) 
     }
   }
@@ -72,16 +73,16 @@ plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, col
   {
     if(density == FALSE)
     {
-      p <- ggplot(myDataExp.c, aes_string(x='Cell_Line', y=gene1.mut, fill=colorby)) + 
+      p <- ggplot(myDataExp.c, aes_string(x='Cell_Line', y=gene1.mut, fill=colorby)) + customtheme +
         geom_bar(stat="identity") + theme(axis.text.x  = element_text(angle=90)) + ggtitle(gene1)
     }
     if(density == TRUE)
     {
-      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=colorby)) + geom_density() + 
+      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=colorby)) + geom_density() + customtheme +
         theme(axis.text.x  = element_text(angle=90), legend.position = "none") + ggtitle(gene1) 
     }
   }
-  p <- ggplotly(p)
+  p <- plotly_build(p)
   return(p)
   
 }
