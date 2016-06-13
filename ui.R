@@ -14,7 +14,7 @@ library(survival)
 dashboardPage(
   
   # dashboardHeader begins
-  dashboardHeader(title = 'Maris\' Lab Web Portal', titleWidth = 400), # dashboardHeader ends
+  dashboardHeader(title = 'Neuroblastoma Web Portal', titleWidth = 400), # dashboardHeader ends
   
   # dashboardSidebar begins
   dashboardSidebar(width = 400,
@@ -82,14 +82,17 @@ dashboardPage(
       # dashboard content
       tabItem(tabName = "dashboard",
               fluidRow(
-                box(title = "Maris Lab", status = "danger", width = 12, solidHeader = TRUE, "Tools, analysis, and visualizations to support research on Neuroblastoma and other pediatric cancers.", br(), br(), actionButton(inputId='ab1', label="Learn More", icon = icon("th")))
+                box(title = "Maris Lab", status = "danger", width = 12, solidHeader = TRUE, "Tools, analysis, and visualizations to support research on Neuroblastoma and other pediatric cancers.", br(), br(), 
+                    actionButton(inputId='ab1', label="Learn More", icon = icon("th"), onclick ="window.open('http://www.chop.edu/doctors/maris-john-m#.V172uOYrLVo', '_blank')"))
               ),
               fluidRow(
-                box(title = "Cell Lines", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Tools and visualizations to support finding a cell line or set of cell lines that expressed a particular gene or pathway, looking at relevent correlations between genes, and examining cell line mutation. Currently internal Neuroblastoma cell line data is used but in the future data from CLE and Sanger will be imported.", br(), br(), actionButton(inputId='ab2', label="View Details", icon = icon("th"))),
-                box(title = "Patient Data", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Visualizations and tools to analyze patient data in multiple ways. One can look at Gene Expression across cohorts, kaplan-meier curves based on a gene or set of genes, most correlated genes, etc... Currently two public data sets are included, in the future, our internal data set and other relevent data can be displayed.", br(), br(), actionButton(inputId='ab3', label="View Details", icon = icon("th"))),
-                box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.", br(), br(), actionButton(inputId='ab4', label="View Details", icon = icon("th")))
+                box(title = "Cell Lines", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Tools and visualizations to support finding a cell line or set of cell lines that expressed a particular gene or pathway, looking at relevent correlations between genes, and examining cell line mutation. Currently internal Neuroblastoma cell line data is used but in the future data from CLE and Sanger will be imported."),
+                box(title = "Patient Data", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Visualizations and tools to analyze patient data in multiple ways. One can look at Gene Expression across cohorts, kaplan-meier curves based on a gene or set of genes, most correlated genes, etc... Currently two public data sets are included, in the future, our internal data set and other relevent data can be displayed."),
+                box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.")
               ),
-              DT::datatable(data = get(load('data/data_summary.RData')))
+              fluidRow(
+                box(title = "Data summary", status = "warning", width = 12, collapsible = T, collapsed = T, solidHeader = T, DT::datatable(data = get(load('data/data_summary.RData'))))
+              )
       ),
       
       ######## Resources ###########
