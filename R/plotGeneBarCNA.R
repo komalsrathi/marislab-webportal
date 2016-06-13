@@ -29,15 +29,9 @@ plotGeneBarCNA <- function(gene1, dat, customtheme, sortby)
 	  ggtitle(gene1)
 
 	# ggplotly
-  p <- ggplotly(p + ylab(" ") + xlab(" "))
-  
-  x <- list(
-    title = "Cell Line"
-  )
-  y <- list(
-    title = "Copy Number"
-  )
-  p <- p %>% layout(xaxis = x, yaxis = y)
+  p <- plotly_build(p)
+  p$layout$annotations[[1]]$text <- ""
+  p$layout$yaxis$title <- "Copy Number"
 
 	return(p)
 
