@@ -8,7 +8,7 @@
 load('data/allDataPatient.RData')
 
 # plot scatter plot of 2 genes
-plotGeneCNAvsRNAPatientAnalysis <- function(gene1, dataset)
+plotGeneCNAvsRNAPatientAnalysis <- function(gene1, dataset, customtheme)
 {
   
   myData <- paste(dataset,'_data',sep='')
@@ -30,7 +30,7 @@ plotGeneCNAvsRNAPatientAnalysis <- function(gene1, dataset)
 
   tmpDataGC[,"CL_NAME"] <- rownames(tmpDataGC)
   
-  p <- ggplot(tmpDataGC, aes(x= mRNA, y= CNA)) + 
+  p <- ggplot(tmpDataGC, aes(x = mRNA, y = CNA)) + customtheme + 
     geom_point() + geom_smooth(method="lm") + ggtitle(myText)
   
   p <- ggplotly(p)
