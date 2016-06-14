@@ -41,34 +41,6 @@ shinyServer(function(input, output, session){
     })
   })
   
-  # output correlation plot for selected genes
-  observe({
-    if(input$clggcsubmit1 == 0){
-      return()
-    }
-    dat <- as.character(input$clggcselectInput1)
-    dat <- get(load(paste0('data/',dat)))
-    num <- rownames(dat)
-    updateSelectInput(session = session, inputId = "clggcselectInput2", choices = num)
-    updateSelectInput(session = session, inputId = "clggcselectInput3", choices = num)
-  })
-  
-  output$clggcplot1 <- renderPlotly({
-    if(input$clggcsubmit2 == 0){
-      return()
-    }
-    isolate({
-      dat <- as.character(input$clggcselectInput1)
-      dat <- get(load(paste0('data/',dat)))
-      gene1 <- as.character(input$clggcselectInput2)
-      gene2 <- as.character(input$clggcselectInput3)
-      logvalue <- input$clggccheckboxInput1
-      correlation <- input$clggcselectInput4
-      plotGeneScatter(dat = dat, gene1 = `gene1`, gene2 = `gene2`, 
-                      customtheme = tbw, log = logvalue, corr = correlation)
-    })
-  })
-  
   # output expression plot for selected gene
   observe({
     if(input$clgesubmit1 == 0){
@@ -77,7 +49,7 @@ shinyServer(function(input, output, session){
     dat <- as.character(input$clgeselectInput1)
     dat <- get(load(paste0('data/',dat)))
     num <- rownames(dat)
-    updateSelectInput(session = session, inputId = "clgeselectInput2", choices = num)
+    updateSelectizeInput(session = session, inputId = "clgeselectInput2", choices = num, server = TRUE)
   })
   
   output$clgeplot1 <- renderPlotly({
@@ -94,6 +66,34 @@ shinyServer(function(input, output, session){
     })
   })
   
+  # output correlation plot for selected genes
+  observe({
+    if(input$clggcsubmit1 == 0){
+      return()
+    }
+    dat <- as.character(input$clggcselectInput1)
+    dat <- get(load(paste0('data/',dat)))
+    num <- rownames(dat)
+    updateSelectizeInput(session = session, inputId = "clggcselectInput2", choices = num, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "clggcselectInput3", choices = num, server = TRUE)
+  })
+  
+  output$clggcplot1 <- renderPlotly({
+    if(input$clggcsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dat <- as.character(input$clggcselectInput1)
+      dat <- get(load(paste0('data/',dat)))
+      gene1 <- as.character(input$clggcselectInput2)
+      gene2 <- as.character(input$clggcselectInput3)
+      logvalue <- input$clggccheckboxInput1
+      correlation <- input$clggcselectInput4
+      plotGeneScatter(dat = dat, gene1 = gene1, gene2 = gene2, 
+                      customtheme = tbw, log = logvalue, corr = correlation)
+    })
+  })
+  
   # mutation table
   observe({
     if(input$clmsubmit1 == 0){
@@ -104,7 +104,7 @@ shinyServer(function(input, output, session){
       dat <- paste0('data/',dat)
       dat <- read.delim(dat, stringsAsFactors = FALSE)
       num <- unique(as.character(dat$Gene))
-      updateSelectInput(session = session, inputId = "clmselectInput2", choices = num)
+      updateSelectizeInput(session = session, inputId = "clmselectInput2", choices = num, server = TRUE)
     })
   })
   
@@ -128,7 +128,7 @@ shinyServer(function(input, output, session){
       dat <- input$clgcnselectInput1
       dat <- get(load(paste0('data/',dat,'_cna.RData')))
       num <- rownames(dat)
-      updateSelectInput(session = session, inputId = "clgcnselectInput2", choices = num)
+      updateSelectizeInput(session = session, inputId = "clgcnselectInput2", choices = num, server = TRUE)
     })
   })
   
@@ -154,7 +154,7 @@ shinyServer(function(input, output, session){
       dat <- input$clcvmselectInput1
       dat <- get(load(paste0('data/',dat,'_expgene.RData')))
       num <- rownames(dat)
-      updateSelectInput(session = session, inputId = "clcvmselectInput2", choices = num)
+      updateSelectizeInput(session = session, inputId = "clcvmselectInput2", choices = num, server = TRUE)
     })
   })
   
@@ -240,7 +240,7 @@ shinyServer(function(input, output, session){
     myData <- paste(dataset,'_All',sep='')
     myData <- get(myData)
     num <- rownames(myData[[1]])
-    updateSelectInput(session = session, inputId = "pgehselectInput3", choices = num)
+    updateSelectizeInput(session = session, inputId = "pgehselectInput3", choices = num, server = TRUE)
   })
 
   # patient gene bar plot
@@ -274,7 +274,7 @@ shinyServer(function(input, output, session){
     myData <- paste(dataset,'_All',sep='')
     myData <- get(myData)
     num <- rownames(myData[[1]])
-    updateSelectInput(session = session, inputId = "pgebpselectInput3", choices = num)
+    updateSelectizeInput(session = session, inputId = "pgebpselectInput3", choices = num, server = TRUE)
   })
   
   # patient box plot
@@ -305,7 +305,7 @@ shinyServer(function(input, output, session){
       myData <- paste(dataset,'_All',sep='')
       myData <- get(myData)
       num <- rownames(myData[[1]])
-      updateSelectInput(session = session, inputId = "pkmselectInput3", choices = num)
+      updateSelectizeInput(session = session, inputId = "pkmselectInput3", choices = num, server = TRUE)
     })
   })
   
@@ -334,8 +334,8 @@ shinyServer(function(input, output, session){
       myData <- paste(dataset,'_All',sep='')
       myData <- get(myData)
       num <- rownames(myData[[1]])
-      updateSelectInput(session = session, inputId = "pggcselectInput3", choices = num)
-      updateSelectInput(session = session, inputId = "pggcselectInput4", choices = num)
+      updateSelectizeInput(session = session, inputId = "pggcselectInput3", choices = num, server = TRUE)
+      updateSelectizeInput(session = session, inputId = "pggcselectInput4", choices = num, server = TRUE)
     })
   })
   
@@ -371,7 +371,7 @@ shinyServer(function(input, output, session){
       myData <- get(myData)
       num <- rownames(myData)
       n <- as.numeric(nrow(myData))
-      updateSelectInput(session = session, inputId = "pmcgselectInput2", choices = num)
+      updateSelectizeInput(session = session, inputId = "pmcgselectInput2", choices = num, server = TRUE)
       updateTextInput(session = session, inputId = "pmcgtextInput1", value = n)
     })
   })
@@ -402,7 +402,7 @@ shinyServer(function(input, output, session){
       myData <- paste(dataset,'_cdata',sep='')
       myData <- get(myData)
       num <- rownames(myData)
-      updateSelectInput(session = session, inputId = "pgcnselectInput2", choices = num)
+      updateSelectizeInput(session = session, inputId = "pgcnselectInput2", choices = num, server = TRUE)
     })
   })
   
@@ -416,7 +416,9 @@ shinyServer(function(input, output, session){
       sortby <- input$pgcncheckboxInput1
       log <- input$pgcncheckboxInput2
       gene1 <- as.character(input$pgcnselectInput2)
-      plotGeneBarCNAPatientAnalysis(gene1 = gene1, dataset = dataset, log = log, sortby = sortby)
+      plotGeneBarCNAPatientAnalysis(gene1 = gene1, dataset = dataset, 
+                                    log = log, sortby = sortby,
+                                    customtheme = tbw)
     })
   })
   
@@ -434,7 +436,7 @@ shinyServer(function(input, output, session){
       mycData <- paste(dataset,'_cdata',sep = '')
       mycData <- get(mycData)
       num <- intersect(rownames(myData),rownames(mycData))
-      updateSelectInput(session = session, inputId = "pgcvmselectInput2", choices = num)
+      updateSelectizeInput(session = session, inputId = "pgcvmselectInput2", choices = num, server = TRUE)
     })
   })
   
@@ -446,7 +448,7 @@ shinyServer(function(input, output, session){
     isolate({
       dataset <- input$pgcvmselectInput1
       gene1 <- as.character(input$pgcvmselectInput2)
-      plotGeneCNAvsRNAPatientAnalysis(gene1 = gene1, dataset = dataset)
+      plotGeneCNAvsRNAPatientAnalysis(gene1 = gene1, dataset = dataset, customtheme = tbw)
     })
   })
   
@@ -457,7 +459,7 @@ shinyServer(function(input, output, session){
     }
     load('data/TumNormData.RData')
     num <- as.character(intersect(tumData$gene_id,normData$Description))
-    updateSelectInput(session = session, inputId = "tvnbselectInput2", choices = num)
+    updateSelectizeInput(session = session, inputId = "tvnbselectInput2", choices = num, server = TRUE)
   })
   
   # plot tumor vs normal RNA data
@@ -467,7 +469,8 @@ shinyServer(function(input, output, session){
     }
     isolate({
       gene1 <- input$tvnbselectInput2
-      boxPlotGeneSUTC(gene1 = gene1)
+      logby <- input$tvnbcheckboxInput1
+      boxPlotGeneSUTC(gene1 = gene1, logby = logby)
     })
   })
   
@@ -478,7 +481,7 @@ shinyServer(function(input, output, session){
     }
     load('data/TumNormData.RData')
     num <- as.character(intersect(tumData$gene_id,normData$Description))
-    updateSelectInput(session = session, inputId = "tvnbaselectInput2", choices = num)
+    updateSelectizeInput(session = session, inputId = "tvnbaselectInput2", choices = num, server = TRUE)
   })
   
   # plot tumor vs normal RNA data (high)
@@ -488,7 +491,8 @@ shinyServer(function(input, output, session){
     }
     isolate({
       gene1 <- input$tvnbaselectInput2
-      boxPlotGeneHighSUTC(gene1 = gene1)
+      logby <- input$tvnbacheckboxInput1
+      boxPlotGeneHighSUTC(gene1 = gene1, logby = logby)
     })
   })
   
