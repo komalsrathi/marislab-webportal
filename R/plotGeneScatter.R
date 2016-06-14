@@ -5,7 +5,7 @@
 ####################################
 
 # plotGeneScatter begins
-  plotGeneScatter <- function(dat, gene1, gene2, log=T, customtheme, correlation){
+  plotGeneScatter <- function(dat, gene1, gene2, log, customtheme, correlation){
     
     # load initial dataset
     dat$gene <- rownames(dat)
@@ -33,29 +33,18 @@
     gene2.mut <- paste('`',gene2,'`',sep = '')
     
     # plot log values? 
-    if(log==FALSE)
+    if(log == FALSE)
     {
+      y.axis <- 'Value'
+    }
+    if(log == TRUE)
+    {
+      y.axis <- 'Log2(Value)'
       dat.tmp <- dat.c[,-1]
-      dat.tmp <- as.data.frame(2^dat.tmp)
+      dat.tmp <- log2(dat.tmp+1)
       dat.tmp <- cbind(variable=dat.c$variable, dat.tmp)
       dat.c <- dat.tmp
     }
-    
-    # ggplot
-    # p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
-    #   geom_point(size = 2) + geom_smooth(method = lm) + customtheme +
-    #   geom_text(aes(label = variable), vjust=-1.5, size = 3) + ggtitle(label = cor.title)
-    
-    # ggplotly
-    # p <- ggplotly(p + ylab(" ") + xlab(" "))
-    # 
-    # x <- list(
-    #   title = gene1
-    # )
-    # y <- list(
-    #   title = gene2
-    # )
-    # p <- p %>% layout(xaxis = x, yaxis = y)
   
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
@@ -69,6 +58,7 @@
     p$data[[1]]$marker$color <- "rgb(220,20,60)"
     p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
     p$layout$font$size <- 12
+    p$layout$yaxis$title <- y.axis
     
     return(p)
   } # plotGeneScatter ends
