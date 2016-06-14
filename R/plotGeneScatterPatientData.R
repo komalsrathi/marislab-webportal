@@ -11,13 +11,9 @@ load('data/allDataPatient.RData')
 plotGeneScatterPatientData <- function(gene1, gene2, dataset, log, colorby, correlation, customtheme)
 {
 
-	# get selected dataset
-	myData <- paste(dataset,'_All',sep='')
-	myData <- get(myData)
-
-	# get expression and annotation of the selected dataset
-	myDataExp <- myData[[1]]
-	myDataAnn <- myData[[2]]
+  # get expression and annotation of the selected dataset
+  myDataExp <- get(paste(dataset,'_data',sep=''))
+  myDataAnn <- get(paste(dataset,'_mData',sep=''))
 	
 	myDataExp$gene <- rownames(myDataExp)
 	myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
