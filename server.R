@@ -237,9 +237,8 @@ shinyServer(function(input, output, session){
     # load dataset and get rownames
     load('data/allDataPatient.RData')
     dataset <- input$pgehselectInput1
-    myData <- paste(dataset,'_All',sep='')
-    myData <- get(myData)
-    num <- rownames(myData[[1]])
+    myData <- get(paste(dataset,'_data',sep=''))
+    num <- rownames(myData)
     updateSelectizeInput(session = session, inputId = "pgehselectInput3", choices = num, server = TRUE)
   })
 
@@ -271,9 +270,8 @@ shinyServer(function(input, output, session){
     # load dataset and get rownames
     load('data/allDataPatient.RData')
     dataset <- input$pgebpselectInput1
-    myData <- paste(dataset,'_All',sep='')
-    myData <- get(myData)
-    num <- rownames(myData[[1]])
+    myData <- get(paste(dataset,'_data',sep=''))
+    num <- rownames(myData)
     updateSelectizeInput(session = session, inputId = "pgebpselectInput3", choices = num, server = TRUE)
   })
   
@@ -304,6 +302,7 @@ shinyServer(function(input, output, session){
       dataset <- input$pkmselectInput1
       myData <- paste(dataset,'_All',sep='')
       myData <- get(myData)
+      #num <- rownames(myData)
       num <- rownames(myData[[1]])
       updateSelectizeInput(session = session, inputId = "pkmselectInput3", choices = num, server = TRUE)
     })
@@ -331,9 +330,8 @@ shinyServer(function(input, output, session){
       # load dataset and get rownames
       load('data/allDataPatient.RData')
       dataset <- input$pggcselectInput1
-      myData <- paste(dataset,'_All',sep='')
-      myData <- get(myData)
-      num <- rownames(myData[[1]])
+      myData <- get(paste(dataset,'_data',sep=''))
+      num <- rownames(myData)
       updateSelectizeInput(session = session, inputId = "pggcselectInput3", choices = num, server = TRUE)
       updateSelectizeInput(session = session, inputId = "pggcselectInput4", choices = num, server = TRUE)
     })
