@@ -40,11 +40,12 @@ boxPlotGeneHighSUTC <- function(gene1, logby)
   p <- ggplot(tmpDat, aes(Tissue, FPKM, fill= Tissue)) + 
     geom_boxplot() + ggtitle(gene1) + theme_bw() + 
     theme(axis.text.x=element_text(angle = -75, hjust = 0)) + 
-    theme(plot.margin = unit(c(1.5, 1.5, 3, 1.5), "cm"))
+    theme(plot.margin = unit(c(1, 1, 3, 1), "cm"))
   
   p <- plotly_build(p)
   
   p$layout$yaxis$title <- y.axis
+  p$layout$annotations[[1]]$text <- ""
   
   return(p)
 }
