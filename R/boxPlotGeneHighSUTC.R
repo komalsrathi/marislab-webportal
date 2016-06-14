@@ -6,7 +6,7 @@
 
 load('data/TumNormData.RData')
 
-boxPlotGeneHighSUTC <- function(gene1)
+boxPlotGeneHighSUTC <- function(gene1, logby)
 {
   
   # format data
@@ -26,12 +26,25 @@ boxPlotGeneHighSUTC <- function(gene1)
   colnames(tmpNorm) <- c("FPKM", "Tissue")
   
   tmpDat <- rbind(tmpTum, tmpNorm)
-  p <- ggplot(tmpDat, aes(as.factor(Tissue), FPKM, fill= Tissue)) + 
-    geom_boxplot() + ggtitle(gene1) + theme_bw() + xlab("Sample") + 
-    theme(axis.text.x=element_text(angle = -75, hjust = 0)) + 
-    theme(legend.position = "none")
   
-  p <- ggplotly(p)
+  if(logby == TRUE)
+  {
+    tmpDat$FPKM <- log2(tmpDat$FPKM)
+    y.axis <- "Log2(FPKM)"
+  }
+  if(logby == FALSE)
+  {
+    y.axis <- "FPKM"
+  }
+  
+  p <- ggplot(tmpDat, aes(Tissue, FPKM, fill= Tissue)) + 
+    geom_boxplot() + ggtitle(gene1) + theme_bw() + 
+    theme(axis.text.x=element_text(angle = -75, hjust = 0)) + 
+    theme(plot.margin = unit(c(1.5, 1.5, 3, 1.5), "cm"))
+  
+  p <- plotly_build(p)
+  
+  p$layout$yaxis$title <- y.axis
   
   return(p)
 }
