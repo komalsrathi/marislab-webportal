@@ -11,13 +11,9 @@ load('data/allDataPatient.RData')
 plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, colorby, customtheme)
 {
 
-  # get selected dataset
-  myData <- paste(dataset,'_All',sep='')
-  myData <- get(myData)
-  
   # get expression and annotation of the selected dataset
-  myDataExp <- myData[[1]]
-  myDataAnn <- myData[[2]]
+  myDataExp <- get(paste(dataset,'_data',sep=''))
+  myDataAnn <- get(paste(dataset,'_mData',sep=''))
   
   # modify dataframe
   myDataExp$gene <- rownames(myDataExp)
@@ -26,7 +22,7 @@ plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, col
   colnames(myDataExp.c)[1] = "Cell_Line"
   
   # sort by value
-  if(sortby==TRUE){
+  if(sortby == TRUE){
     myDataExp.c$Cell_Line <- reorder(myDataExp.c$Cell_Line,myDataExp.c[,gene1])
   }
   
@@ -47,7 +43,7 @@ plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, col
   colnames(myDataExp.c)[coln] <- 'MYCN'
   coln <- grep("MYCN.y", colnames(myDataExp.c))
   colnames(myDataExp.c)[coln] <- 'MYCNS'
-  if(colorby=="MYCN")
+  if(colorby == "MYCN")
   {
     colorby = "MYCNS"
   }
