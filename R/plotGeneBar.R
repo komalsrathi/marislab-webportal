@@ -17,15 +17,15 @@ plotGeneBar <- function(dat, gene1, log, customtheme, sortby)
   gene1.mut <- paste('`',gene1,'`',sep='')
   
   # plot log values?
-  if(log==FALSE)
+  if(log == FALSE)
   {
     y.axis <- 'Value'
   }
   if(log==TRUE)
   {
     y.axis <- 'Log2(Value)'
-    dat.tmp <- dat.c[,-1]+1
-    dat.tmp <- log2(dat.tmp)
+    dat.tmp <- dat.c[,-1]
+    dat.tmp <- log2(dat.tmp+1)
     dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
     dat.c <- dat.tmp
   }
