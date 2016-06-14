@@ -29,30 +29,38 @@ Abstract
 Updates
 ^^^^^^^
 
-1. Creates dropdown to select between datasets.
-2. Changes all textInputs to selectInputs.
+* Creates dropdown to select between datasets.
+* Changes all textInputs to selectInputs.
   
   - Circumvents error when typing gene names. 
   - Only available gene names can be selected.
 	
-3. Changes all radiobuttons to either selectInputs or checkBoxInputs.
+* Changes all radiobuttons to either selectInputs or checkBoxInputs.
 
   - Sleeker versions of radiobuttons.
   
-4. Adds log checkbox to various plots to get output in log or delogged format.
-5. Generates plots in plotly.
-6. Allows users to choose between correlation types.
-7. More to come later!
+* Adds log checkbox to various plots to get output in log or delogged format.
+* Generates plots in plotly.
+* Allows users to choose between correlation types.
+* Fixes gene names in patient data (messed up in Excel)
+* More to come later!
+
+High-priority
+^^^^^^^^^^^^^
+
+* Visualization of data summary
+* alternative to log2
+* think how datatype will be decided
 
 Improvements required
 ^^^^^^^^^^^^^^^^^^^^^
 
-1. lock gene and symbol fields (cannot test on OSX)
-2. add description for each project.
-3. for a plot, get raw data from which the plot came.
-4. add functionality for b/w plots using dropdown.
-5. add datatype on Y axis to show whether it is FPKM/TPM/log.
-6. look through plots to optimize viewing.
-7. user traffic record
-8. statistics on how many datasets/samples we have. (bubbleplot)
-9. check if bottom filter is visible or not.
+* lock gene and symbol fields (cannot test on OSX)
+* add description for each project.
+* for a plot, get raw data from which the plot came.
+* add functionality for b/w plots using dropdown.
+* add datatype on Y axis to show whether it is FPKM/TPM/log.
+* look through plots to optimize viewing.
+* user traffic record
+* statistics on how many datasets/samples we have. (bubbleplot)
+* check if bottom filter is visible or not.
