@@ -6,12 +6,9 @@
 
 plotBoxplotPatientAnalysis <- function(gene1, colorby, dataset, log, customtheme)
 {
-  myData <- paste(dataset,'_All',sep='')
-  myData <- get(myData)
-  
   # get expression and annotation of the selected dataset
-  myDataExp <- myData[[1]]
-  myDataAnn <- myData[[2]]
+  myDataExp <- get(paste(dataset,'_data',sep=''))
+  myDataAnn <- get(paste(dataset,'_mData',sep=''))
   
   # modify dataframe
   myDataExp$gene <- rownames(myDataExp)
