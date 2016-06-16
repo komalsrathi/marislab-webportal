@@ -112,8 +112,8 @@ dashboardPage(
       # cldb content
       tabItem(tabName = "cldb",
               fluidRow(
-                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata.RData',
-                                                                                             'Neuroblastoma Microarray data'='celllinedata.RData')), width = 5, background = "navy")
+                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
+                                                                                             'Neuroblastoma Microarray data'='celllinedata')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
@@ -123,8 +123,8 @@ dashboardPage(
       # clge content
       tabItem(tabName = "clge",
               fluidRow(
-                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata.RData',
-                                                                                                    'Neuroblastoma Microarray data'='celllinedata.RData')),
+                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
+                                                                                                    'Neuroblastoma Microarray data'='celllinedata')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = TRUE), width = 2, background = "navy"),
@@ -137,8 +137,8 @@ dashboardPage(
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
-                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata.RData',
-                                                                                                     'Neuroblastoma Microarray data'='celllinedata.RData')),
+                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
+                                                                                                     'Neuroblastoma Microarray data'='celllinedata')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
@@ -419,9 +419,7 @@ dashboardPage(
       
       tabItem(tabName = "atpc",
               fluidRow(
-                box(selectInput(inputId = "atpcselectInput1", label = "Select dataset", choices = c("Aim3 TM Protein Calls"="compAim3_TM")), width = 4, background = "navy"),
-                box(selectInput(inputId = "atpcselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(selectInput(inputId = "atpcselectInput3", label = "Select Source", choices = c(0,1,2,3,4)), width = 3, background = "navy")
+                box(selectInput(inputId = "atpcselectInput1", label = "Select dataset", choices = c("Aim3 TM Protein Calls"="compAim3_TM")), width = 4, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'atpcsubmit1', label = "Get TM annotation"))), br(), br(),
               DT::dataTableOutput(outputId = 'atpctable1')
