@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 #####################################
 
-plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation)
+plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatype)
 {
   
   #Let's do other stuff
@@ -30,19 +30,15 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation)
   
   tmpDataGC[,"CL_NAME"] <- rownames(tmpDataGC)
   
-  # p <- ggplot(data = tmpDataGC, aes(x = mRNA, y = CNA)) + 
-  #   geom_point(size = 2) + geom_smooth(method = lm) + customtheme +
-  #   geom_text(vjust=-1.5, size = 3, aes(label=CL_NAME)) + ggtitle(label = myText)
-  # 
-  # p <- ggplotly(p + ylab(" ") + xlab(" "))
-  # 
-  # x <- list(
-  #   title = "mRNA"
-  # )
-  # y <- list(
-  #   title = "CNA"
-  # )
-  # p <- p %>% layout(xaxis = x, yaxis = y)
+  # datatype
+  if(length(grep('rnaseq',tolower(datatype)))==1)
+  {
+    y.axis <- 'FPKM'
+  }
+  if(length(grep('rnaseq',tolower(datatype)))==0)
+  {
+    y.axis <- 'RMA'
+  }
   
   p <- ggplot(data = tmpDataGC, aes(x = mRNA, y = CNA)) + 
     geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = myText)
@@ -54,6 +50,8 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation)
   p$data[[1]]$marker$size <- 4
   p$data[[1]]$marker$color <- "rgb(220,20,60)"
   p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
+  p$layout$xaxis$title <- paste0("mRNA"," (",y.axis,")")
+  p$layout$yaxis$title <- paste0("CNA"," (Copy Number)")
   
   return(p)
   
