@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 ####################################
 
-plotGeneBar <- function(dat, gene1, log, customtheme, sortby)
+plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
 {
   
   # load initial dataset
@@ -16,14 +16,25 @@ plotGeneBar <- function(dat, gene1, log, customtheme, sortby)
   # modify gene name, dashes present
   gene1.mut <- paste('`',gene1,'`',sep='')
   
+  # datatype
+  if(length(grep('rnaseq',tolower(datatype)))==1)
+  {
+    y.axis <- 'FPKM'
+  }
+  if(length(grep('rnaseq',tolower(datatype)))==0)
+  {
+    y.axis <- 'RMA'
+  }
+  
   # plot log values?
   if(log == FALSE)
   {
-    y.axis <- 'Value'
+    y.axis <- y.axis
   }
+  
   if(log==TRUE)
   {
-    y.axis <- 'Log2(Value)'
+    y.axis <- paste0('Log2','(',y.axis,')')
     dat.tmp <- dat.c[,-1]
     dat.tmp <- log2(dat.tmp+1)
     dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
