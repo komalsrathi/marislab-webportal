@@ -91,7 +91,10 @@ dashboardPage(
                 box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.")
               ),
               fluidRow(
-                box(title = "Data summary", status = "warning", width = 12, collapsible = T, collapsed = T, solidHeader = T, DT::datatable(data = get(load('data/data_summary.RData'))))
+                box(title = "Data summary table", status = "warning", width = 12, collapsible = T, collapsed = T, solidHeader = T, 
+                    DT::datatable(data = get(load('data/data_summary.RData')))),
+                box(title = "Data summary plot", status = "warning", width = 12, collapsed = T, collapsible = T, solidHeader = T, 
+                    plotlyOutput(outputId = "dbplot1", width = 600, height = 400))
               )
       ),
       
@@ -311,7 +314,7 @@ dashboardPage(
                 box(selectInput(inputId = "pgehselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgehsubmit2', label = "Get Expression Plot"))), br(), br(),
-              plotlyOutput(outputId = "pgehplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "pgehplot1", width = 1200, height = 800)
       ),
       tabItem(tabName = "pgebp",
               fluidRow(
@@ -388,7 +391,7 @@ dashboardPage(
                 box(checkboxInput(inputId = "tvnbcheckboxInput1", label = "Log"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'tvnbsubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
-              plotlyOutput(outputId = "tvnbplot1", width = 1200, height = 800)
+              plotlyOutput(outputId = "tvnbplot1", width = 1200, height = 1000)
       ),
       tabItem(tabName = "tvnba",
               fluidRow(
@@ -398,7 +401,7 @@ dashboardPage(
                 box(checkboxInput(inputId = "tvnbacheckboxInput1", label = "Log"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'tvnbasubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
-              plotlyOutput(outputId = "tvnbaplot1", width = 1200, height = 800)
+              plotlyOutput(outputId = "tvnbaplot1", width = 1200, height = 1000)
       ),
       ##### RNASeq Target Data #####
       
@@ -435,14 +438,20 @@ dashboardPage(
               DT::dataTableOutput(outputId = 'atndatable1')
       ),
       ##### Compendia Analysis #####
+      # about content
+      tabItem(tabName = "about",
+              fluidRow(
+                box(title = "About us", status = "danger", solidHeader = T, 
+                    "Neuroblastoma Web Portal (NWP) has been developed by Pichai Raman at the Department of Biomedical and Health Informatics (DBHi), The Children's Hospital of Philadelphia.",
+                    "The portal offers a wide range of utilities for visualization and analysis of high-throuput cancer genomics data.")
+              )
+      ),
       
       # contact content
       tabItem(tabName = "contact",
               fluidRow(
-                infoBox(title = "Contact", value = "Pichai Raman", href = "mailto:ramanp@email.chop.edu", icon = icon("send-o"), color = "yellow")
-              ),
-              fluidRow(
-                infoBox(title = "Contact", value = "Komal Rathi", href = "mailto:rathik@email.chop.edu", icon = icon("send-o"), color = "red")
+                infoBox(title = "", value = "Pichai Raman", href = "mailto:ramanp@email.chop.edu", icon = icon("send-o"), color = "yellow", width = 3),
+                infoBox(title = "", value = "Komal Rathi", href = "mailto:rathik@email.chop.edu", icon = icon("send-o"), color = "red", width = 3)
               )
       )
     ) # tabItems ends
