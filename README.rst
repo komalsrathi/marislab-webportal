@@ -40,17 +40,10 @@ Updates
   - Sleeker versions of radiobuttons.
   
 * Adds log checkbox to various plots to get output in log or delogged format.
-* Generates plots in plotly.
+* Generates interactive plots in plotly.
 * Allows users to choose between correlation types.
 * Fixes gene names in patient data (messed up in Excel)
 * More to come later!
-
-High-priority
-^^^^^^^^^^^^^
-
-* Visualization of data summary
-* alternative to log2
-* think how datatype will be decided
 
 Improvements required
 ^^^^^^^^^^^^^^^^^^^^^
@@ -59,8 +52,5 @@ Improvements required
 * add description for each project.
 * for a plot, get raw data from which the plot came.
 * add functionality for b/w plots using dropdown.
-* add datatype on Y axis to show whether it is FPKM/TPM/log.
-* look through plots to optimize viewing.
 * user traffic record
-* statistics on how many datasets/samples we have. (bubbleplot)
 * check if bottom filter is visible or not.
