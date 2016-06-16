@@ -5,7 +5,7 @@
 ####################################
 
 # plotGeneScatter begins
-  plotGeneScatter <- function(dat, gene1, gene2, log, customtheme, correlation){
+  plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, correlation){
     
     # load initial dataset
     dat$gene <- rownames(dat)
@@ -32,14 +32,25 @@
     gene1.mut <- paste('`',gene1,'`',sep = '')
     gene2.mut <- paste('`',gene2,'`',sep = '')
     
+    # datatype
+    if(length(grep('rnaseq',tolower(datatype)))==1)
+    {
+      y.axis <- 'FPKM'
+    }
+    if(length(grep('rnaseq',tolower(datatype)))==0)
+    {
+      y.axis <- 'RMA'
+    }
+    
     # plot log values? 
     if(log == FALSE)
     {
-      y.axis <- 'Value'
+      y.axis <- y.axis
     }
+    
     if(log == TRUE)
     {
-      y.axis <- 'Log2(Value)'
+      y.axis <- paste0('Log2','(',y.axis,')')
       dat.tmp <- dat.c[,-1]
       dat.tmp <- log2(dat.tmp+1)
       dat.tmp <- cbind(variable=dat.c$variable, dat.tmp)
@@ -58,7 +69,8 @@
     p$data[[1]]$marker$color <- "rgb(220,20,60)"
     p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
     p$layout$font$size <- 12
-    p$layout$yaxis$title <- y.axis
+    p$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
+    p$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
     
     return(p)
   } # plotGeneScatter ends
