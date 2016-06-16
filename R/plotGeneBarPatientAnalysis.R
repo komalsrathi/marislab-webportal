@@ -29,10 +29,15 @@ plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, col
   # plot log values
   if(log==FALSE)
   {
+    y.axis <- "Raw Intensity"
     myDataExp.tmp <- myDataExp.c[,-1]
     myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
     myDataExp.tmp <- cbind(Cell_Line=myDataExp.c$Cell_Line, myDataExp.tmp)
     myDataExp.c <- myDataExp.tmp
+  }
+  if(log==TRUE)
+  {
+    y.axis <- "RMA"
   }
   
   # add annotation data to expression set
@@ -79,6 +84,7 @@ plotGeneBarPatientAnalysis <- function(gene1, dataset, sortby, log, density, col
     }
   }
   p <- plotly_build(p)
+  p$layout$yaxis$title <- y.axis
   return(p)
   
 }
