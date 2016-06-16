@@ -19,10 +19,15 @@ plotBoxplotPatientAnalysis <- function(gene1, colorby, dataset, log, customtheme
   # plot log values
   if(log==FALSE)
   {
+    y.axis <- "Raw Intensity"
     myDataExp.tmp <- myDataExp.c[,-1]
     myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
     myDataExp.tmp <- cbind(Cell_Line=myDataExp.c$Cell_Line, myDataExp.tmp)
     myDataExp.c <- myDataExp.tmp
+  }
+  if(log==TRUE)
+  {
+    y.axis <- "RMA"
   }
   
   # add annotation data to expression set
@@ -55,6 +60,8 @@ plotBoxplotPatientAnalysis <- function(gene1, colorby, dataset, log, customtheme
   {
     p <- ggplot(myDataExp.c, aes(x=colorby, y=gene1.mut, fill=colorby)) + customtheme + geom_boxplot() + theme(legend.position = "none")
   }
+  p <- plotly_build(p)
+  p$layout$yaxis$title <- y.axis
   return(p)
   
 }
