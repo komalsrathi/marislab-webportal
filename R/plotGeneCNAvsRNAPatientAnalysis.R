@@ -33,7 +33,9 @@ plotGeneCNAvsRNAPatientAnalysis <- function(gene1, dataset, customtheme)
   p <- ggplot(tmpDataGC, aes(x = mRNA, y = CNA)) + customtheme + 
     geom_point() + geom_smooth(method="lm") + ggtitle(myText)
   
-  p <- ggplotly(p)
+  p <- plotly_build(p)
+  p$layout$xaxis$title <- paste0("mRNA"," (RMA)")
+  p$layout$yaxis$title <- paste0("CNA"," (Copy Number)")
   
   return(p)
 }
