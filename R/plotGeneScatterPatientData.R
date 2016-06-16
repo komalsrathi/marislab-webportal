@@ -42,10 +42,15 @@ plotGeneScatterPatientData <- function(gene1, gene2, dataset, log, colorby, corr
 	# plot log values? 
 	if(log==FALSE)
 	{
+	  y.axis <- "Raw Intensity"
 	  myDataExp.tmp <- myDataExp.c[,-1]
 	  myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
 	  myDataExp.tmp <- cbind(variable=myDataExp.c$variable, myDataExp.tmp)
 	  myDataExp.c <- myDataExp.tmp
+	}
+	if(log==TRUE)
+	{
+	  y.axis <- "RMA"
 	}
   
 	# add annotation data to expression set
@@ -71,5 +76,7 @@ plotGeneScatterPatientData <- function(gene1, gene2, dataset, log, colorby, corr
 	    geom_point(aes_string(color = colorby)) + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
 	}
 	p <- plotly_build(p)
+	p$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
+	p$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
 	return(p)
 } 
