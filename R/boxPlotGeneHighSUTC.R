@@ -37,7 +37,7 @@ boxPlotGeneHighSUTC <- function(gene1, logby)
     y.axis <- "FPKM"
   }
   
-  p <- ggplot(tmpDat, aes(Tissue, FPKM, fill= Tissue)) + 
+  p <- ggplot(tmpDat, aes(Tissue, FPKM, fill = Tissue)) + 
     geom_boxplot() + ggtitle(gene1) + theme_bw() + 
     theme(axis.text.x=element_text(angle = -75, hjust = 0)) + 
     theme(plot.margin = unit(c(1, 1, 3, 1), "cm"))
