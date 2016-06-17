@@ -21,6 +21,9 @@ source('R/plotGeneCNAvsRNAPatientAnalysis.R')
 source('R/boxPlotGeneSUTC.R')
 source('R/boxPlotGeneHighSUTC.R')
 
+# load datasets here
+load('data/TumNormData.RData')
+
 shinyServer(function(input, output, session){
   
   tbw <- themebw()
@@ -256,9 +259,10 @@ shinyServer(function(input, output, session){
       density <- as.character(input$pgehcheckboxInput3)
       colorby <- as.character(input$pgehselectInput2)
       gene1 <- as.character(input$pgehselectInput3)
-      plotGeneBarPatientAnalysis(gene1 = gene1, dataset = dataset, 
-                                 sortby = sortby, log = log, density = density, 
-                                 colorby = colorby,
+      plotGeneBarPatientAnalysis(gene1 = gene1, 
+                                 dataset = dataset,
+                                 sortby = sortby, log = log, 
+                                 density = density, colorby = colorby,
                                  customtheme = tbw)
     })
   })
@@ -457,7 +461,7 @@ shinyServer(function(input, output, session){
     if(input$tvnbsubmit1==0){
       return()
     }
-    load('data/TumNormData.RData')
+    #load('data/TumNormData.RData')
     num <- as.character(intersect(tumData$gene_id,normData$Description))
     updateSelectizeInput(session = session, inputId = "tvnbselectInput2", choices = num, server = TRUE)
   })
@@ -468,9 +472,13 @@ shinyServer(function(input, output, session){
       return()
     }
     isolate({
+      #load('data/TumNormData.RData')
       gene1 <- input$tvnbselectInput2
       logby <- input$tvnbcheckboxInput1
-      boxPlotGeneSUTC(gene1 = gene1, logby = logby)
+      boxPlotGeneSUTC(gene1 = gene1, logby = logby, 
+                      tumData = tumData,
+                      normData = normData, 
+                      normDataAnnot = normDataAnnot)
     })
   })
   
@@ -479,7 +487,7 @@ shinyServer(function(input, output, session){
     if(input$tvnbasubmit1==0){
       return()
     }
-    load('data/TumNormData.RData')
+    #load('data/TumNormData.RData')
     num <- as.character(intersect(tumData$gene_id,normData$Description))
     updateSelectizeInput(session = session, inputId = "tvnbaselectInput2", choices = num, server = TRUE)
   })
@@ -490,9 +498,13 @@ shinyServer(function(input, output, session){
       return()
     }
     isolate({
+      #load('data/TumNormData.RData')
       gene1 <- input$tvnbaselectInput2
       logby <- input$tvnbacheckboxInput1
-      boxPlotGeneHighSUTC(gene1 = gene1, logby = logby)
+      boxPlotGeneHighSUTC(gene1 = gene1, logby = logby, 
+                          tumData = tumData,
+                          normData = normData, 
+                          normDataAnnot = normDataAnnot)
     })
   })
   
