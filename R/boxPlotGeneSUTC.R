@@ -4,9 +4,7 @@
 # Organization: DBHi, CHOP
 ###################################
 
-load('data/TumNormData.RData')
-
-boxPlotGeneSUTC <- function(gene1, logby)
+boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
 {
   # format data
   rownames(tumData) <- tumData[,1]
