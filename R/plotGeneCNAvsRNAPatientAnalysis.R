@@ -4,18 +4,9 @@
 # Organization: DBHi, CHOP
 #############################################
 
-# load patient sample set
-load('data/allDataPatient.RData')
-
 # plot scatter plot of 2 genes
-plotGeneCNAvsRNAPatientAnalysis <- function(gene1, dataset, customtheme)
+plotGeneCNAvsRNAPatientAnalysis <- function(gene1, myData, mycData, customtheme)
 {
-  
-  myData <- paste(dataset,'_data',sep='')
-  myData <- get(myData)
-  
-  mycData <- paste(dataset,'_cdata',sep = '')
-  mycData <- get(mycData)
   
   #Let's do other stuff
   intCL <- intersect(colnames(myData), colnames(mycData))
