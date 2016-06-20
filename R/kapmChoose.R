@@ -5,25 +5,24 @@
 #####################################################
 
 source('R/kapmPlot.R')
-load('data/allDataPatient.RData')
 
-kapmChoose <- function(dataset, genes, endpoint="os")
+kapmChoose <- function(datatype, dataset, genes, endpoint="os")
 {
-  if(dataset=="NB88" & endpoint=="os")
+  if(datatype=="NB88" & endpoint=="os")
   {
-    out <- kapmPlot(genes, NB88_All, createPlot=T, tVar="nti_surv_overall", eVar="nti_event_overall_num")
+    out <- kapmPlot(genes, dataset, createPlot=T, tVar="nti_surv_overall", eVar="nti_event_overall_num")
   }
-  if(dataset=="IH250" & endpoint=="os")
+  if(datatype=="IH250" & endpoint=="os")
   {
-    out <- kapmPlot(genes, IH250_All, createPlot=T, tVar="stime", eVar="scens")
+    out <- kapmPlot(genes, dataset, createPlot=T, tVar="stime", eVar="scens")
   }
-  if(dataset=="NB88" & endpoint=="efs")
+  if(datatype=="NB88" & endpoint=="efs")
   {
-    out <- kapmPlot(genes, NB88_All, createPlot=T, tVar="nti_surv_progrfree", eVar="nti_event_progrfree_num")
+    out <- kapmPlot(genes, dataset, createPlot=T, tVar="nti_surv_progrfree", eVar="nti_event_progrfree_num")
   }
-  if(dataset=="IH250" & endpoint=="efs")
+  if(datatype=="IH250" & endpoint=="efs")
   {
-    out <- kapmPlot(genes, IH250_All, createPlot=T, tVar="efstime", eVar="efscens")
+    out <- kapmPlot(genes, dataset, createPlot=T, tVar="efstime", eVar="efscens")
   }
   
   out <- ggplotly(out)
