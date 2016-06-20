@@ -8,8 +8,7 @@ library(reshape2)
 
 cellMutationTable <- function(gene, dataset)
 {
-  data <- paste0('data/',dataset)
-  data <- read.delim(data, stringsAsFactors = FALSE)
+  data <- dataset
   tmpData <- data[data[,"Gene"]==gene,]
   colstoKeep <- colnames(tmpData)[c(1:12, 42:79)]
   tmpData2 <- melt(tmpData, id=colstoKeep)
