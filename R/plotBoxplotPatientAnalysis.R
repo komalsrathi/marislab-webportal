@@ -4,12 +4,9 @@
 # Organization: DBHi, CHOP
 #############################################
 
-plotBoxplotPatientAnalysis <- function(gene1, colorby, dataset, log, customtheme)
+plotBoxplotPatientAnalysis <- function(gene1, colorby, myDataExp, myDataAnn, log, customtheme)
 {
   # get expression and annotation of the selected dataset
-  myDataExp <- get(paste(dataset,'_data',sep=''))
-  myDataAnn <- get(paste(dataset,'_mData',sep=''))
-  
   # modify dataframe
   myDataExp$gene <- rownames(myDataExp)
   myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
