@@ -4,17 +4,12 @@
 # Organization: DBHi, CHOP
 ####################################
 
-# load patient sample set
-load('data/allDataPatient.RData')
-
 # plot scatter plot of 2 genes##################
-plotGeneScatterPatientData <- function(gene1, gene2, dataset, log, colorby, correlation, customtheme)
+plotGeneScatterPatientData <- function(gene1, gene2, myDataExp, myDataAnn, log, colorby, correlation, customtheme)
 {
 
   # get expression and annotation of the selected dataset
-  myDataExp <- get(paste(dataset,'_data',sep=''))
-  myDataAnn <- get(paste(dataset,'_mData',sep=''))
-	
+
 	myDataExp$gene <- rownames(myDataExp)
 	myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
 	myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
