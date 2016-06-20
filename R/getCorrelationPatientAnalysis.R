@@ -4,9 +4,6 @@
 # Organization: DBHi, CHOP
 #############################################
 
-# load patient sample set
-load('data/allDataPatient.RData')
-
 myCorTest <- function(x,y)
 {
   out <- cor.test(x,y)
@@ -14,13 +11,10 @@ myCorTest <- function(x,y)
   return(out)
 }
 
-getCorrelationPatientAnalysis <- function(gene1, dataset, numRet)
+getCorrelationPatientAnalysis <- function(gene1, myData, numRet)
 {
 
   # get selected dataset
-  myData <- paste(dataset,'_data',sep='')
-  myData <- get(myData)
-  
   # get gene of interest's values
   myGene <- as.matrix(myData)[gene1,]
 
