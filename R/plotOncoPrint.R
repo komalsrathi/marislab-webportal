@@ -49,7 +49,10 @@ plotOncoPrint <- function(genes, dataCNABin, dataMutBin, dataAnnBin, dataExpGene
     panel.border = element_blank(),
     axis.line = element_blank(),
     axis.ticks = element_blank(),
-    axis.text.x = element_text(angle = 90, hjust = 1, vjust=.0005),
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust=.0005, size = 14, colour = 'black'),
+    axis.text.y = element_text(size = 14, colour = 'black'),
+    legend.text = element_text(size = 14, colour = 'black'),
+    legend.title = element_text(size = 14, colour = 'black'),
     axis.title.x = element_blank(),
     axis.title.y = element_blank()
   )
