@@ -128,7 +128,7 @@ dashboardPage(
                                                                                                     'Neuroblastoma Microarray data'='celllinedata')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = TRUE), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 3, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
@@ -143,7 +143,7 @@ dashboardPage(
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = TRUE), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit2', label = "Get Correlation Plot"))), br(), br(),
@@ -153,7 +153,7 @@ dashboardPage(
       # clm content
       tabItem(tabName = "clm",
               fluidRow(
-                box(selectInput(inputId = "clmselectInput1", label = "Select dataset", choices = c("Exome Calls 85K8"="ExomeCalls85K8_10_13.txt")),
+                box(selectInput(inputId = "clmselectInput1", label = "Select dataset", choices = c("Exome Calls 85K8"="ExomeCalls85K8_10_13")),
                     actionButton(inputId = "clmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
@@ -196,7 +196,7 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))),
               br(), br(),
-              plotOutput(outputId = 'clhplot1', width = 800, height = 800)
+              plotOutput(outputId = 'clhplot1', width = 1000, height = 800)
       ),
       
       # clct content
