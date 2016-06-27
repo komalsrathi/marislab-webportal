@@ -63,8 +63,9 @@ kapmPlot <- function(genes, myData, createPlot=T, tVar="time", eVar="event")
   
   if(createPlot==T)
   {
-    tmpTitle <- paste("KM Plot -", genes, "\nP-val(Adj) :", format(out[2], scientific=T, digits=3), "(", format(out[3], scientific=T, digits=3), ")")
-    myReturn <- qplot_survival(t.survframe, f.CI=F, myTitle=tmpTitle)+theme_bw()+scale_colour_manual(values=c("red", "blue") )  
+    tmpTitle <- paste(genes," |", "\nP-val(Adj) :", format(out[2], scientific=T, digits=3), "(", format(out[3], scientific=T, digits=3), ")")
+    myReturn <- qplot_survival(t.survframe, f.CI=F, myTitle=tmpTitle) + theme_bw()
+    #+scale_colour_manual(values=c("red", "blue") )  
   }
   
   if(createPlot==F)
