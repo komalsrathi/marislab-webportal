@@ -42,13 +42,18 @@ Updates
 * Adds log checkbox to various plots to get output in log or delogged format.
 * Generates interactive plots in plotly.
 * Allows users to choose between correlation types.
-* Fixes gene names in patient data (messed up in Excel)
+* Fixes gene names in patient data (messed up in Excel).
+* Adds Kallisto TPM data.
+* Adds data summary.
+* Locks first column for large dataframes.
+* Removes non-informative rownames.
+* Adds transparency to density plots.
 * More to come later!
 
 Improvements required
 ^^^^^^^^^^^^^^^^^^^^^
 
-* lock gene and symbol fields (cannot test on OSX)
+* lock more than one column (cannot test on OSX)
 * add description for each project.
 * for a plot, get raw data from which the plot came.
 * add functionality for b/w plots using dropdown.
