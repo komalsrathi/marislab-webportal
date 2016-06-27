@@ -458,7 +458,8 @@ shinyServer(function(input, output, session){
       myData <- get(paste0(dataset,'_data'))
       mycData <- get(paste0(dataset,'_cdata'))
       gene1 <- as.character(input$pgcvmselectInput2)
-      plotGeneCNAvsRNAPatientAnalysis(gene1 = gene1, myData = myData, mycData = mycData, customtheme = tbw)
+      correlation <- input$pgcvmselectInput3
+      plotGeneCNAvsRNAPatientAnalysis(gene1 = gene1, myData = myData, mycData = mycData, customtheme = tbw, correlation = correlation)
     })
   })
   
