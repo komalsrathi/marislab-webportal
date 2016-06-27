@@ -25,6 +25,10 @@ plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
   {
     y.axis <- 'RMA'
   }
+  if(length(grep('kallisto', tolower(datatype)))==1)
+  {
+    y.axis <- 'TPM'
+  }
   
   # plot log values?
   if(log == FALSE)
