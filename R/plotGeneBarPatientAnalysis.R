@@ -59,7 +59,7 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
     }
     if(density == TRUE)
     {
-      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=1)) + geom_density() + 
+      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=1)) + geom_density(alpha = 0.5) + 
         customtheme +
         theme(axis.text.x  = element_text(angle=90), legend.position = "none") + ggtitle(gene1) 
     }
@@ -73,7 +73,7 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
     }
     if(density == TRUE)
     {
-      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=colorby)) + geom_density() + customtheme +
+      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=colorby)) + geom_density(alpha = 0.5) + customtheme +
         theme(axis.text.x  = element_text(angle=90), legend.position = "none") + ggtitle(gene1) 
     }
   }
