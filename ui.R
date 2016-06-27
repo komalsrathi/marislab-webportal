@@ -103,18 +103,30 @@ dashboardPage(
                                                       "}")
                                   ), rownames = FALSE)),
                 box(title = "Data summary plot", status = "warning", width = 12, collapsed = T, collapsible = T, solidHeader = T, 
-                    plotlyOutput(outputId = "dbplot1", width = 800, height = 400))
+                    plotlyOutput(outputId = "dbplot1", width = 825, height = 400))
               )
       ),
       
       ######## Resources ###########
       # rdbi content
       tabItem(tabName = "rdbi",
-              DT::datatable(data = read.csv('data/internal.txt'), escape = FALSE, selection = "single")
+              DT::datatable(data = read.csv('data/internal.txt'),
+                            options = list(
+                              searchHighlight = TRUE,
+                              initComplete = JS("function(settings, json) {",
+                                                "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
+                                                "}")
+                            ), rownames = FALSE, escape = FALSE, selection = "single")
       ),
       
       tabItem(tabName = "rdbe",
-              DT::datatable(data = read.csv('data/external.txt'), escape = FALSE, selection = "single")
+              DT::datatable(data = read.csv('data/external.txt'),
+                            options = list(
+                              searchHighlight = TRUE,
+                              initComplete = JS("function(settings, json) {",
+                                                "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
+                                                "}")
+                            ), rownames = FALSE, escape = FALSE, selection = "single")
       ),
       ######## Resources ###########
       
@@ -142,7 +154,7 @@ dashboardPage(
                 box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 2, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
-              plotlyOutput(outputId = "clgeplot1", width = 800, height = 800)
+              plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
       ),
       
       # clggc content
@@ -158,7 +170,7 @@ dashboardPage(
                 box(selectInput(inputId = "clggcselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit2', label = "Get Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "clggcplot1", width = 800, height = 800)
+              plotlyOutput(outputId = "clggcplot1", width = 1000, height = 800)
       ),
       
       # clm content
@@ -183,7 +195,7 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit2', label = "Get Copy Number Barplot"))), 
               br(), br(),
-              plotlyOutput(outputId = 'clgcnplot1', width = 800, height = 800)
+              plotlyOutput(outputId = 'clgcnplot1', width = 1000, height = 800)
       ),
       
       # clcvm content
@@ -196,7 +208,7 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'clcvmsubmit2', label = "Get CN vs Mutation Plot"))), 
               br(), br(),
-              plotlyOutput(outputId = 'clcvmplot1', width = 800, height = 800)
+              plotlyOutput(outputId = 'clcvmplot1', width = 1000, height = 800)
       ),
       
       # clh content
@@ -387,7 +399,8 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = "pgcvmselectInput1", label = "Select dataset", choices = c('IH251')),
                     actionButton(inputId = "pgcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgcvmselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy")
+                box(selectInput(inputId = "pgcvmselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgcvmsubmit2', label = "Get mRNA/CNA Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "pgcvmplot1", width = 1000, height = 800)
