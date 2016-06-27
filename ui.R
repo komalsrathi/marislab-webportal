@@ -83,7 +83,7 @@ dashboardPage(
       # dashboard content
       tabItem(tabName = "dashboard",
               fluidRow(
-                box(title = "Maris Lab", status = "danger", width = 12, solidHeader = TRUE, "Tools, analysis, and visualizations to support research on Neuroblastoma and other pediatric cancers.", br(), br(), 
+                box(title = "Maris Lab", status = "danger", width = 12, solidHeader = TRUE, "Dr. Maris' laboratory is dedicated to translating basic science discoveries into improved treatment approaches for childhood cancers. By focusing on the pediatric cancer neuroblastoma, Dr. Maris had developed a translational genomics laboratory that has delivered new biomarkers and novel therapies to the clinic. To determine the spectrum of oncogenic drivers, cancer genomic projects are generating an exponential amount of rich and diverse data using high-throughput sequencing techniques. We present an Rshiny based application, Neuroblastoma Web Portal, as a common entry point to a wide range of in-house and external tools and resources that will help scientists to investigate, analyze and visualize genetic interactions and genotype-phenotype relationships in order to support research on Neuroblastoma and other pediatric cancers.", br(), br(), 
                     actionButton(inputId='ab1', label="Learn More", icon = icon("th"), onclick ="window.open('http://www.chop.edu/doctors/maris-john-m#.V172uOYrLVo', '_blank')"))
               ),
               fluidRow(
