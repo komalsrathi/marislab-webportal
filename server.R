@@ -20,26 +20,23 @@ source('R/plotGeneBarCNAPatientAnalysis.R')
 source('R/plotGeneCNAvsRNAPatientAnalysis.R')
 source('R/boxPlotGeneSUTC.R')
 source('R/boxPlotGeneHighSUTC.R')
+source('R/dbplot.R')
 
 # load datasets here
 load('data/TumNormData.RData')
 load('data/allDataPatient.RData')
 load('data/celllinedata.RData')
 load('data/rnaseqcelllinedata.RData')
+load('data/kallisto_TPM_41cells_genes.RData')
 load('data/ExomeCalls85K8_10_13.RData')
 load('data/compAim3_DE.RData')
 load('data/compAim3_OE.RData')
 load('data/compAim3_TM.RData')
+load('data/data_summary.RData')
 
 shinyServer(function(input, output, session){
   
   tbw <- themebw()
-
-  # update datasetInput based on what project is selected
-  datasetInput <- reactive({
-    dat <- as.character(input$cldbselectInput1)
-    dat <- get(dat)
-  })
 
   # update the table only if submit button is clicked
   output$cldbtable1 <- DT::renderDataTable({
@@ -47,7 +44,9 @@ shinyServer(function(input, output, session){
       return()
     }
     isolate({
-      viewDataTable(dat = datasetInput())
+      dat <- as.character(input$cldbselectInput1)
+      dat <- get(dat)
+      viewDataTable(dat = dat)
     })
   })
   
@@ -236,7 +235,7 @@ shinyServer(function(input, output, session){
                       probeAnnot = probeAnnot,
                       gs = F,
                       dataExp = dataExp)
-      viewDataTable.fixedcols(dat = dat)
+      viewDataTable(dat = dat)
     })
   })
   
@@ -532,7 +531,7 @@ shinyServer(function(input, output, session){
       }
       viewDataTable(dat = dat)
     })
-  }, server = TRUE)
+  })
   
   # compendia TM calls
   output$atpctable1 <- DT::renderDataTable({
@@ -544,7 +543,7 @@ shinyServer(function(input, output, session){
       dat <- get(dat)
       viewDataTable(dat = dat)
     })
-  }, server = TRUE)
+  })
   
   # compendia diffexp analysis
   output$atndatable1 <- DT::renderDataTable({
@@ -569,25 +568,10 @@ shinyServer(function(input, output, session){
       }
       viewDataTable(dat = dat)
     })
-  }, server = TRUE)
-  
-  # datasummary plot
-  dbplot <- reactive({
-    dat <- get(load("data/data_summary.RData"))
-    p <- plotly_build(ggplot(data = dat, aes(x = Source, y = Genes)) +
-                        geom_bar(stat="identity",aes(color = Type)) +
-                        theme_bw() + geom_text(aes(label = Samples, color = Type), size=5) +
-                        theme_hc(bgcolor = "darkunica") +
-                        scale_colour_hc("darkunica") +
-                        theme(legend.position = "none",axis.title = element_blank(),
-                              axis.text.y = element_blank(), axis.ticks = element_blank(),
-                              panel.grid = element_blank()))
-    p$layout$plot_bgcolor <- p$layout$paper_bgcolor
-    return(p)
   })
-
+  
   output$dbplot1 <- renderPlotly({
-    dbplot()
+    dbplot(data_summary)
   })
   
 }) # shinyServer ends
