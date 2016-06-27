@@ -17,6 +17,6 @@ viewDataTable.fixedcols <- function(dat){
                                     "$(this.api().table().header()).css({'background-color': '#005ab3', 'color': '#fff'});",
                                     "}"),
                   scrollX = TRUE,
-                  fixedColumns = list(leftColumns = 2)
-                ))
+                  fixedColumns = list(leftColumns = 3)
+                ), rownames = FALSE)
 }
