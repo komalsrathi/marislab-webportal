@@ -32,7 +32,7 @@ plotOncoPrint <- function(genes, dataCNABin, dataMutBin, dataAnnBin, dataExpGene
   dataTmp <- dataTmp[rev(hclust(dist(dataTmp))$order),]
   dataTmp[,"ID"] <- rownames(dataTmp)
   dataTmp <- data.frame(dataTmp)
-  dataTmp[,"ID"] <- factor(dataTmp[,"ID"], levels=as.character(dataTmp[,"ID"]))
+  dataTmp[,"ID"] <- factor(dataTmp[,"ID"], levels = as.character(dataTmp[,"ID"]))
   datam <- melt(dataTmp,id.var=c("ID"))
   datam[,"value"] <- as.character(datam[,"value"])
   datam[,"value"] <- gsub(.5,"3-Mut", datam[,"value"])
@@ -42,14 +42,14 @@ plotOncoPrint <- function(genes, dataCNABin, dataMutBin, dataAnnBin, dataExpGene
   
   theme_change <- theme(
     plot.background = element_blank(),
-    plot.margin=unit(c(1,1,1,1),"cm"),
+    plot.margin = unit(c(1,1,1,2),"cm"),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_blank(),
     panel.background = element_blank(),
     panel.border = element_blank(),
     axis.line = element_blank(),
     axis.ticks = element_blank(),
-    axis.text.x = element_text(angle = 90, hjust = 1, vjust=.0005, size = 14, colour = 'black'),
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = .0005, size = 14, colour = 'black'),
     axis.text.y = element_text(size = 14, colour = 'black'),
     legend.text = element_text(size = 14, colour = 'black'),
     legend.title = element_text(size = 14, colour = 'black'),
@@ -57,8 +57,8 @@ plotOncoPrint <- function(genes, dataCNABin, dataMutBin, dataAnnBin, dataExpGene
     axis.title.y = element_blank()
   )
   p <- ggplot(datam, aes(ID, variable)) + geom_tile(aes(fill = value))
-  p <- p+geom_tile(colour="white", fill=NA, size=1.2)
-  p <- p +scale_fill_manual(values=c("grey", "red", "blue", "yellow"))+theme_change;
+  p <- p + geom_tile(colour = "white", fill = NA, size = 1.2)
+  p <- p + scale_fill_manual(values = c("grey", "red", "blue", "yellow")) + theme_change
   
   
   # Okay now do expression
@@ -69,12 +69,12 @@ plotOncoPrint <- function(genes, dataCNABin, dataMutBin, dataAnnBin, dataExpGene
   dataTmpExp <- data.frame(t(dataTmpExp))
   dataTmpExp[,"ID"] <- rownames(dataTmpExp)
   dataTmpExp <- data.frame(dataTmpExp)
-  dataTmpExp[,"ID"] <- factor(dataTmpExp[,"ID"], levels=as.character(dataTmp[,"ID"]))
-  datamExp <- melt(dataTmpExp,id.var=c("ID"))
+  dataTmpExp[,"ID"] <- factor(dataTmpExp[,"ID"], levels = as.character(dataTmp[,"ID"]))
+  datamExp <- melt(dataTmpExp,id.var = c("ID"))
   
   p2 <- ggplot(datamExp, aes(ID, variable)) + geom_tile(aes(fill = value))
-  p2 <- p2+geom_tile(colour="white", fill=NA, size=1.2)
-  p2 <- p2+scale_fill_gradient2(low="yellow", mid="grey", high="red")+theme_change;
+  p2 <- p2+geom_tile(colour = "white", fill = NA, size = 1.2)
+  p2 <- p2+scale_fill_gradient2(low = "yellow", mid = "grey", high = "red") + theme_change
   
   gA <- ggplot_gtable(ggplot_build(p))
   gB <- ggplot_gtable(ggplot_build(p2))
