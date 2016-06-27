@@ -93,9 +93,17 @@ dashboardPage(
               ),
               fluidRow(
                 box(title = "Data summary table", status = "warning", width = 12, collapsible = T, collapsed = T, solidHeader = T, 
-                    DT::datatable(data = get(load('data/data_summary.RData')))),
+                    DT::datatable(get(load('data/data_summary.RData')),
+                                  options = list(
+                                    searchHighlight = TRUE,
+                                    pageLength = 5,
+                                    lengthMenu = list(c(5, 10, 15, 20, 25, -1), c('5', '10', '15', '20', '25', 'All')),
+                                    initComplete = JS("function(settings, json) {",
+                                                      "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
+                                                      "}")
+                                  ), rownames = FALSE)),
                 box(title = "Data summary plot", status = "warning", width = 12, collapsed = T, collapsible = T, solidHeader = T, 
-                    plotlyOutput(outputId = "dbplot1", width = 600, height = 400))
+                    plotlyOutput(outputId = "dbplot1", width = 800, height = 400))
               )
       ),
       
@@ -114,7 +122,8 @@ dashboardPage(
       tabItem(tabName = "cldb",
               fluidRow(
                 box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
-                                                                                             'Neuroblastoma Microarray data'='celllinedata')), width = 5, background = "navy")
+                                                                                             'Neuroblastoma Microarray data'='celllinedata',
+                                                                                             'Kallisto TPM data'='kallisto_TPM_41cells_genes')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
@@ -125,11 +134,12 @@ dashboardPage(
       tabItem(tabName = "clge",
               fluidRow(
                 box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
-                                                                                                    'Neuroblastoma Microarray data'='celllinedata')),
+                                                                                                    'Neuroblastoma Microarray data'='celllinedata',
+                                                                                                    'Kallisto TPM data'='kallisto_TPM_41cells_genes')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
-                box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
+                box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 4, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 3, background = 'navy')
+                box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 2, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "clgeplot1", width = 800, height = 800)
@@ -139,7 +149,8 @@ dashboardPage(
       tabItem(tabName = "clggc",
               fluidRow(
                 box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
-                                                                                                     'Neuroblastoma Microarray data'='celllinedata')),
+                                                                                                     'Neuroblastoma Microarray data'='celllinedata',
+                                                                                                     'Kallisto TPM data'='kallisto_TPM_41cells_genes')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
