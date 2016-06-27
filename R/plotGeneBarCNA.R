@@ -25,7 +25,7 @@ plotGeneBarCNA <- function(gene1, dat, customtheme, sortby)
 	
 	# plot
 	p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill='Cell_Line')) + 
-	  geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + 
+	  geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
 	  ggtitle(gene1)
 
 	# ggplotly
