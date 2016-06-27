@@ -1,14 +1,17 @@
-dbplot <- function(){
-  dat <- get(load("data/data_summary.RData"))
-  p <- plotly_build(ggplot(data = dat, aes(x = Source, y = Genes)) + 
-                      geom_bar(stat="identity",aes(color = Type)) + 
-                      theme_bw() + geom_text(aes(label = Samples, color = Type), size=5) + 
+dbplot <- function(data_summary){
+  p <- plotly_build(ggplot(data = data_summary, aes(x = Source, y = Genes)) +
+                      geom_bar(stat="identity",aes(color = Type)) +
+                      theme_bw() + geom_text(aes(label = Samples, color = Type), size=5) +
                       theme_hc(bgcolor = "darkunica") +
                       scale_colour_hc("darkunica") +
-                      theme(axis.title = element_blank(), 
-                            axis.text.y = element_blank(), axis.ticks = element_blank(), 
-                            panel.grid = element_blank()))
+                      theme(axis.title = element_blank(),
+                            axis.ticks = element_blank(),
+                            axis.text.x = element_text(angle = -45, hjust = 0),
+                            panel.grid = element_blank(),
+                            plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")))
   p$layout$plot_bgcolor <- p$layout$paper_bgcolor
+  p$layout$xaxis$tickfont$size <- 16
+  p$layout$yaxis$tickfont$size <- 16
   p$layout$annotations[[1]]$text <- ""
   return(p)
 }
