@@ -67,7 +67,6 @@ dashboardPage(
                menuSubItem("IC50 Analysis", icon = icon("star"), tabName = "ia")
       ),
       menuItem("More Info", tabName = "moreinfo", icon = icon("th"),
-               menuSubItem("Readme", icon = icon("navicon"), tabName = "readme"),
                menuSubItem("About", icon = icon("info-circle"), tabName = "about"),
                menuSubItem("Contact", icon = icon("envelope"), tabName = "contact")
       )
@@ -133,9 +132,9 @@ dashboardPage(
       # cldb content
       tabItem(tabName = "cldb",
               fluidRow(
-                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
-                                                                                             'Neuroblastoma Microarray data'='celllinedata',
-                                                                                             'Kallisto TPM data'='kallisto_TPM_41cells_genes')), width = 5, background = "navy")
+                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('RNAseq (STAR)'='rnaseqcelllinedata',
+                                                                                                   'Microarray'='celllinedata',
+                                                                                                   'RNAseq (Kallisto)'='kallisto_TPM_41cells_genes')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
@@ -145,9 +144,9 @@ dashboardPage(
       # clge content
       tabItem(tabName = "clge",
               fluidRow(
-                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
-                                                                                                    'Neuroblastoma Microarray data'='celllinedata',
-                                                                                                    'Kallisto TPM data'='kallisto_TPM_41cells_genes')),
+                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('RNAseq (STAR)'='rnaseqcelllinedata',
+                                                                                                    'Microarray'='celllinedata',
+                                                                                                    'RNAseq (Kallisto)'='kallisto_TPM_41cells_genes')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 4, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -160,9 +159,9 @@ dashboardPage(
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
-                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Neuroblastoma RNAseq data'='rnaseqcelllinedata',
-                                                                                                     'Neuroblastoma Microarray data'='celllinedata',
-                                                                                                     'Kallisto TPM data'='kallisto_TPM_41cells_genes')),
+                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('RNAseq (STAR)'='rnaseqcelllinedata',
+                                                                                                     'Microarray'='celllinedata',
+                                                                                                     'RNAseq (Kallisto)'='kallisto_TPM_41cells_genes')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
@@ -188,7 +187,7 @@ dashboardPage(
       # clgcn content
       tabItem(tabName = "clgcn",
               fluidRow(
-                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Neuroblastoma Microarray data'='celllinedata')),
+                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray'='celllinedata')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 3, background = 'navy')
@@ -201,7 +200,7 @@ dashboardPage(
       # clcvm content
       tabItem(tabName = "clcvm",
               fluidRow(
-                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Neuroblastoma Microarray data'='celllinedata'), selected = NULL),
+                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray'='celllinedata'), selected = NULL),
                     actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
@@ -214,7 +213,7 @@ dashboardPage(
       # clh content
       tabItem(tabName = "clh",
               fluidRow(
-                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Neuroblastoma Microarray data'='celllinedata')), width = 3, background = "navy"),
+                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Microarray'='celllinedata')), width = 3, background = "navy"),
                 box(fileInput(inputId = 'clhfileInput1', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))),
@@ -225,7 +224,7 @@ dashboardPage(
       # clct content
       tabItem(tabName = "clct",
               fluidRow(
-                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Neuroblastoma Microarray data'='celllinedata')), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Microarray'='celllinedata')), width = 3, background = "navy"),
                 box(selectInput(inputId = "clctselectInput2", label = "Set 1", choices = c("BE2(e)"="BE2",
                                                                                            "BE2C(e)"="BE2C",
                                                                                            "CHLA136"="CHLA136",
@@ -465,8 +464,8 @@ dashboardPage(
       tabItem(tabName = "about",
               fluidRow(
                 box(title = "About us", status = "danger", solidHeader = T, 
-                    "Neuroblastoma Web Portal (NWP) has been developed by Pichai Raman at the Department of Biomedical and Health Informatics (DBHi), The Children's Hospital of Philadelphia.",
-                    "The portal offers a wide range of utilities for visualization and analysis of high-throuput cancer genomics data.")
+                    "Neuroblastoma Web Portal (NWP) is developed by Pichai Raman and Komal Rathi at the Department of Biomedical and Health Informatics (DBHi), The Children's Hospital of Philadelphia.",
+                    "The portal offers a wide range of utilities for visualization and analysis of high-throuput cancer genomics data. (...)",collapsible = TRUE)
               )
       ),
       
@@ -474,7 +473,12 @@ dashboardPage(
       tabItem(tabName = "contact",
               fluidRow(
                 infoBox(title = "", value = "Pichai Raman", href = "mailto:ramanp@email.chop.edu", icon = icon("send-o"), color = "yellow", width = 3),
-                infoBox(title = "", value = "Komal Rathi", href = "mailto:rathik@email.chop.edu", icon = icon("send-o"), color = "red", width = 3)
+                infoBox(title = "", value = "Komal Rathi", href = "mailto:rathik@email.chop.edu", icon = icon("send-o"), color = "yellow", width = 3)
+              ),
+              fluidRow(
+                infoBox(title = "", color = "red", width = 6, value=tags$a("Feedback", 
+                                                                           href="https://docs.google.com/forms/d/1NAJUEi7r7fVlGkuYYCwRwb70p_RxSohlrDEvHWhia9U/viewform#responses",
+                                                                           target='_blank'))
               )
       )
     ) # tabItems ends
