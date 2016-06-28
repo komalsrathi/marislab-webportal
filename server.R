@@ -235,6 +235,7 @@ shinyServer(function(input, output, session){
                       probeAnnot = probeAnnot,
                       gs = F,
                       dataExp = dataExp)
+      rownames(dat) <- NULL
       viewDataTable(dat = dat)
     })
   })
