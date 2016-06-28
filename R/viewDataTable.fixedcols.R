@@ -10,7 +10,7 @@ viewDataTable.fixedcols <- function(dat){
                 options = list(
                   dom = 'RMDCT<"clear">lfrtip',
                   searchHighlight = TRUE,
-                  tableTools = list(sSwfPath = '//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/swf/copy_csv_xls.swf'),
+                  tableTools = list(sSwfPath = copySWF('www')),
                   pageLength = 5,
                   lengthMenu = list(c(5, 10, 15, 20, 25, -1), c('5', '10', '15', '20', '25', 'All')),
                   initComplete = JS("function(settings, json) {",
