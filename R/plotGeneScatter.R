@@ -36,29 +36,55 @@
     if(length(grep('rnaseq',tolower(datatype)))==1)
     {
       y.axis <- 'FPKM'
+      if(log == FALSE)
+      {
+        y.axis <- y.axis
+      }
+      
+      if(log == TRUE)
+      {
+        y.axis <- paste0('Log2','(',y.axis,')')
+        dat.tmp <- dat.c[,-1]
+        dat.tmp <- as.data.frame(log2(dat.tmp+1))
+        dat.tmp <- cbind(variable=dat.c$variable, dat.tmp)
+        dat.c <- dat.tmp
+      }
     }
+    
     if(length(grep('rnaseq',tolower(datatype)))==0)
     {
       y.axis <- 'RMA'
+      if(log == FALSE)
+      {
+        y.axis <- y.axis
+        dat.tmp <- dat.c[,-1]
+        dat.tmp <- as.data.frame(2^(dat.tmp))
+        dat.tmp <- cbind(variable=dat.c$variable, dat.tmp)
+        dat.c <- dat.tmp
+      }
+      
+      if(log == TRUE)
+      {
+        y.axis <- paste0('Log2','(',y.axis,')')
+      }
     }
+    
     if(length(grep('kallisto', tolower(datatype)))==1)
     {
       y.axis <- 'TPM'
-    }
-    
-    # plot log values? 
-    if(log == FALSE)
-    {
-      y.axis <- y.axis
-    }
-    
-    if(log == TRUE)
-    {
-      y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- dat.c[,-1]
-      dat.tmp <- log2(dat.tmp+1)
-      dat.tmp <- cbind(variable=dat.c$variable, dat.tmp)
-      dat.c <- dat.tmp
+      if(log == FALSE)
+      {
+        y.axis <- y.axis
+      }
+      
+      if(log == TRUE)
+      {
+        y.axis <- paste0('Log2','(',y.axis,')')
+        dat.tmp <- dat.c[,-1]
+        dat.tmp <- log2(dat.tmp+1)
+        dat.tmp <- cbind(variable=dat.c$variable, dat.tmp)
+        dat.c <- dat.tmp
+      }
     }
   
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
