@@ -20,29 +20,55 @@ plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
   if(length(grep('rnaseq',tolower(datatype)))==1)
   {
     y.axis <- 'FPKM'
+    if(log == FALSE)
+    {
+      y.axis <- y.axis
+    }
+    
+    if(log == TRUE)
+    {
+      y.axis <- paste0('Log2','(',y.axis,')')
+      dat.tmp <- dat.c[,-1]
+      dat.tmp <- as.data.frame(log2(dat.tmp+1))
+      dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
+      dat.c <- dat.tmp
+    }
   }
+  
   if(length(grep('rnaseq',tolower(datatype)))==0)
   {
     y.axis <- 'RMA'
+    if(log == FALSE)
+    {
+      y.axis <- y.axis
+      dat.tmp <- dat.c[,-1]
+      dat.tmp <- as.data.frame(2^(dat.tmp))
+      dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
+      dat.c <- dat.tmp
+    }
+    
+    if(log == TRUE)
+    {
+      y.axis <- paste0('Log2','(',y.axis,')')
+    }
   }
+  
   if(length(grep('kallisto', tolower(datatype)))==1)
   {
     y.axis <- 'TPM'
-  }
-  
-  # plot log values?
-  if(log == FALSE)
-  {
-    y.axis <- y.axis
-  }
-  
-  if(log==TRUE)
-  {
-    y.axis <- paste0('Log2','(',y.axis,')')
-    dat.tmp <- dat.c[,-1]
-    dat.tmp <- log2(dat.tmp+1)
-    dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
-    dat.c <- dat.tmp
+    if(log == FALSE)
+    {
+      y.axis <- y.axis
+    }
+    
+    if(log == TRUE)
+    {
+      y.axis <- paste0('Log2','(',y.axis,')')
+      dat.tmp <- dat.c[,-1]
+      dat.tmp <- log2(dat.tmp+1)
+      dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
+      dat.c <- dat.tmp
+    }
   }
   
   # sorting of bars
@@ -58,7 +84,7 @@ plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
   p <- plotly_build(p)
   p$layout$annotations[[1]]$text <- ""
   p$layout$yaxis$title <- y.axis
-
+  
   return(p)
   
 }
