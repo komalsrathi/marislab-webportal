@@ -23,7 +23,7 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
   # plot log values
   if(log==FALSE)
   {
-    y.axis <- "Raw Intensity"
+    y.axis <- "RMA"
     myDataExp.tmp <- myDataExp.c[,-1]
     myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
     myDataExp.tmp <- cbind(Cell_Line=myDataExp.c$Cell_Line, myDataExp.tmp)
@@ -31,7 +31,7 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
   }
   if(log==TRUE)
   {
-    y.axis <- "RMA"
+    y.axis <- "log2(RMA)"
   }
   
   # add annotation data to expression set
