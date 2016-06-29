@@ -36,10 +36,10 @@ plotGeneBarCNAPatientAnalysis <- function(gene1, myData, logby, sortby, customth
     customtheme + geom_bar(stat="identity") + 
     theme(axis.text.x  = element_blank(),
           axis.ticks.x = element_blank(),
-          axis.text.y = element_text(size = 14),
-          axis.title.y= element_text(size = 14),
-          axis.title.x = element_text(size = 14),
-          plot.title = element_text(size = 16)) + ggtitle(gene1) + 
+          axis.text.y = element_text(size = 16),
+          axis.title.y= element_text(size = 16),
+          axis.title.x = element_text(size = 16),
+          plot.title = element_text(size = 18)) + ggtitle(gene1) + 
     ylab("Copy Number\n") + xlab("\nSample")
   
   # p <- plotly_build(p)
