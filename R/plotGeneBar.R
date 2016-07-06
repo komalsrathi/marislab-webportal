@@ -17,7 +17,7 @@ plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
   gene1.mut <- paste('`',gene1,'`',sep='')
   
   # datatype
-  if(length(grep('rnaseq',tolower(datatype)))==1)
+  if(length(grep('FPKM',datatype))==1)
   {
     y.axis <- 'FPKM'
     if(log == FALSE)
@@ -35,7 +35,7 @@ plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
     }
   }
   
-  if(length(grep('rnaseq',tolower(datatype)))==0)
+  if(length(grep('RMA',datatype))==1)
   {
     y.axis <- 'RMA'
     if(log == FALSE)
@@ -53,7 +53,7 @@ plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
     }
   }
   
-  if(length(grep('kallisto', tolower(datatype)))==1)
+  if(length(grep('TPM', datatype))==1)
   {
     y.axis <- 'TPM'
     if(log == FALSE)
