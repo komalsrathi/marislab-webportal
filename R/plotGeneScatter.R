@@ -33,7 +33,7 @@
     gene2.mut <- paste('`',gene2,'`',sep = '')
     
     # datatype
-    if(length(grep('rnaseq',tolower(datatype)))==1)
+    if(length(grep('FPKM',datatype))==1)
     {
       y.axis <- 'FPKM'
       if(log == FALSE)
@@ -51,7 +51,7 @@
       }
     }
     
-    if(length(grep('rnaseq',tolower(datatype)))==0)
+    if(length(grep('RMA',datatype))==1)
     {
       y.axis <- 'RMA'
       if(log == FALSE)
@@ -69,7 +69,7 @@
       }
     }
     
-    if(length(grep('kallisto', tolower(datatype)))==1)
+    if(length(grep('TPM', datatype))==1)
     {
       y.axis <- 'TPM'
       if(log == FALSE)
