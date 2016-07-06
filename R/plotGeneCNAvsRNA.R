@@ -31,11 +31,11 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatyp
   tmpDataGC[,"CL_NAME"] <- rownames(tmpDataGC)
   
   # datatype
-  if(length(grep('rnaseq',tolower(datatype)))==1)
+  if(length(grep('FPKM',datatype))==1)
   {
     y.axis <- 'FPKM'
   }
-  if(length(grep('rnaseq',tolower(datatype)))==0)
+  if(length(grep('RMA',datatype))==1)
   {
     y.axis <- 'RMA'
   }
