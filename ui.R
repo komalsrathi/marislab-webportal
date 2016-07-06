@@ -132,9 +132,11 @@ dashboardPage(
       # cldb content
       tabItem(tabName = "cldb",
               fluidRow(
-                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('RNAseq (STAR)'='rnaseqcelllinedata',
-                                                                                                   'Microarray'='celllinedata',
-                                                                                                   'RNAseq (Kallisto)'='kallisto_TPM_41cells_genes')), width = 5, background = "navy")
+                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Microarray 29'='Microarray_RMA_29cells_genes',
+                                                                                                   'RNAseq 41 (STAR)'='STAR_FPKM_41cells_genes',
+                                                                                                   'RNAseq 41 (Kallisto)'='kallisto_TPM_41cells_genes',
+                                                                                                   'RNAseq 724 (STAR)'='STAR_FPKM_Target724_genes',
+                                                                                                   'RNAseq 724 (Kallisto)'='kallisto_TPM_Target724_genes')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
@@ -144,9 +146,11 @@ dashboardPage(
       # clge content
       tabItem(tabName = "clge",
               fluidRow(
-                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('RNAseq (STAR)'='rnaseqcelllinedata',
-                                                                                                    'Microarray'='celllinedata',
-                                                                                                    'RNAseq (Kallisto)'='kallisto_TPM_41cells_genes')),
+                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Microarray 29'='Microarray_RMA_29cells_genes',
+                                                                                                    'RNAseq 41 (STAR)'='STAR_FPKM_41cells_genes',
+                                                                                                    'RNAseq 41 (Kallisto)'='kallisto_TPM_41cells_genes',
+                                                                                                    'RNAseq 724 (STAR)'='STAR_FPKM_Target724_genes',
+                                                                                                    'RNAseq 724 (Kallisto)'='kallisto_TPM_Target724_genes')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 4, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -159,9 +163,11 @@ dashboardPage(
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
-                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('RNAseq (STAR)'='rnaseqcelllinedata',
-                                                                                                     'Microarray'='celllinedata',
-                                                                                                     'RNAseq (Kallisto)'='kallisto_TPM_41cells_genes')),
+                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Microarray 29'='Microarray_RMA_29cells_genes',
+                                                                                                     'RNAseq 41 (STAR)'='STAR_FPKM_41cells_genes',
+                                                                                                     'RNAseq 41 (Kallisto)'='kallisto_TPM_41cells_genes',
+                                                                                                     'RNAseq 724 (STAR)'='STAR_FPKM_Target724_genes',
+                                                                                                     'RNAseq 724 (Kallisto)'='kallisto_TPM_Target724_genes')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
@@ -187,7 +193,7 @@ dashboardPage(
       # clgcn content
       tabItem(tabName = "clgcn",
               fluidRow(
-                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray'='celllinedata')),
+                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray 29'='Microarray_RMA_29cells_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 3, background = 'navy')
@@ -200,7 +206,7 @@ dashboardPage(
       # clcvm content
       tabItem(tabName = "clcvm",
               fluidRow(
-                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray'='celllinedata'), selected = NULL),
+                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray 29'='Microarray_RMA_29cells_genes'), selected = NULL),
                     actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
@@ -213,7 +219,7 @@ dashboardPage(
       # clh content
       tabItem(tabName = "clh",
               fluidRow(
-                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Microarray'='celllinedata')), width = 3, background = "navy"),
+                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Microarray 29'='Microarray_RMA_29cells_genes')), width = 3, background = "navy"),
                 box(fileInput(inputId = 'clhfileInput1', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))),
@@ -224,7 +230,7 @@ dashboardPage(
       # clct content
       tabItem(tabName = "clct",
               fluidRow(
-                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Microarray'='celllinedata')), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Microarray 29'='Microarray_RMA_29cells_genes')), width = 3, background = "navy"),
                 box(selectInput(inputId = "clctselectInput2", label = "Set 1", choices = c("BE2(e)"="BE2",
                                                                                            "BE2C(e)"="BE2C",
                                                                                            "CHLA136"="CHLA136",
