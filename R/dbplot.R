@@ -1,4 +1,6 @@
 dbplot <- function(data_summary){
+  data_summary <- data_summary[order(data_summary$Type, data_summary$Source, data_summary$Genes),]
+  data_summary$Source <- factor(data_summary$Source, levels = as.character(data_summary$Source))
   p <- plotly_build(ggplot(data = data_summary, aes(x = Source, y = Genes)) +
                       geom_bar(stat="identity",aes(color = Type)) +
                       theme_bw() + geom_text(aes(label = Samples, color = Type), size=5) +
