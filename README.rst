@@ -48,6 +48,7 @@ Updates
 * Locks first column for large dataframes.
 * Removes non-informative rownames.
 * Adds transparency to density plots.
+* Adds GPL Patient and Sanger CLE U133Plus2 dataset.
 * More to come later!
 
 Improvements required
