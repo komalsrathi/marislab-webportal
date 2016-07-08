@@ -337,7 +337,7 @@ dashboardPage(
       ##### Patient Samples Utilities #####
       tabItem(tabName = "pgeh",
               fluidRow(
-                box(selectInput(inputId = "pgehselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                box(selectInput(inputId = "pgehselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649','GPL')),
                     actionButton(inputId = "pgehsubmit1", label = "Load dataset"),width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Sort Data"),
                     checkboxInput(inputId = "pgehcheckboxInput2", label = "Log Data"),
@@ -350,7 +350,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pgebp",
               fluidRow(
-                box(selectInput(inputId = "pgebpselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                box(selectInput(inputId = "pgebpselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649','GPL')),
                     actionButton(inputId = "pgebpsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgebpcheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
@@ -361,7 +361,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pkm",
               fluidRow(
-                box(selectInput(inputId = "pkmselectInput1", label = "Select dataset", choices = c('NB88','IH250')),
+                box(selectInput(inputId = "pkmselectInput1", label = "Select dataset", choices = c('NB88','IH250','GPL')),
                     actionButton(inputId = 'pkmsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pkmselectInput2", label = "Select endpoint", choices = c("os", "efs")), width = 3, background = "navy"),
                 box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none"), multiple = TRUE), width = 3, background = "navy")
@@ -371,7 +371,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pggc",
               fluidRow(
-                box(selectInput(inputId = "pggcselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649')),
+                box(selectInput(inputId = "pggcselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','OBER649','GPL')),
                     actionButton(inputId = 'pggcsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pggccheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")),
@@ -384,7 +384,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pmcg",
               fluidRow(
-                box(selectInput(inputId = "pmcgselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250')),
+                box(selectInput(inputId = "pmcgselectInput1", label = "Select dataset", choices = c('NB88','HI51','IH250','GPL')),
                     actionButton(inputId = 'pmcgsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy"),
                 box(textInput(inputId = "pmcgtextInput1", label = "Number", value = "10"), width = 3, background = "navy")
