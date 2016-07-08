@@ -184,7 +184,8 @@ dashboardPage(
       # clm content
       tabItem(tabName = "clm",
               fluidRow(
-                box(selectInput(inputId = "clmselectInput1", label = "Select dataset", choices = c("Exome Calls 85K8"="ExomeCalls85K8_10_13")),
+                box(selectInput(inputId = "clmselectInput1", label = "Select dataset", choices = c("Exome Calls 85K8"="ExomeCalls85K8_10_13",
+                                                                                                   "Exome Calls CCLE"="ExomeCallsCCLE")),
                     actionButton(inputId = "clmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
