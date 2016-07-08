@@ -14,7 +14,7 @@ standScore <- function(x)
   x <- (x-mean(x))/sd(x)
 }
 
-kapmPlot <- function(genes, myData, createPlot=T, tVar="time", eVar="event")
+kapmPlot <- function(genes, myData, createPlot=T, tVar, eVar)
 {
   #Get metadata
   tmpMeta <- myData[[2]]
