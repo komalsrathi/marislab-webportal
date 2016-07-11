@@ -14,13 +14,13 @@ postProcessDataForHeatmap <- function(dataCNA, dataExpGeneName, dataAnnBin, data
   # Must create trinary copy number and expression matrices
   # Let's start with Copy Number, set amplification as >4 and deletion as <1
   dataCNABin <- as.matrix(dataCNA)
-  dataCNABin[dataCNABin<4&dataCNABin>1] <- 0;
-  dataCNABin[dataCNABin<=1&dataCNABin>0] <- 1;
-  dataCNABin[dataCNABin>=4] <- 2;
+  dataCNABin[dataCNABin<4&dataCNABin>1] <- 0
+  dataCNABin[dataCNABin<=1&dataCNABin>0] <- 1
+  dataCNABin[dataCNABin>=4] <- 2
   dataCNABin <- as.data.frame(dataCNABin)
   
   # Now let's do expression
-  dataExpGeneNameBin <- dataExpGeneName;
+  dataExpGeneNameBin <- dataExpGeneName
   myZ <- function(x) {out <- (x-mean(x))/sd(x)}
   dataExpGeneNameBin <-t(apply(dataExpGeneNameBin, FUN=myZ, MARGIN=1))
   dataExpGeneNameBin <- as.data.frame(dataExpGeneNameBin)
@@ -34,6 +34,8 @@ postProcessDataForHeatmap <- function(dataCNA, dataExpGeneName, dataAnnBin, data
   commonCellLines <- intersect(colnames(dataExpGeneNameBin), colnames(dataCNABin))
   commonCellLines <- intersect(commonCellLines, colnames(dataMutBin))
   
-  newList <- list("dataCNABin" = dataCNABin, "dataMutBin" = dataMutBin, "dataAnnBin" = dataAnnBin, "dataExpGeneNameBin" = dataExpGeneNameBin, "commonCellLines" = commonCellLines)
+  newList <- list("dataCNABin" = dataCNABin, "dataMutBin" = dataMutBin, 
+                  "dataAnnBin" = dataAnnBin, "dataExpGeneNameBin" = dataExpGeneNameBin, 
+                  "commonCellLines" = commonCellLines)
   return(newList)
 }
