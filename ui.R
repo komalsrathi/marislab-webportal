@@ -133,7 +133,8 @@ dashboardPage(
       tabItem(tabName = "cldb",
               fluidRow(
                 box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
-                                                                                                   'Microarray U133Plus2 (29 CL)'='Microarray_RMA_U133Plus2_29cells_genes',
+                                                                                                   'Microarray U133Plus2 Sanger CLE (29 CL)'='Microarray_RMA_U133Plus2_29cells_genes',
+                                                                                                   'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                    'RNAseq (STAR) (41 CL)'='STAR_FPKM_41cells_genes',
                                                                                                    'RNAseq (Kallisto) (41 CL)'='kallisto_TPM_41cells_genes',
                                                                                                    'RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
@@ -148,7 +149,8 @@ dashboardPage(
       tabItem(tabName = "clge",
               fluidRow(
                 box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
-                                                                                                    'Microarray U133Plus2 (29 CL)'='Microarray_RMA_U133Plus2_29cells_genes',
+                                                                                                    'Microarray U133Plus2 Sanger CLE (29 CL)'='Microarray_RMA_U133Plus2_29cells_genes',
+                                                                                                    'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                     'RNAseq (STAR) (41 CL)'='STAR_FPKM_41cells_genes',
                                                                                                     'RNAseq (Kallisto) (41 CL)'='kallisto_TPM_41cells_genes',
                                                                                                     'RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
@@ -166,7 +168,8 @@ dashboardPage(
       tabItem(tabName = "clggc",
               fluidRow(
                 box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
-                                                                                                     'Microarray U133Plus2 (29 CL)'='Microarray_RMA_U133Plus2_29cells_genes',
+                                                                                                     'Microarray U133Plus2 Sanger CLE (29 CL)'='Microarray_RMA_U133Plus2_29cells_genes',
+                                                                                                     'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                      'RNAseq (STAR) (41 CL)'='STAR_FPKM_41cells_genes',
                                                                                                      'RNAseq (Kallisto) (41 CL)'='kallisto_TPM_41cells_genes',
                                                                                                      'RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
@@ -184,7 +187,7 @@ dashboardPage(
       # clm content
       tabItem(tabName = "clm",
               fluidRow(
-                box(selectInput(inputId = "clmselectInput1", label = "Select dataset", choices = c("Exome Calls 85K8"="ExomeCalls85K8_10_13",
+                box(selectInput(inputId = "clmselectInput1", label = "Select dataset", choices = c("Exome Calls 85K"="ExomeCalls85K8_10_13",
                                                                                                    "Exome Calls CCLE"="ExomeCallsCCLE")),
                     actionButton(inputId = "clmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
@@ -197,7 +200,8 @@ dashboardPage(
       # clgcn content
       tabItem(tabName = "clgcn",
               fluidRow(
-                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes')),
+                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                                                                                                     'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 3, background = 'navy')
@@ -210,7 +214,8 @@ dashboardPage(
       # clcvm content
       tabItem(tabName = "clcvm",
               fluidRow(
-                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes'), selected = NULL),
+                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                                                                                                     'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes'), selected = NULL),
                     actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
@@ -223,7 +228,8 @@ dashboardPage(
       # clh content
       tabItem(tabName = "clh",
               fluidRow(
-                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes')), width = 3, background = "navy"),
+                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                                                                                                   'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')), width = 3, background = "navy"),
                 box(fileInput(inputId = 'clhfileInput1', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))),
@@ -234,9 +240,10 @@ dashboardPage(
       # clct content
       tabItem(tabName = "clct",
               fluidRow(
-                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes')), width = 3, background = "navy"),
-                box(selectInput(inputId = "clctselectInput2", label = "Set 1", choices = c("BE2(e)"="BE2",
-                                                                                           "BE2C(e)"="BE2C",
+                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (29 CL)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                                                                                                    'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectInput2", label = "Set 1", choices = c("SKNBE2(e)"="SKNBE2",
+                                                                                           "SKNBE2C(e)"="SKNBE2C",
                                                                                            "CHLA136"="CHLA136",
                                                                                            "CHLA15"="CHLA15",
                                                                                            "CHLA150"="CHLA150",
@@ -246,7 +253,7 @@ dashboardPage(
                                                                                            "CHP212"="CHP212",
                                                                                            "COGN415"="COGN415",
                                                                                            "COGN426"="COGN426",
-                                                                                           "EBC1(e)"="EBC1",
+                                                                                           "NBEBC1(e)"="NBEBC1",
                                                                                            "IMR32"="IMR32",
                                                                                            "IMR5(e)"="IMR5",
                                                                                            "KELLY(e)"="KELLY",
@@ -280,9 +287,16 @@ dashboardPage(
                                                                                            "SMSKCNR"="SMSKCNR",
                                                                                            "SMSLHN"="SMSLHN",
                                                                                            "SMSSAN(e)"="SMSSAN",
-                                                                                           "SY5Y(e)"="SY5Y"), multiple = TRUE), width = 3, background = "navy"),
-                box(selectInput(inputId = "clctselectInput3", label = "Set 2", choices = c("BE2(e)"="BE2",
-                                                                                           "BE2C(e)"="BE2C",
+                                                                                           "SHSY5Y(e)"="SHSY5Y",
+                                                                                           "KPNSI9S"="KPNSI9S",
+                                                                                           "NH6"="NH6",
+                                                                                           "KPNYN"="KPNYN",
+                                                                                           "SIMA"="SIMA",
+                                                                                           "MHHNB11"="MHHNB11",
+                                                                                           "CHP126"="CHP126",
+                                                                                           "KPNRTBM1"="KPNRTBM1"), multiple = TRUE), width = 3, background = "navy"),
+                box(selectInput(inputId = "clctselectInput3", label = "Set 2", choices = c("SKNBE2(e)"="SKNBE2",
+                                                                                           "SKNBE2C(e)"="SKNBE2C",
                                                                                            "CHLA136"="CHLA136",
                                                                                            "CHLA15"="CHLA15",
                                                                                            "CHLA150"="CHLA150",
@@ -292,7 +306,7 @@ dashboardPage(
                                                                                            "CHP212"="CHP212",
                                                                                            "COGN415"="COGN415",
                                                                                            "COGN426"="COGN426",
-                                                                                           "EBC1(e)"="EBC1",
+                                                                                           "NBEBC1(e)"="NBEBC1",
                                                                                            "IMR32"="IMR32",
                                                                                            "IMR5(e)"="IMR5",
                                                                                            "KELLY(e)"="KELLY",
@@ -326,7 +340,14 @@ dashboardPage(
                                                                                            "SMSKCNR"="SMSKCNR",
                                                                                            "SMSLHN"="SMSLHN",
                                                                                            "SMSSAN(e)"="SMSSAN",
-                                                                                           "SY5Y(e)"="SY5Y"), multiple = TRUE), width = 3, background = "navy"),
+                                                                                           "SHSY5Y(e)"="SHSY5Y",
+                                                                                           "KPNSI9S"="KPNSI9S",
+                                                                                           "NH6"="NH6",
+                                                                                           "KPNYN"="KPNYN",
+                                                                                           "SIMA"="SIMA",
+                                                                                           "MHHNB11"="MHHNB11",
+                                                                                           "CHP126"="CHP126",
+                                                                                           "KPNRTBM1"="KPNRTBM1"), multiple = TRUE), width = 3, background = "navy"),
                 box(textInput(inputId = "clcttextInput1", label = "Enter Pvalue Cutoff", value = "0.0005"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clctsubmit1', label = "Run Analysis"))), 
