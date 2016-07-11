@@ -64,6 +64,8 @@ processRawData <- function(){
   # hold on to this for later
   dataExpGeneName <- as.data.frame(tmpDataForSet)
   
-  newList <- list("dataExp" = dataExp, "dataExpGeneName" = dataExpGeneName, "dataCNA" = dataCNA, "dataMutBin" = dataMutBin, "dataAnnBin" = dataAnnBin, "probeAnnot" = probeAnnot)
+  newList <- list("dataExp" = dataExp, "dataExpGeneName" = dataExpGeneName, 
+                  "dataCNA" = dataCNA, "dataMutBin" = dataMutBin, 
+                  "dataAnnBin" = dataAnnBin, "probeAnnot" = probeAnnot)
   return(newList)
 }
