@@ -31,13 +31,16 @@ plotBoxplotPatientAnalysis <- function(gene1, colorby, myDataExp, myDataAnn, log
   myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="Cell_Line",by.y='row.names')
   
   # eliminate confusion between MYCN gene and status
-  coln <- grep("MYCN.x", colnames(myDataExp.c))
-  colnames(myDataExp.c)[coln] <- 'MYCN'
-  coln <- grep("MYCN.y", colnames(myDataExp.c))
-  colnames(myDataExp.c)[coln] <- 'MYCNS'
-  if(colorby=="MYCN")
+  if(length(grep('MYCN',colnames(myDataExp.c)))>1)
   {
-    colorby = "MYCNS"
+    coln <- grep("MYCN.x", colnames(myDataExp.c))
+    colnames(myDataExp.c)[coln] <- 'MYCN'
+    coln <- grep("MYCN.y", colnames(myDataExp.c))
+    colnames(myDataExp.c)[coln] <- 'MYCNS'
+    if(colorby=="MYCN")
+    {
+      colorby = "MYCNS"
+    }
   }
   
   # modify gene name, dashes present
