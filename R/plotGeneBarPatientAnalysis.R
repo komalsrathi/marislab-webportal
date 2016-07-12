@@ -13,11 +13,11 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
   myDataExp$gene <- rownames(myDataExp)
   myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
   myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
-  colnames(myDataExp.c)[1] = "Cell_Line"
+  colnames(myDataExp.c)[1] = "Sample"
   
   # sort by value
   if(sortby == TRUE){
-    myDataExp.c$Cell_Line <- reorder(myDataExp.c$Cell_Line,myDataExp.c[,gene1])
+    myDataExp.c$Sample <- reorder(myDataExp.c$Sample,myDataExp.c[,gene1])
   }
   
   # plot log values
@@ -26,7 +26,7 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
     y.axis <- "RMA"
     myDataExp.tmp <- myDataExp.c[,-1]
     myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
-    myDataExp.tmp <- cbind(Cell_Line=myDataExp.c$Cell_Line, myDataExp.tmp)
+    myDataExp.tmp <- cbind(Sample=myDataExp.c$Sample, myDataExp.tmp)
     myDataExp.c <- myDataExp.tmp
   }
   if(log==TRUE)
@@ -35,17 +35,22 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
   }
   
   # add annotation data to expression set
-  myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="Cell_Line",by.y='row.names')
+  myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="Sample",by.y='row.names')
   
   # eliminate confusion between MYCN gene and status
-  coln <- grep("MYCN.x", colnames(myDataExp.c))
-  colnames(myDataExp.c)[coln] <- 'MYCN'
-  coln <- grep("MYCN.y", colnames(myDataExp.c))
-  colnames(myDataExp.c)[coln] <- 'MYCNS'
-  if(colorby == "MYCN")
+  if(length(grep('MYCN',colnames(myDataExp.c)))>1)
   {
-    colorby = "MYCNS"
+    coln <- grep("MYCN.x", colnames(myDataExp.c))
+    colnames(myDataExp.c)[coln] <- 'MYCN'
+    coln <- grep("MYCN.y", colnames(myDataExp.c))
+    colnames(myDataExp.c)[coln] <- 'MYCNS'
+    if(colorby == "MYCN")
+    {
+      colorby = "MYCNS"
+    }
   }
+  
+  
   
   # modify gene name, dashes present
   gene1.mut <- paste('`',gene1,'`',sep='')
@@ -54,7 +59,7 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
   {
     if(density == FALSE)
     {
-      p <- ggplot(myDataExp.c, aes_string(x='Cell_Line', y=gene1.mut)) + 
+      p <- ggplot(myDataExp.c, aes_string(x='Sample', y=gene1.mut)) + 
         geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + ggtitle(gene1)
     }
     if(density == TRUE)
@@ -66,7 +71,7 @@ plotGeneBarPatientAnalysis <- function(gene1, myDataExp, myDataAnn, sortby, log,
   {
     if(density == FALSE)
     {
-      p <- ggplot(myDataExp.c, aes_string(x='Cell_Line', y=gene1.mut, fill=colorby)) + customtheme +
+      p <- ggplot(myDataExp.c, aes_string(x='Sample', y=gene1.mut, fill=colorby)) + customtheme +
         geom_bar(stat="identity") + theme(axis.text.x  = element_text(angle=90)) + ggtitle(gene1)
     }
     if(density == TRUE)
