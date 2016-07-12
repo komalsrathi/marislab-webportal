@@ -52,13 +52,16 @@ plotGeneScatterPatientData <- function(gene1, gene2, myDataExp, myDataAnn, log, 
 	myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="variable",by.y='row.names')
 	
 	# eliminate confusion between MYCN gene and status
-	coln <- grep("MYCN.x", colnames(myDataExp.c))
-	colnames(myDataExp.c)[coln] <- 'MYCN'
-	coln <- grep("MYCN.y", colnames(myDataExp.c))
-	colnames(myDataExp.c)[coln] <- 'MYCNS'
-	if(colorby=="MYCN")
+	if(length(grep('MYCN',colnames(myDataExp.c)))>1)
 	{
-	  colorby = "MYCNS"
+	  coln <- grep("MYCN.x", colnames(myDataExp.c))
+	  colnames(myDataExp.c)[coln] <- 'MYCN'
+	  coln <- grep("MYCN.y", colnames(myDataExp.c))
+	  colnames(myDataExp.c)[coln] <- 'MYCNS'
+	  if(colorby=="MYCN")
+	  {
+	    colorby = "MYCNS"
+	  }
 	}
 	
 	# plot
