@@ -56,7 +56,7 @@ dashboardPage(
                menuSubItem("Tumor vs Normal Boxplot", icon = icon("bar-chart"), tabName = "tvnb"),
                menuSubItem("Tumor vs Normal Boxplot Abstracted", icon = icon("bar-chart"), tabName = "tvnba")
       ),
-      menuItem("TARGET Multi-Tumor Tools", tabName = "targetrnaseq", icon = icon("gears"),
+      menuItem("TARGET RNASeq Multi-Tumor Comparison", tabName = "targetrnaseq", icon = icon("gears"),
                menuSubItem("Target Gene Expression Boxplot", icon = icon("bar-chart"), tabName = "tgebox"),
                menuSubItem("Target Gene Expression Scatterplot", icon = icon("line-chart"), tabName = "tgedot")
       ),
@@ -142,8 +142,8 @@ dashboardPage(
                                                                                                    'Microarray HumanWG6v2 GSE19274 (38 CL)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                    'RNAseq (STAR) (41 CL)'='STAR_FPKM_41cells_genes',
                                                                                                    'RNAseq (Kallisto) (41 CL)'='kallisto_TPM_41cells_genes',
-                                                                                                   'RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
-                                                                                                   'RNAseq (Kallisto) (724 CL)'='kallisto_TPM_Target724_genes')), width = 5, background = "navy")
+                                                                                                   'RNAseq (STAR) (724 PS)'='STAR_FPKM_Target724_genes',
+                                                                                                   'RNAseq (Kallisto) (724 PS)'='kallisto_TPM_Target724_genes')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
@@ -158,9 +158,7 @@ dashboardPage(
                                                                                                     'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                     'Microarray HumanWG6v2 GSE19274 (38 CL)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                     'RNAseq (STAR) (41 CL)'='STAR_FPKM_41cells_genes',
-                                                                                                    'RNAseq (Kallisto) (41 CL)'='kallisto_TPM_41cells_genes',
-                                                                                                    'RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
-                                                                                                    'RNAseq (Kallisto) (724 CL)'='kallisto_TPM_Target724_genes')),
+                                                                                                    'RNAseq (Kallisto) (41 CL)'='kallisto_TPM_41cells_genes')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 4, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -178,9 +176,7 @@ dashboardPage(
                                                                                                      'Microarray U133Plus2 CCLE (17 CL)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                      'Microarray HumanWG6v2 GSE19274 (38 CL)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                      'RNAseq (STAR) (41 CL)'='STAR_FPKM_41cells_genes',
-                                                                                                     'RNAseq (Kallisto) (41 CL)'='kallisto_TPM_41cells_genes',
-                                                                                                     'RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
-                                                                                                     'RNAseq (Kallisto) (724 CL)'='kallisto_TPM_Target724_genes')),
+                                                                                                     'RNAseq (Kallisto) (41 CL)'='kallisto_TPM_41cells_genes')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
@@ -491,8 +487,8 @@ dashboardPage(
       #### Target Data ####
       tabItem(tabName = "tgebox",
               fluidRow(
-                box(selectInput(inputId = "tgeboxselectInput1", label = "Select dataset", choices = c('RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
-                                                                                                      'RNAseq (Kallisto) (724 CL)'='kallisto_TPM_Target724_genes')),
+                box(selectInput(inputId = "tgeboxselectInput1", label = "Select dataset", choices = c('TARGET RNAseq (STAR) (724 PS)'='STAR_FPKM_Target724_genes',
+                                                                                                      'TARGET RNAseq (Kallisto) (724 PS)'='kallisto_TPM_Target724_genes')),
                     actionButton(inputId = "tgeboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "tgeboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "tgeboxcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -504,13 +500,13 @@ dashboardPage(
                                                                                                   'CCSK'='TARGET-51-',
                                                                                                   'RT'='TARGET-52-'), multiple = TRUE), width = 2, background = 'navy')
               ),
-              fluidRow(column(5, actionButton(inputId = 'tgeboxsubmit2', label = "Get Expression Barplot"))), br(), br(),
+              fluidRow(column(5, actionButton(inputId = 'tgeboxsubmit2', label = "Get Boxplot"))), br(), br(),
               plotlyOutput(outputId = "tgeboxplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "tgedot",
               fluidRow(
-                box(selectInput(inputId = "tgedotselectInput1", label = "Select dataset", choices = c('RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
-                                                                                                      'RNAseq (Kallisto) (724 CL)'='kallisto_TPM_Target724_genes')),
+                box(selectInput(inputId = "tgedotselectInput1", label = "Select dataset", choices = c('TARGET RNAseq (STAR) (724 PS)'='STAR_FPKM_Target724_genes',
+                                                                                                      'TARGET RNAseq (Kallisto) (724 PS)'='kallisto_TPM_Target724_genes')),
                     actionButton(inputId = "tgedotsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "tgedotselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "tgedotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
