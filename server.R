@@ -21,6 +21,8 @@ source('R/plotGeneCNAvsRNAPatientAnalysis.R')
 source('R/boxPlotGeneSUTC.R')
 source('R/boxPlotGeneHighSUTC.R')
 source('R/dbplot.R')
+source('R/plotBoxplotTargetRNA.R')
+source('R/plotGeneScatterTargetRNA.R')
 
 # load datasets here
 load('data/TumNormData.RData')
@@ -39,6 +41,7 @@ load('data/compAim3_DE.RData')
 load('data/compAim3_OE.RData')
 load('data/compAim3_TM.RData')
 load('data/data_summary.RData')
+load('data/Target724_targetcode.RData')
 
 shinyServer(function(input, output, session){
   
@@ -517,6 +520,63 @@ shinyServer(function(input, output, session){
                           normDataAnnot = normDataAnnot)
     })
   })
+  
+  # target rnaseq boxplot
+  observe({
+    if(input$tgeboxsubmit1==0){
+      return()
+    }
+    dat <- as.character(input$tgeboxselectInput1)
+    dat <- get(dat)
+    num <- rownames(dat)
+    updateSelectizeInput(session = session, inputId = "tgeboxselectInput2", choices = num, server = TRUE)
+  })
+  
+  output$tgeboxplot1 <- renderPlotly({
+    if(input$tgeboxsubmit2 == 0){
+      return()
+    }
+    isolate({
+      datatype <- as.character(input$tgeboxselectInput1)
+      dat <- get(datatype)
+      gene1 <- as.character(input$tgeboxselectInput2)
+      logvalue <- input$tgeboxcheckboxInput1
+      colorby <- as.character(input$tgeboxselectInput3)
+      plotBoxplotTargetRNA(gene1 = gene1, colorby = colorby, datatype = datatype, 
+                           dat = dat, log = logvalue, customtheme = tbw, 
+                           targetcode = Target724_targetcode)
+    })
+  })
+  
+  # target rnaseq dotplot
+  observe({
+    if(input$tgedotsubmit1 == 0){
+      return()
+    }
+    dat <- as.character(input$tgedotselectInput1)
+    dat <- get(dat)
+    num <- rownames(dat)
+    updateSelectizeInput(session = session, inputId = "tgedotselectInput2", choices = num, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "tgedotselectInput3", choices = num, server = TRUE)
+  })
+  
+  output$tgedotplot1 <- renderPlotly({
+    if(input$tgedotsubmit2 == 0){
+      return()
+    }
+    isolate({
+      datatype <- as.character(input$tgedotselectInput1)
+      dat <- get(datatype)
+      gene1 <- as.character(input$tgedotselectInput2)
+      gene2 <- as.character(input$tgedotselectInput3)
+      logvalue <- input$tgedotcheckboxInput1
+      correlation <- input$tgedotselectInput4
+      colorby <- as.character(input$tgedotselectInput5)
+      plotGeneScatterTargetRNA(datatype = datatype, dat = dat, gene1 = gene1, gene2 = gene2, log = logvalue, customtheme = tbw, 
+                               correlation = correlation, colorby = colorby, targetcode = Target724_targetcode)
+    })
+  })
+  
   
   # compendia overexpression analysis
   output$aoatable1 <- DT::renderDataTable({
