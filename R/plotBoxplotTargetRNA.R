@@ -67,7 +67,7 @@ plotBoxplotTargetRNA <- function(gene1, colorby, datatype, dat, log, customtheme
   }
   if(length(levels(dat.c[,colorby]))==1)
   {
-    p <- ggplot(dat.c, aes(x=colorby, y=gene1.mut, fill=colorby)) + customtheme + geom_boxplot() + theme(legend.position = "none")
+    p <- ggplot(dat.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + customtheme + geom_boxplot() + theme(legend.position = "none")
   }
   p <- plotly_build(p)
   p$layout$yaxis$title <- y.axis
