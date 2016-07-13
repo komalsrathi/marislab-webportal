@@ -56,6 +56,10 @@ dashboardPage(
                menuSubItem("Tumor vs Normal Boxplot", icon = icon("bar-chart"), tabName = "tvnb"),
                menuSubItem("Tumor vs Normal Boxplot Abstracted", icon = icon("bar-chart"), tabName = "tvnba")
       ),
+      menuItem("TARGET Multi-Tumor Tools", tabName = "targetrnaseq", icon = icon("gears"),
+               menuSubItem("Target Gene Expression Boxplot", icon = icon("bar-chart"), tabName = "tgebox"),
+               menuSubItem("Target Gene Expression Scatterplot", icon = icon("line-chart"), tabName = "tgedot")
+      ),
       menuItem("Compendia Analysis", tabName = "compendiaanalysis", icon = icon("gears"),
                menuSubItem("Aim 3 Overexpression Analysis", icon = icon("table"), tabName = "aoa"),
                menuSubItem("Aim 3 Transmembrane Protein Calls", icon = icon("table"), tabName = "atpc"),
@@ -483,6 +487,48 @@ dashboardPage(
               plotlyOutput(outputId = "tvnbaplot1", width = 1200, height = 1000)
       ),
       ##### RNASeq Target Data #####
+      
+      #### Target Data ####
+      tabItem(tabName = "tgebox",
+              fluidRow(
+                box(selectInput(inputId = "tgeboxselectInput1", label = "Select dataset", choices = c('RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
+                                                                                                      'RNAseq (Kallisto) (724 CL)'='kallisto_TPM_Target724_genes')),
+                    actionButton(inputId = "tgeboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "tgeboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "tgeboxcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
+                box(selectInput(inputId = "tgeboxselectInput3", label = "Tumor type", choices = c('AML'='TARGET-20-',
+                                                                                                  'AML-IF'='TARGET-21-',
+                                                                                                  'NBL'='TARGET-30-',
+                                                                                                  'OS'='TARGET-40-',
+                                                                                                  'WT'='TARGET-50-',
+                                                                                                  'CCSK'='TARGET-51-',
+                                                                                                  'RT'='TARGET-52-'), multiple = TRUE), width = 2, background = 'navy')
+              ),
+              fluidRow(column(5, actionButton(inputId = 'tgeboxsubmit2', label = "Get Expression Barplot"))), br(), br(),
+              plotlyOutput(outputId = "tgeboxplot1", width = 1000, height = 800)
+      ),
+      tabItem(tabName = "tgedot",
+              fluidRow(
+                box(selectInput(inputId = "tgedotselectInput1", label = "Select dataset", choices = c('RNAseq (STAR) (724 CL)'='STAR_FPKM_Target724_genes',
+                                                                                                      'RNAseq (Kallisto) (724 CL)'='kallisto_TPM_Target724_genes')),
+                    actionButton(inputId = "tgedotsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "tgedotselectInput2", label = "Select Gene 1", choices = "none"), 
+                    selectInput(inputId = "tgedotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "tgedotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
+                box(selectInput(inputId = "tgedotselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
+                box(selectInput(inputId = "tgedotselectInput5", label = "Tumor type", choices = c('AML'='TARGET-20-',
+                                                                                                  'AML-IF'='TARGET-21-',
+                                                                                                  'NBL'='TARGET-30-',
+                                                                                                  'OS'='TARGET-40-',
+                                                                                                  'WT'='TARGET-50-',
+                                                                                                  'CCSK'='TARGET-51-',
+                                                                                                  'RT'='TARGET-52-'), multiple = TRUE), width = 2, background = 'navy')
+              ),
+              fluidRow(column(5, actionButton(inputId = 'tgedotsubmit2', label = "Get Correlation Plot"))), br(), br(),
+              plotlyOutput(outputId = "tgedotplot1", width = 1000, height = 800)
+      ),
+      #### Target Data ####
+      
       
       ##### Compendia Analysis #####
       tabItem(tabName = "aoa",
