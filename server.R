@@ -42,6 +42,8 @@ load('data/compAim3_OE.RData')
 load('data/compAim3_TM.RData')
 load('data/data_summary.RData')
 load('data/Target724_targetcode.RData')
+# load('data/Cufflinks_FPKM_GSE49711_SEQC_genes.RData')
+# load('data/Cufflinks_FPKM_GSE49711_SEQC_transcripts.RData')
 
 shinyServer(function(input, output, session){
   
