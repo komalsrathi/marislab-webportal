@@ -5,7 +5,7 @@
 ####################################
 
 # plot scatter plot of 2 genes##################
-plotGeneScatterPatientData <- function(gene1, gene2, myDataExp, myDataAnn, log, colorby, correlation, customtheme)
+plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myDataAnn, log, colorby, correlation, customtheme)
 {
 
   # get expression and annotation of the selected dataset
@@ -35,19 +35,37 @@ plotGeneScatterPatientData <- function(gene1, gene2, myDataExp, myDataAnn, log, 
 	gene2.mut <- paste('`',gene2,'`',sep = '')
 	
 	# plot log values? 
-	if(log==FALSE)
+	if(length(grep('FPKM',datatype))==0)
 	{
-	  y.axis <- "RMA"
-	  myDataExp.tmp <- myDataExp.c[,-1]
-	  myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
-	  myDataExp.tmp <- cbind(variable=myDataExp.c$variable, myDataExp.tmp)
-	  myDataExp.c <- myDataExp.tmp
+	  if(log==FALSE)
+	  {
+	    y.axis <- "RMA"
+	    myDataExp.tmp <- myDataExp.c[,-1]
+	    myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
+	    myDataExp.tmp <- cbind(variable=myDataExp.c$variable, myDataExp.tmp)
+	    myDataExp.c <- myDataExp.tmp
+	  }
+	  if(log==TRUE)
+	  {
+	    y.axis <- "log2(RMA)"
+	  }
 	}
-	if(log==TRUE)
+	if(length(grep('FPKM',datatype))==1)
 	{
-	  y.axis <- "log2(RMA)"
+	  if(log==FALSE)
+	  {
+	    y.axis <- "FPKM"
+	  }
+	  if(log==TRUE)
+	  {
+	    y.axis <- "log2(FPKM)"
+	    myDataExp.tmp <- myDataExp.c[,-1]
+	    myDataExp.tmp <- as.data.frame(log2(myDataExp.tmp+1))
+	    myDataExp.tmp <- cbind(variable=myDataExp.c$variable, myDataExp.tmp)
+	    myDataExp.c <- myDataExp.tmp
+	  }
 	}
-  
+	
 	# add annotation data to expression set
 	myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="variable",by.y='row.names')
 	
