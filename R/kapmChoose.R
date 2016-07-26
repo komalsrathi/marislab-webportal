@@ -24,11 +24,11 @@ kapmChoose <- function(datatype, dataset, genes, endpoint)
   {
     out <- kapmPlot(genes, dataset, createPlot=T, tVar="efstime", eVar="efscens")
   }
-  if(datatype=="GPL" & endpoint=="os")
+  if(datatype=="GSE3960" & endpoint=="os")
   {
     out <- kapmPlot(genes, dataset, createPlot=T, tVar="stime", eVar="scens")
   }
-  if(datatype=="GPL" & endpoint=="efs")
+  if(datatype=="GSE3960" & endpoint=="efs")
   {
     out <- kapmPlot(genes, dataset, createPlot=T, tVar="efstime", eVar="efscens")
   }
