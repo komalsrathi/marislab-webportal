@@ -279,6 +279,7 @@ shinyServer(function(input, output, session){
       colorby <- as.character(input$pgehselectInput2)
       gene1 <- as.character(input$pgehselectInput3)
       plotGeneBarPatientAnalysis(gene1 = gene1, 
+                                 datatype = dataset,
                                  myDataExp = myDataExp,
                                  myDataAnn = myDataAnn,
                                  sortby = sortby, log = log, 
@@ -312,8 +313,11 @@ shinyServer(function(input, output, session){
       log <- input$pgebpcheckboxInput1
       colorby <- input$pgebpselectInput2
       gene1 <- input$pgebpselectInput3
-      plotBoxplotPatientAnalysis(gene1 = gene1, colorby = colorby, 
-                                 myDataExp = myDataExp, myDataAnn = myDataAnn,
+      plotBoxplotPatientAnalysis(gene1 = gene1, 
+                                 datatype = dataset,
+                                 colorby = colorby, 
+                                 myDataExp = myDataExp, 
+                                 myDataAnn = myDataAnn,
                                  log = log,
                                  customtheme = tbw)
     })
@@ -368,7 +372,7 @@ shinyServer(function(input, output, session){
       return()
     }
     isolate({
-      dataset <- as.character(input$pggcselectInput1)
+      dataset <- input$pggcselectInput1
       myDataExp <- get(paste0(dataset,'_data'))
       myDataAnn <- get(paste0(dataset,'_mData'))
       log <- input$pggccheckboxInput1
@@ -377,6 +381,7 @@ shinyServer(function(input, output, session){
       gene2 <- as.character(input$pggcselectInput4)
       correlation <- input$pggcselectInput5
       plotGeneScatterPatientData(gene1 = gene1, gene2 = gene2, 
+                                 datatype = dataset,
                                  myDataExp = myDataExp, myDataAnn = myDataAnn,
                                  log = log, colorby = colorby, correlation = correlation,
                                  customtheme = tbw)
