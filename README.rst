@@ -45,20 +45,18 @@ Updates
 * Fixes gene names in patient data (messed up in Excel).
 * Adds Kallisto TPM data.
 * Adds data summary.
-* Locks first column for large dataframes.
+* Locks reference columns for large dataframes.
 * Removes non-informative rownames.
 * Adds transparency to density plots.
-* Adds GPL8300 Patient (GSE3960) and Sanger CLE U133Plus2 dataset.
-* Adds CCLE U133Plus2 dataset.
-* Adds GPL6102 dataset (GSE19274).
+* Adds ~15 datasets from R2/GEO/ArrayExpress.
+* Updates patient data dropdown using colnames in metadata.
+* Replaces Tabletools with Buttons extension.
 * More to come later!
 
 Improvements required
 ^^^^^^^^^^^^^^^^^^^^^
 
-* lock more than one column (cannot test on OSX)
 * add description for each project.
 * for a plot, get raw data from which the plot came.
 * add functionality for b/w plots using dropdown.
 * user traffic record
-* check if bottom filter is visible or not.
