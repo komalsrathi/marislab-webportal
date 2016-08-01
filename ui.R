@@ -96,40 +96,51 @@ dashboardPage(
               ),
               fluidRow(
                 box(title = "Data summary table", status = "warning", width = 12, collapsible = T, collapsed = T, solidHeader = T, 
-                    DT::datatable(get(load('data/data_summary.RData')),
+                    DT::datatable(data = get(load('data/data_summary.RData')),
+                                  width = 950,
+                                  rownames = FALSE, selection = "single",
+                                  extension = c('Buttons'),
                                   options = list(
+                                    dom = 'Bfrtip',
+                                    buttons = list('pageLength'),
                                     searchHighlight = TRUE,
-                                    pageLength = 5,
-                                    lengthMenu = list(c(5, 10, 15, 20, 25, -1), c('5', '10', '15', '20', '25', 'All')),
                                     initComplete = JS("function(settings, json) {",
                                                       "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
                                                       "}")
-                                  ), rownames = FALSE)),
+                                  ))),
                 box(title = "Data summary plot", status = "warning", width = 12, collapsed = T, collapsible = T, solidHeader = T, 
-                    plotlyOutput(outputId = "dbplot1", width = 825, height = 400))
+                    plotlyOutput(outputId = "dbplot1", width = 950, height = 400))
               )
       ),
       
       ######## Resources ###########
       # rdbi content
       tabItem(tabName = "rdbi",
-              DT::datatable(data = read.csv('data/internal.txt'),
+              DT::datatable(data = read.csv('data/internal.txt'), 
+                            rownames = FALSE, escape = FALSE, selection = "single",
+                            extensions = c('Buttons'),
                             options = list(
+                              dom = 'Bfrtip',
+                              buttons = list('pageLength'),
                               searchHighlight = TRUE,
                               initComplete = JS("function(settings, json) {",
                                                 "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
                                                 "}")
-                            ), rownames = FALSE, escape = FALSE, selection = "single")
+                            ))
       ),
       
       tabItem(tabName = "rdbe",
-              DT::datatable(data = read.csv('data/external.txt'),
+              DT::datatable(data = read.csv('data/external.txt'), 
+                            rownames = FALSE, escape = FALSE, selection = "single",
+                            extensions = c('Buttons'),
                             options = list(
+                              dom = 'Bfrtip',
+                              buttons = list('pageLength'),
                               searchHighlight = TRUE,
                               initComplete = JS("function(settings, json) {",
                                                 "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
                                                 "}")
-                            ), rownames = FALSE, escape = FALSE, selection = "single")
+                            ))
       ),
       ######## Resources ###########
       
