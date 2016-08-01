@@ -263,6 +263,14 @@ shinyServer(function(input, output, session){
     myData <- get(paste0(dataset,'_data'))
     num <- rownames(myData)
     updateSelectizeInput(session = session, inputId = "pgehselectInput3", choices = num, server = TRUE)
+    
+    myData.pheno <- get(paste0(dataset,'_mData'))
+    cols <- intersect(colnames(myData.pheno),c('MYCN','RISK','STAGE'))
+    if(length(cols)==0)
+    {
+      cols <- 'None'
+    }
+    updateSelectizeInput(session = session, inputId = "pgehselectInput2", choices = cols, server = TRUE)
   })
 
   # patient gene bar plot
@@ -300,6 +308,14 @@ shinyServer(function(input, output, session){
     myData <- get(paste0(dataset,'_data'))
     num <- rownames(myData)
     updateSelectizeInput(session = session, inputId = "pgebpselectInput3", choices = num, server = TRUE)
+    
+    myData.pheno <- get(paste0(dataset,'_mData'))
+    cols <- intersect(colnames(myData.pheno),c('MYCN','RISK','STAGE'))
+    if(length(cols)==0)
+    {
+      cols <- 'None'
+    }
+    updateSelectizeInput(session = session, inputId = "pgebpselectInput2", choices = cols, server = TRUE)
   })
   
   # patient box plot
@@ -364,6 +380,14 @@ shinyServer(function(input, output, session){
       num <- rownames(myData)
       updateSelectizeInput(session = session, inputId = "pggcselectInput3", choices = num, server = TRUE)
       updateSelectizeInput(session = session, inputId = "pggcselectInput4", choices = num, server = TRUE)
+      
+      myData.pheno <- get(paste0(dataset,'_mData'))
+      cols <- intersect(colnames(myData.pheno),c('MYCN','RISK','STAGE'))
+      if(length(cols)==0)
+      {
+        cols <- 'None'
+      }
+      updateSelectizeInput(session = session, inputId = "pggcselectInput2", choices = cols, server = TRUE)
     })
   })
   
