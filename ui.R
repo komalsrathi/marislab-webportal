@@ -388,7 +388,7 @@ dashboardPage(
                 box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Sort Data"),
                     checkboxInput(inputId = "pgehcheckboxInput2", label = "Log Data"),
                     checkboxInput(inputId = "pgehcheckboxInput3", label = "Density"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgehselectInput2", label = "Color by", choices = c("None","STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput2", label = "Color by", choices = c("None")), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgehselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgehsubmit2', label = "Get Expression Plot"))), br(), br(),
