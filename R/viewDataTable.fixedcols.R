@@ -6,17 +6,22 @@
 
 viewDataTable.fixedcols <- function(dat){
   DT::datatable(dat,
-                extensions = c('FixedColumns','Scroller'),
+                rownames = FALSE,
+                extensions = c('FixedColumns', 'Buttons'),
+                filter = "bottom",
                 options = list(
-                  dom = 'RMDCT<"clear">lfrtip',
+                  dom = 'Bfrtip',
+                  buttons = list('colvis','pageLength', 'copy','print',
+                                 list(extend = "collection",
+                                      buttons = c('csv', 'excel', 'pdf'),
+                                      text = 'Download'
+                  )),
                   searchHighlight = TRUE,
-                  tableTools = list(sSwfPath = copySWF('www')),
-                  pageLength = 5,
                   lengthMenu = list(c(5, 10, 15, 20, 25, -1), c('5', '10', '15', '20', '25', 'All')),
                   initComplete = JS("function(settings, json) {",
                                     "$(this.api().table().header()).css({'background-color': '#005ab3', 'color': '#fff'});",
                                     "}"),
                   scrollX = TRUE,
                   fixedColumns = list(leftColumns = 3)
-                ), rownames = FALSE)
+                ))
 }
