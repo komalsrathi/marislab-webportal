@@ -429,7 +429,8 @@ dashboardPage(
                 box(selectInput(inputId = "pgebpselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgebpsubmit2', label = "Get Patient Boxplot"))), br(), br(),
-              plotlyOutput(outputId = "pgebpplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "pgebpplot1", width = 1000, height = 800),
+              DT::dataTableOutput(outputId = "pgebtable1")
       ),
       tabItem(tabName = "pkm",
               fluidRow(
