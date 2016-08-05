@@ -13,6 +13,7 @@ source('R/plotOncoPrint.R')
 source('R/viewDataTable.fixedcols.R')
 source('R/plotGeneBarPatientAnalysis.R')
 source('R/plotBoxplotPatientAnalysis.R')
+source('R/getTukeyHSDBoxplotPatientAnalysis.R')
 source('R/kapmChoose.R')
 source('R/plotGeneScatterPatientData.R')
 source('R/getCorrelationPatientAnalysis.R')
@@ -337,6 +338,27 @@ shinyServer(function(input, output, session){
                                  myDataAnn = myDataAnn,
                                  log = log,
                                  customtheme = tbw)
+    })
+  })
+  
+  output$pgebtable1 <- renderDataTable({
+    if(input$pgebpsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- input$pgebpselectInput1
+      myDataExp <- get(paste0(dataset,'_data'))
+      myDataAnn <- get(paste0(dataset,'_mData'))
+      log <- input$pgebpcheckboxInput1
+      colorby <- input$pgebpselectInput2
+      gene1 <- input$pgebpselectInput3
+      dat <- getTukeyHSDBoxplotPatientAnalysis(gene1 = gene1, 
+                                 datatype = dataset,
+                                 colorby = colorby, 
+                                 myDataExp = myDataExp, 
+                                 myDataAnn = myDataAnn,
+                                 log = log)
+      viewDataTable(dat = dat)
     })
   })
   
