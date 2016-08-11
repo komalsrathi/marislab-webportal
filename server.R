@@ -51,7 +51,7 @@ shinyServer(function(input, output, session){
   
   tbw <- themebw()
 
-  # update the table only if submit button is clicked
+  # cell line database
   output$cldbtable1 <- DT::renderDataTable({
     if(input$cldbsubmit1 == 0){
       return()
@@ -249,6 +249,18 @@ shinyServer(function(input, output, session){
                       gs = F,
                       dataExp = dataExp)
       rownames(dat) <- NULL
+      viewDataTable(dat = dat)
+    })
+  })
+  
+  # patient sample database
+  output$psdbtable1 <- DT::renderDataTable({
+    if(input$psdbsubmit1 == 0){
+      return()
+    }
+    isolate({
+      dataset <- as.character(input$psdbselectInput1)
+      dat <- get(paste0(dataset,'_data'))
       viewDataTable(dat = dat)
     })
   })
