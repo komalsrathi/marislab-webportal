@@ -32,18 +32,19 @@ dashboardPage(
                menuSubItem("External", icon = icon("database"), tabName = "rdbe")
       ),
       menuItem("Cell Lines Database", icon = icon("database"), tabName = "cldb"),
-      menuItem("Visualization Tools", tabName = "celllines", icon = icon("gears"),
+      menuItem("Cell Lines Visualization Tools", tabName = "celllines", icon = icon("gears"),
                menuSubItem("Gene Expression", icon = icon("bar-chart"), tabName = "clge"),
                menuSubItem("Gene/Gene Correlation", icon = icon("line-chart"), tabName = "clggc"),
                menuSubItem("Gene Copy Number plot", icon = icon("bar-chart"), tabName = "clgcn"),
                menuSubItem("CNA vs mRNA plot", icon = icon("line-chart"), tabName = "clcvm"),
                menuSubItem("Cell Line Heatmap", icon = icon("th"), tabName = "clh")
       ),
-      menuItem("Analysis Tools", tabName = "microarray", icon = icon("gears"),
+      menuItem("Cell Lines Analysis Tools", tabName = "microarray", icon = icon("gears"),
                menuSubItem("Mutation Table", icon = icon("table"), tabName = "clm"),
                menuSubItem("Cell Line Comparison Tool", icon = icon("table"), tabName = "clct")
       ),
-      menuItem("Patient Sample Tools", tabName = "patientsamples", icon = icon("gears"),
+      menuItem("Patient Sample Database", icon = icon("database"), tabName = "psdb"),
+      menuItem("Patient Sample Visualization Tools", tabName = "patientsamples", icon = icon("gears"),
                menuSubItem("Patient Gene Expression Histogram", icon = icon("bar-chart"), tabName = "pgeh"),
                menuSubItem("Patient Gene Expression Box Plot", icon = icon("bar-chart"), tabName = "pgebp"),
                menuSubItem("Patient Kaplan-meier", icon = icon("line-chart"), tabName = "pkm"),
@@ -374,6 +375,31 @@ dashboardPage(
       ##### Cell Lines Utilities #####
       
       ##### Patient Samples Utilities #####
+      tabItem(tabName = "psdb",
+              fluidRow(
+                box(selectInput(inputId = 'psdbselectInput1', label = 'Select dataset',choices = c('NB88'='NB88',
+                                                                                                   'HI51'='HI51',
+                                                                                                   'IH250'='IH250',
+                                                                                                   'OBER649'='OBER649',
+                                                                                                   'GSE3960 (GPL8300 U95)'='GSE3960',
+                                                                                                   'GSE19274 (GPL6102 HumanWG6v2)'='GSE19274',
+                                                                                                   'GSE16237 (GPL570 U133Plus2)'='GSE16237',
+                                                                                                   'GSE45547 (GPL16876 Custom44k)'='GSE45547',
+                                                                                                   'GSE13136 (GPL570 U133Plus2)'='GSE13136',
+                                                                                                   'GSE54720 (GPL13667	U219)'='GSE54720',
+                                                                                                   'GSE49710 (GPL16876	Custom44k)'='GSE49710',
+                                                                                                   'GSE27608 (GPL5188 HuEx1.0ST)'='GSE27608',
+                                                                                                   'GSE16476 (GPL570	U133Plus2.0)'='GSE16476',
+                                                                                                   'EMEXP669'='EMEXP669',
+                                                                                                   'GSE3446 (GPL96 U133A)'='GSE3446_U133A',
+                                                                                                   'GSE3446 (GPL97 U133B)'='GSE3446_U133B',
+                                                                                                   'GSE49711 (GPL17553	IlluminaHiseq2000)'='GSE49711_FPKM',
+                                                                                                   'GSE65303 (GPL16876	Custom44k)'='GSE65303',
+                                                                                                   'TARGET NBL (HUEX10)'='TARGET_NBL')), width = 5, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'psdbsubmit1', label = "Load dataset"))), br(), br(),
+              DT::dataTableOutput(outputId = "psdbtable1")
+      ),
       tabItem(tabName = "pgeh",
               fluidRow(
                 box(selectInput(inputId = "pgehselectInput1", label = "Select dataset", choices = c('NB88'='NB88',
