@@ -72,6 +72,7 @@ dashboardPage(
                menuSubItem("IC50 Analysis", icon = icon("star"), tabName = "ia")
       ),
       menuItem("More Info", tabName = "moreinfo", icon = icon("th"),
+               menuSubItem("README", icon = icon("file-text"), tabName = "readme"),
                menuSubItem("About", icon = icon("info-circle"), tabName = "about"),
                menuSubItem("Contact", icon = icon("envelope"), tabName = "contact")
       )
@@ -96,21 +97,20 @@ dashboardPage(
                 box(title = "Analysis Tools", status = "warning", width = 4, collapsible = T, collapsed = F, solidHeader = TRUE, "Analytical generic bioinformatics tools such as Gene Set Enrichment Analysis, IC50 Analysis, Drug Synergy Analysis, etc... Starred tools are being prepped for production and will be incorporated shortly.")
               ),
               fluidRow(
-                box(title = "Data summary table", status = "warning", width = 12, collapsible = T, collapsed = T, solidHeader = T, 
-                    DT::datatable(data = get(load('data/data_summary.RData')),
-                                  width = 950,
-                                  rownames = FALSE, selection = "single",
-                                  extension = c('Buttons'),
-                                  options = list(
-                                    dom = 'Bfrtip',
-                                    buttons = list('pageLength'),
-                                    searchHighlight = TRUE,
-                                    initComplete = JS("function(settings, json) {",
-                                                      "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
-                                                      "}")
-                                  ))),
                 box(title = "Data summary plot", status = "warning", width = 12, collapsed = T, collapsible = T, solidHeader = T, 
                     plotlyOutput(outputId = "dbplot1", width = 950, height = 400))
+                # box(title = "Data summary table", status = "warning", width = 12, collapsible = T, collapsed = T, solidHeader = T, 
+                #     DT::datatable(data = read.delim('data/data_summary.txt'),
+                #                   rownames = FALSE, selection = "single",
+                #                   extension = c('Buttons'),
+                #                   options = list(
+                #                     dom = 'Bfrtip',
+                #                     buttons = list('pageLength'),
+                #                     searchHighlight = TRUE,
+                #                     initComplete = JS("function(settings, json) {",
+                #                                       "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
+                #                                       "}")
+                #                   )))
               )
       ),
       
@@ -647,6 +647,24 @@ dashboardPage(
               DT::dataTableOutput(outputId = 'atndatable1')
       ),
       ##### Compendia Analysis #####
+      
+      ######### README, MISC ########
+      # readme content
+      tabItem(tabName = "readme",
+              fluidRow(
+                box(title = "WARNING", status = "danger", width = 12, solidHeader = TRUE, 
+                    "The app might be slow because of memory requirements. 
+                    You might have to wait for about 30 secs before all the datasets/plots are loaded. 
+                    Please be patient until we get the paid version."),
+                box(title = "README before proceeding", status = "warning", width = 12, solidHeader = TRUE, 
+                    "1. Choose Dataset from dropdown list of datasets.", br(),
+                    "2. Load dataset by clicking 'Load Dataset'.",br(),
+                    "3. Select Gene, Colorby, Sortby etc from the respective dropdowns. 
+                    These values are dataset specific and are updated when the dataset loads so Step 2 is required before any selections are made.",br(),
+                    "4. Click 'Get ... Plot' to generate plots.",br()),
+                box(title = "Questions?", status = "warning", width = 12, solidHeader = TRUE, "Go to More Info -> Contact -> Email/Fill the Feedback form.")
+              )
+      ),
       # about content
       tabItem(tabName = "about",
               fluidRow(
