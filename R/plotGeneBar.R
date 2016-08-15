@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 ####################################
 
-plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
+plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortby, colorby)
 {
   
   # load initial dataset
@@ -71,13 +71,19 @@ plotGeneBar <- function(datatype, dat, gene1, log, customtheme, sortby)
     }
   }
   
+  # add phenotype data - MYCN status
+  dat.c <- merge(dat.c, phenotype, by.x = 'Cell_Line', by.y = 'CellLine', all.x = TRUE)
+  
   # sorting of bars
-  if(sortby == "Value"){
+  if(sortby == "Gene"){
     dat.c$Cell_Line <- reorder(dat.c$Cell_Line,dat.c[,gene1])
+  }
+  if(sortby == "MYCN_Status"){
+    dat.c$Cell_Line <- reorder(dat.c$Cell_Line, as.numeric(dat.c$MYCN_Status))
   }
   
   # ggplot 
-  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill='Cell_Line')) + 
+  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill = colorby)) + guides(fill=FALSE) + 
     geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
     ggtitle(gene1)
   
