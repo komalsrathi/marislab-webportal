@@ -27,13 +27,13 @@ source('R/plotGeneScatterTargetRNA.R')
 
 # load datasets here
 load('data/data_summary.RData')
+load('data/cellline_mData.RData')
 load('data/TumNormData.RData')
 load('data/allDataPatient.RData')
 load('data/Microarray_RMA_HumanGene1.0ST_29cells_genes.RData')
 load('data/Microarray_RMA_U133Plus2_17cells_CCLE_genes.RData')
 load('data/Microarray_RMA_U133Plus2_29cells_genes.RData')
 load('data/Microarray_RMA_HumanWG6v2_38cells_genes.RData')
-load('data/STAR_FPKM_41cells_genes.RData')
 load('data/kallisto_TPM_41cells_genes.RData')
 load('data/STAR_FPKM_Target724_genes.RData')
 load('data/kallisto_TPM_Target724_genes.RData')
@@ -84,10 +84,13 @@ shinyServer(function(input, output, session){
     isolate({
       datatype <- as.character(input$clgeselectInput1)
       dat <- get(datatype)
+      phenotype <- cellline_mData
       gene1 <- as.character(input$clgeselectInput2)
       logvalue <- input$clgecheckboxInput1
       sortby <- input$clgeselectInput3
-      plotGeneBar(datatype = datatype, dat = dat, gene1 = gene1, customtheme = tbw, log = logvalue, sortby)
+      colorby <- input$clgeselectInput4
+      plotGeneBar(datatype = datatype, dat = dat, phenotype = phenotype, colorby = colorby,
+                  gene1 = gene1, customtheme = tbw, log = logvalue, sortby)
     })
   })
   
