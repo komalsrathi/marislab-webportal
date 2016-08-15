@@ -8,6 +8,8 @@
   plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, correlation){
     
     # load initial dataset
+    # remove unwanted columns
+    dat <- dat[,-grep('HU.FETAL.BRAIN|NGP.CAMKV.NULL|NBEBC1|NB1643',colnames(dat))]
     dat$gene <- rownames(dat)
     dat.m <- melt(data = dat, id.vars = 'gene')
     dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
