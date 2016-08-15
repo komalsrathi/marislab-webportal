@@ -44,13 +44,16 @@ load('data/compAim3_DE.RData')
 load('data/compAim3_OE.RData')
 load('data/compAim3_TM.RData')
 load('data/Target724_targetcode.RData')
-# load('data/Cufflinks_FPKM_GSE49711_SEQC_genes.RData')
-# load('data/Cufflinks_FPKM_GSE49711_SEQC_transcripts.RData')
 
 shinyServer(function(input, output, session){
   
   tbw <- themebw()
 
+  # summary output
+  output$dbplot1 <- renderPlotly({
+    dbplot(data_summary = data_summary)
+  })
+  
   # cell line database
   output$cldbtable1 <- DT::renderDataTable({
     if(input$cldbsubmit1 == 0){
@@ -702,10 +705,6 @@ shinyServer(function(input, output, session){
       }
       viewDataTable(dat = dat)
     })
-  })
-  
-  output$dbplot1 <- renderPlotly({
-    dbplot(data_summary)
   })
   
 }) # shinyServer ends
