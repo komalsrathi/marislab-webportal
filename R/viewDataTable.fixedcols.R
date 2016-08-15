@@ -8,6 +8,7 @@ viewDataTable.fixedcols <- function(dat){
   DT::datatable(dat,
                 rownames = FALSE,
                 extensions = c('FixedColumns', 'Buttons'),
+                selection = "single",
                 filter = "bottom",
                 options = list(
                   dom = 'Bfrtip',
