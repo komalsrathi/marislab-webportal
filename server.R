@@ -590,6 +590,18 @@ shinyServer(function(input, output, session){
     })
   })
   
+  # target rnaseq database
+  output$tgedatatable1 <- DT::renderDataTable({
+    if(input$tgedatasubmit1 == 0){
+      return()
+    }
+    isolate({
+      dat <- as.character(input$tgedataselectInput1)
+      dat <- get(dat)
+      viewDataTable(dat = dat)
+    })
+  })
+  
   # target rnaseq boxplot
   observe({
     if(input$tgeboxsubmit1==0){
