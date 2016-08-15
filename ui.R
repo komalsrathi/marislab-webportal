@@ -153,7 +153,6 @@ dashboardPage(
                                                                                                    'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
                                                                                                    'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                    'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
-                                                                                                   'RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes',
                                                                                                    'RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',                                 
                                                                                                    'RNAseq (STAR) (n=46, FPKM)'='STAR_FPKM_46cells_genes')), width = 5, background = "navy")
               ),
@@ -169,13 +168,13 @@ dashboardPage(
                                                                                                     'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
                                                                                                     'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                     'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
-                                                                                                    'RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes',
                                                                                                     'RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
                                                                                                     'RNAseq (STAR) (n=46, FPKM)'='STAR_FPKM_46cells_genes')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
-                box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 4, background = "navy"),
+                box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 2, background = 'navy')
+                box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('CellLine', 'Gene', 'MYCN_Status')), width = 2, background = 'navy'),
+                box(selectInput(inputId = "clgeselectInput4", label = "Color by", choices = c('MYCN_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
@@ -188,7 +187,6 @@ dashboardPage(
                                                                                                      'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
                                                                                                      'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                      'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
-                                                                                                     'RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes',
                                                                                                      'RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
                                                                                                      'RNAseq (STAR) (n=46, FPKM)'='STAR_FPKM_46cells_genes')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
