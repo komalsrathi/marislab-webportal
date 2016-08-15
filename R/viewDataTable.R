@@ -7,6 +7,7 @@
 viewDataTable <- function(dat){
   DT::datatable(dat,
                 extensions = c('Buttons'),
+                selection = "single",
                 filter = "bottom",
                 options = list(
                   dom = 'Bfrtip',
