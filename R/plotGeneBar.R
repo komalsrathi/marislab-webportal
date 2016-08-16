@@ -83,9 +83,18 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
   }
   
   # ggplot 
-  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill = colorby)) + guides(fill=FALSE) + 
-    geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
-    ggtitle(gene1)
+  if(colorby != "None"){
+    p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill = colorby)) + guides(fill=FALSE) + 
+      geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+      ggtitle(gene1)
+  }
+  if(colorby == "None"){
+    p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut)) + guides(fill=FALSE) + 
+      geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+      ggtitle(gene1)
+  }
+  
+  
   
   p <- plotly_build(p)
   p$layout$annotations[[1]]$text <- ""
