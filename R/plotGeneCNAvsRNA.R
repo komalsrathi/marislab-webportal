@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 #####################################
 
-plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatype)
+plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatype, phenotype, colorby)
 {
   
   #Let's do other stuff
@@ -40,8 +40,17 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatyp
     y.axis <- 'RMA'
   }
   
-  p <- ggplot(data = tmpDataGC, aes(x = mRNA, y = CNA)) + 
-    geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = myText)
+  # merge
+  tmpDataGC <- merge(tmpDataGC, phenotype, by.x = 'CL_NAME', by.y = 'CellLine', all.x = TRUE)
+  
+  if(colorby == "None"){
+    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA')) + 
+      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = myText)
+  }
+  if(colorby != "None"){
+    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', color = colorby)) + 
+      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = myText)
+  }
   
   p <- plotly_build(p)
   p$data[[1]]$text <- tmpDataGC$CL_NAME
