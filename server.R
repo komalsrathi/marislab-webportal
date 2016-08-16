@@ -434,7 +434,7 @@ shinyServer(function(input, output, session){
       updateSelectizeInput(session = session, inputId = "pggcselectInput4", choices = num, server = TRUE)
       
       myData.pheno <- get(paste0(dataset,'_mData'))
-      cols <- intersect(colnames(myData.pheno),c('MYCN','RISK','STAGE'))
+      cols <- c('None',intersect(colnames(myData.pheno),c('MYCN','RISK','STAGE')))
       if(length(cols)==0)
       {
         cols <- 'None'
