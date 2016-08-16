@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 #####################################
 
-plotGeneBarCNA <- function(gene1, dat, customtheme, sortby)
+plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby)
 {
 	
 	dat$gene <- rownames(dat)
@@ -18,15 +18,28 @@ plotGeneBarCNA <- function(gene1, dat, customtheme, sortby)
 	idx <- sort(as.character(dat.c$Cell_Line), index=T)$ix
 	dat.c$Cell_Line <- factor(dat.c$Cell_Line, levels = dat.c[idx,"Cell_Line"])
   
+	# add phenotype data - MYCN status
+	dat.c <- merge(dat.c, phenotype, by.x = 'Cell_Line', by.y = 'CellLine', all.x = TRUE)
+	
 	# sorting of bars
-	if(sortby == "Value"){
+	if(sortby == "Gene"){
 	  dat.c$Cell_Line <- reorder(dat.c$Cell_Line,dat.c[,gene1])
+	}
+	if(sortby == "MYCN_Status"){
+	  dat.c$Cell_Line <- reorder(dat.c$Cell_Line, as.numeric(dat.c$MYCN_Status))
 	}
 	
 	# plot
-	p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill='Cell_Line')) + 
-	  geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
-	  ggtitle(gene1)
+	if(colorby != "None"){
+	  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill = colorby)) + 
+	    geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+	    ggtitle(gene1)
+	}
+	if(colorby == "None"){
+	  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut)) + 
+	    geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+	    ggtitle(gene1)
+	}
 
 	# ggplotly
   p <- plotly_build(p)
