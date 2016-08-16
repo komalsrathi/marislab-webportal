@@ -113,12 +113,14 @@ shinyServer(function(input, output, session){
     isolate({
       datatype <- as.character(input$clggcselectInput1)
       dat <- get(datatype)
+      phenotype <- cellline_mData
       gene1 <- as.character(input$clggcselectInput2)
       gene2 <- as.character(input$clggcselectInput3)
       logvalue <- input$clggccheckboxInput1
       correlation <- input$clggcselectInput4
+      colorby <- input$clggcselectInput5
       plotGeneScatter(datatype = datatype, dat = dat, gene1 = gene1, gene2 = gene2, 
-                      customtheme = tbw, log = logvalue, corr = correlation)
+                      customtheme = tbw, log = logvalue, corr = correlation, colorby = colorby, phenotype = phenotype)
     })
   })
   
@@ -169,7 +171,9 @@ shinyServer(function(input, output, session){
       dat <- get(paste0(dat,'_cna'))
       gene1 <- as.character(input$clgcnselectInput2)
       sortby <- input$clgcnselectInput3
-      plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = tbw, sortby)
+      phenotype <- cellline_mData
+      colorby <- input$clgcnselectInput4
+      plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = tbw, sortby = sortby, phenotype = phenotype, colorby = colorby)
     })
   })
   
@@ -196,11 +200,15 @@ shinyServer(function(input, output, session){
       cna <- get(paste0(datatype,'_cna'))
       gene1 <- as.character(input$clcvmselectInput2)
       correlation <- as.character(input$clcvmselectInput3)
+      phenotype <- cellline_mData
+      colorby <- input$clcvmselectInput4
       plotGeneCNAvsRNA(mrna = mrna, 
                        cna = cna, 
                        gene1 = gene1, customtheme = tbw, 
                        correlation = correlation,
-                       datatype = datatype)
+                       datatype = datatype,
+                       phenotype = phenotype,
+                       colorby = colorby)
     })
   })
   
@@ -281,15 +289,17 @@ shinyServer(function(input, output, session){
     dataset <- input$pgehselectInput1
     myData <- get(paste0(dataset,'_data'))
     num <- rownames(myData)
-    updateSelectizeInput(session = session, inputId = "pgehselectInput3", choices = num, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pgehselectInput2", choices = num, server = TRUE)
     
     myData.pheno <- get(paste0(dataset,'_mData'))
-    cols <- intersect(colnames(myData.pheno),c('MYCN','RISK','STAGE'))
+    cols <- c('None',intersect(colnames(myData.pheno),c('MYCN','RISK','STAGE')))
     if(length(cols)==0)
     {
       cols <- 'None'
     }
-    updateSelectizeInput(session = session, inputId = "pgehselectInput2", choices = cols, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pgehselectInput3", choices = cols, server = TRUE)
+    cols <- c(cols, 'Gene')
+    updateSelectizeInput(session = session, inputId = "pgehselectInput4", choices = cols, server = TRUE)
   })
 
   # patient gene bar plot
@@ -301,11 +311,13 @@ shinyServer(function(input, output, session){
       dataset <- input$pgehselectInput1
       myDataExp <- get(paste0(dataset,'_data'))
       myDataAnn <- get(paste0(dataset,'_mData'))
-      sortby <- as.character(input$pgehcheckboxInput1)
-      log <- as.character(input$pgehcheckboxInput2)
-      density <- as.character(input$pgehcheckboxInput3)
-      colorby <- as.character(input$pgehselectInput2)
-      gene1 <- as.character(input$pgehselectInput3)
+      
+      log <- as.character(input$pgehcheckboxInput1)
+      density <- as.character(input$pgehcheckboxInput2)
+      gene1 <- as.character(input$pgehselectInput2)
+      colorby <- as.character(input$pgehselectInput3)
+      sortby <- as.character(input$pgehselectInput4)
+      
       plotGeneBarPatientAnalysis(gene1 = gene1, 
                                  datatype = dataset,
                                  myDataExp = myDataExp,
