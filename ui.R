@@ -174,7 +174,7 @@ dashboardPage(
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('CellLine', 'Gene', 'MYCN_Status')), width = 2, background = 'navy'),
-                box(selectInput(inputId = "clgeselectInput4", label = "Color by", choices = c('MYCN_Status')), width = 2, background = "navy")
+                box(selectInput(inputId = "clgeselectInput4", label = "Color by", choices = c('None', 'MYCN_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
@@ -191,9 +191,10 @@ dashboardPage(
                                                                                                      'RNAseq (STAR) (n=46, FPKM)'='STAR_FPKM_46cells_genes')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
-                    selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 3, background = "navy"),
+                    selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "clggcselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
+                box(selectInput(inputId = "clggcselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
+                box(selectInput(inputId = "clggcselectInput5", label = "Color by", choices = c('None', 'MYCN_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit2', label = "Get Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "clggcplot1", width = 1000, height = 800)
@@ -218,8 +219,9 @@ dashboardPage(
                 box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
                                                                                                      'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Variable', 'Value')), width = 3, background = 'navy')
+                box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
+                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('CellLine', 'Gene', 'MYCN_Status')), width = 2, background = 'navy'),
+                box(selectInput(inputId = "clgcnselectInput4", label = "Color by", choices = c('None', 'MYCN_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit2', label = "Get Copy Number Barplot"))), 
               br(), br(),
@@ -232,8 +234,9 @@ dashboardPage(
                 box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
                                                                                                      'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes'), selected = NULL),
                     actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy"),
-                box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
+                box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
+                box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
+                box(selectInput(inputId = "clcvmselectInput4", label = "Color by", choices = c('None', 'MYCN_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clcvmsubmit2', label = "Get CN vs Mutation Plot"))), 
               br(), br(),
@@ -419,11 +422,11 @@ dashboardPage(
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL')),
                     actionButton(inputId = "pgehsubmit1", label = "Load dataset"),width = 3, background = "navy"),
-                box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Sort Data"),
-                    checkboxInput(inputId = "pgehcheckboxInput2", label = "Log Data"),
-                    checkboxInput(inputId = "pgehcheckboxInput3", label = "Density"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgehselectInput2", label = "Color by", choices = c("None")), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgehselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
+                box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Log Data"),
+                    checkboxInput(inputId = "pgehcheckboxInput2", label = "Density"), width = 2, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput2", label = "Select gene", choices = c("None")), width = 2, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput3", label = "Color by", choices = c("None")), width = 2, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput4", label = "Sort by", choices = c("None")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgehsubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "pgehplot1", width = 1200, height = 800)
@@ -531,8 +534,8 @@ dashboardPage(
                 box(selectInput(inputId = "pgcnselectInput1", label = "Select dataset", choices = c('IH250')),
                     actionButton(inputId = "pgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgcncheckboxInput1", label = "Sort Data"),
-                    checkboxInput(inputId = "pgcncheckboxInput2", label = "Log Data"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy")
+                    checkboxInput(inputId = "pgcncheckboxInput2", label = "Log Data"), width = 2, background = "navy"),
+                box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgcnsubmit2', label = "Get Copy Number Barplot"))), br(), br(),
               plotOutput(outputId = "pgcnplot1", width = 1000, height = 800)
@@ -541,8 +544,8 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = "pgcvmselectInput1", label = "Select dataset", choices = c('IH251')),
                     actionButton(inputId = "pgcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgcvmselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy")
+                box(selectInput(inputId = "pgcvmselectInput2", label = "Select Gene", choices = c("none")), width = 2, background = "navy"),
+                box(selectInput(inputId = "pgcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgcvmsubmit2', label = "Get mRNA/CNA Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "pgcvmplot1", width = 1000, height = 800)
