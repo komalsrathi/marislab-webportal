@@ -13,6 +13,7 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 	myDataExp$gene <- rownames(myDataExp)
 	myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
 	myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
+	colnames(myDataExp.c)[1] = "Sample"
 	
 	#For title correlation and p-value
 	cor <- cor.test(myDataExp.c[,gene1], myDataExp.c[,gene2], method = correlation)
@@ -42,7 +43,7 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 	    y.axis <- "RMA"
 	    myDataExp.tmp <- myDataExp.c[,-1]
 	    myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
-	    myDataExp.tmp <- cbind(variable=myDataExp.c$variable, myDataExp.tmp)
+	    myDataExp.tmp <- cbind(Sample=myDataExp.c$Sample, myDataExp.tmp)
 	    myDataExp.c <- myDataExp.tmp
 	  }
 	  if(log==TRUE)
@@ -61,13 +62,13 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 	    y.axis <- "log2(FPKM)"
 	    myDataExp.tmp <- myDataExp.c[,-1]
 	    myDataExp.tmp <- as.data.frame(log2(myDataExp.tmp+1))
-	    myDataExp.tmp <- cbind(variable=myDataExp.c$variable, myDataExp.tmp)
+	    myDataExp.tmp <- cbind(Sample=myDataExp.c$Sample, myDataExp.tmp)
 	    myDataExp.c <- myDataExp.tmp
 	  }
 	}
 	
 	# add annotation data to expression set
-	myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="variable",by.y='row.names')
+	myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="Sample",by.y='row.names')
 	
 	# eliminate confusion between MYCN gene and status
 	if(length(grep('MYCN',colnames(myDataExp.c)))>1)
@@ -84,12 +85,12 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 	
 	# plot
 	if(colorby == "None"){
-	  p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
+	  p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Sample')) + 
 	    geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
 	}
 	if(colorby != "None"){
-	  p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut)) + 
-	    geom_point(aes_string(color = colorby)) + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
+	  p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Sample', color = colorby)) + 
+	    geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
 	}
 	p <- plotly_build(p)
 	p$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
