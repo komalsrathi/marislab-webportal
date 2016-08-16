@@ -28,7 +28,7 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatyp
   }
   myText <- paste("Cor=", tmpcore, " | P-Val=", tmpcorp, sep="")
   
-  tmpDataGC[,"CL_NAME"] <- rownames(tmpDataGC)
+  tmpDataGC[,"Cell_Line"] <- rownames(tmpDataGC)
   
   # datatype
   if(length(grep('FPKM',datatype))==1)
@@ -41,24 +41,24 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatyp
   }
   
   # merge
-  tmpDataGC <- merge(tmpDataGC, phenotype, by.x = 'CL_NAME', by.y = 'CellLine', all.x = TRUE)
+  tmpDataGC <- merge(tmpDataGC, phenotype, by.x = 'Cell_Line', by.y = 'CellLine', all.x = TRUE)
   
   if(colorby == "None"){
-    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA')) + 
+    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', label = 'Cell_Line')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = myText)
   }
   if(colorby != "None"){
-    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', color = colorby)) + 
+    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', color = colorby, label = 'Cell_Line')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = myText)
   }
   
   p <- plotly_build(p)
-  p$data[[1]]$text <- tmpDataGC$CL_NAME
-  p$data[[1]]$mode <- "markers+text"
-  p$data[[1]]$textposition <- "top center"
-  p$data[[1]]$marker$size <- 4
-  p$data[[1]]$marker$color <- "rgb(220,20,60)"
-  p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
+  # p$data[[1]]$text <- tmpDataGC$Cell_Line
+  # p$data[[1]]$mode <- "markers+text"
+  # p$data[[1]]$textposition <- "top center"
+  # p$data[[1]]$marker$size <- 4
+  # p$data[[1]]$marker$color <- "rgb(220,20,60)"
+  # p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
   p$layout$xaxis$title <- paste0("mRNA"," (",y.axis,")")
   p$layout$yaxis$title <- paste0("CNA"," (Copy Number)")
   
