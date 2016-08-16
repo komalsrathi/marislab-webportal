@@ -37,8 +37,9 @@ boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
   p <- ggplot(tmpDat, aes(Tissue, FPKM, fill = Tissue)) + 
     geom_boxplot() + 
     ggtitle(gene1) + theme_bw() + 
-    theme(axis.text.x=element_text(angle = 60, hjust = 0)) +
-    theme(plot.margin = unit(c(1, 1, 7, 1), "cm"))
+    theme(axis.text.x = element_text(angle = 60, hjust = 0),
+          plot.margin = unit(c(1, 1, 7, 1), "cm"),
+          legend.position = "none")
   
   p <- plotly_build(p)
   
