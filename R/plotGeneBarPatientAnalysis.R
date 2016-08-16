@@ -15,11 +15,6 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
   myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
   colnames(myDataExp.c)[1] = "Patient_Sample"
   
-  # sort by value
-  if(sortby == TRUE){
-    myDataExp.c$Patient_Sample <- reorder(myDataExp.c$Patient_Sample,myDataExp.c[,gene1])
-  }
-  
   # plot log values
   if(length(grep('FPKM',datatype))==0)
   {
@@ -66,9 +61,19 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
     {
       colorby = "MYCNS"
     }
+    if(sortby == "MYCN")
+    {
+      sortby = "MYCNS"
+    }
   }
   
-  
+  # sort by value
+  if(sortby == "Gene"){
+    myDataExp.c$Patient_Sample <- reorder(myDataExp.c$Patient_Sample, myDataExp.c[,gene1])
+  }
+  if(sortby != "Gene" && sortby != "None"){
+    myDataExp.c$Patient_Sample <- reorder(myDataExp.c$Patient_Sample, as.numeric(as.factor(myDataExp.c[,sortby])))
+  }
   
   # modify gene name, dashes present
   gene1.mut <- paste('`',gene1,'`',sep='')
