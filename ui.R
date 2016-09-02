@@ -118,22 +118,20 @@ dashboardPage(
       
       ######## Description #########
       tabItem(tabName = "datadesc",
-              fluidRow(
-                DT::datatable(data = read.delim('data/datasets_desc.txt'),
-                              rownames = FALSE, 
-                              selection = "single",
-                              extensions = c("Buttons"),
-                              options = list(
-                                dom = 'Bfrtip',
-                                buttons = list('pageLength'),
-                                searchHighlight = TRUE,
-                                initComplete = JS("function(settings, json) {",
-                                                  "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
-                                                  "}"),
-                                scrollX = TRUE,
-                                scrollY = TRUE
-                              ))
-              )
+              DT::datatable(data = read.delim('data/datasets_desc.txt'),
+                            rownames = FALSE, escape = FALSE, selection = "single",
+                            extensions = c('Buttons'),
+                            options = list(
+                              dom = 'Bfrtip',
+                              buttons = list('pageLength'),
+                              searchHighlight = TRUE,
+                              initComplete = JS("function(settings, json) {",
+                                                "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
+                                                "}"),
+                              scrollX = TRUE,
+                              scrollY = TRUE
+                            ),
+                            class = 'nowrap display')
       ),
       
       ######## Description #########
