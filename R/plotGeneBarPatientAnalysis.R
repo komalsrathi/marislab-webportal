@@ -102,8 +102,10 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
       p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=colorby)) + geom_density(alpha = 0.5) + customtheme + ggtitle(gene1) 
     }
   }
+  
   p <- plotly_build(p)
-  p$layout$yaxis$title <- y.axis
+  p$x$layout$yaxis$title <- y.axis
+  
   return(p)
   
 }
