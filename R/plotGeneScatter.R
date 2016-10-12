@@ -107,16 +107,8 @@
     
     p <- plotly_build(p)
     
-    # p$data[[1]]$text <- as.character(dat.c$Cell_Line)
-    # p$data[[1]]$hoverinfo <- "x+y"
-    # p$data[[1]]$mode <- "markers+text"
-    # p$data[[1]]$textposition <- "top center"
-    # p$data[[1]]$marker$size <- 4
-    # p$data[[1]]$marker$color <- "rgb(220,20,60)"
-    # p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
-    # p$layout$font$size <- 12
-    p$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
-    p$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
+    p$x$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
+    p$x$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
     
     return(p)
   } # plotGeneScatter ends
