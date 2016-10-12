@@ -172,7 +172,7 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
                                                                                                    'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
-                                                                                                   'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
+                                                                                                   'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                    'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                    'RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',                                 
                                                                                                    'RNAseq (STAR) (n=46, FPKM)'='STAR_FPKM_46cells_genes')), width = 5, background = "navy")
@@ -187,7 +187,7 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
                                                                                                     'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
-                                                                                                    'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
+                                                                                                    'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                     'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                     'RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
                                                                                                     'RNAseq (STAR) (n=46, FPKM)'='STAR_FPKM_46cells_genes')),
@@ -206,7 +206,7 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
                                                                                                      'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
-                                                                                                     'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
+                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                      'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                      'RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
                                                                                                      'RNAseq (STAR) (n=46, FPKM)'='STAR_FPKM_46cells_genes')),
@@ -225,7 +225,7 @@ dashboardPage(
       tabItem(tabName = "clm",
               fluidRow(
                 box(selectInput(inputId = "clmselectInput1", label = "Select dataset", choices = c("Exome Calls 85K"="ExomeCalls85K8_10_13",
-                                                                                                   "Exome Calls CCLE"="ExomeCallsCCLE")),
+                                                                                                   "Exome Calls Broad CCLE"="ExomeCallsCCLE")),
                     actionButton(inputId = "clmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
@@ -238,7 +238,7 @@ dashboardPage(
       tabItem(tabName = "clgcn",
               fluidRow(
                 box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
-                                                                                                     'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')),
+                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('CellLine', 'Gene', 'MYCN_Status')), width = 2, background = 'navy'),
@@ -253,7 +253,7 @@ dashboardPage(
       tabItem(tabName = "clcvm",
               fluidRow(
                 box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
-                                                                                                     'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes'), selected = NULL),
+                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes'), selected = NULL),
                     actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
@@ -268,7 +268,7 @@ dashboardPage(
       tabItem(tabName = "clh",
               fluidRow(
                 box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
-                                                                                                   'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')), width = 3, background = "navy"),
+                                                                                                   'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')), width = 3, background = "navy"),
                 box(fileInput(inputId = 'clhfileInput1', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clhsubmit1', label = "Create heatmaps"))),
@@ -280,7 +280,7 @@ dashboardPage(
       tabItem(tabName = "clct",
               fluidRow(
                 box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
-                                                                                                    'Microarray U133Plus2 CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')), width = 3, background = "navy"),
+                                                                                                    'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')), width = 3, background = "navy"),
                 box(selectInput(inputId = "clctselectInput2", label = "Set 1", choices = c("SKNBE2(e)"="SKNBE2",
                                                                                            "SKNBE2C(e)"="SKNBE2C",
                                                                                            "CHLA136"="CHLA136",
@@ -589,8 +589,8 @@ dashboardPage(
       #### Target Data ####
       tabItem(tabName = "tgedata",
               fluidRow(
-                box(selectInput(inputId = "tgedataselectInput1", label = 'Select dataset', choices = c('TARGET RNAseq (STAR) (n=724, FPKM)'='STAR_FPKM_Target724_genes',
-                                                                                                       'TARGET RNAseq (Kallisto) (n=724, TPM)'='kallisto_TPM_Target724_genes')), width = 5, background = "navy")
+                box(selectInput(inputId = "tgedataselectInput1", label = 'Select dataset', choices = c('TARGET (all tumors) (STAR) (n=724, FPKM)'='STAR_FPKM_Target724_genes',
+                                                                                                       'TARGET (all tumors) (Kallisto) (n=724, TPM)'='kallisto_TPM_Target724_genes')), width = 5, background = "navy")
                 ),
                 fluidRow(column(5, actionButton(inputId = 'tgedatasubmit1', label = "Load dataset"))), br(), br(),
                 DT::dataTableOutput(outputId = "tgedatatable1")
