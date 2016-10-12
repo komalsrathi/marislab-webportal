@@ -43,8 +43,7 @@ plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby)
 
 	# ggplotly
   p <- plotly_build(p)
-  p$layout$annotations[[1]]$text <- ""
-  p$layout$yaxis$title <- "Copy Number"
+  p$x$layout$yaxis$title <- "Copy Number"
 
 	return(p)
 
