@@ -80,8 +80,10 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
   {
     p <- ggplot(myDataExp.c, aes(x=colorby, y=gene1.mut, fill=colorby)) + customtheme + geom_boxplot() + theme(legend.position = "none")
   }
+  
   p <- plotly_build(p)
-  p$layout$yaxis$title <- y.axis
+  p$x$layout$yaxis$title <- y.axis
+  
   return(p)
   
 }
