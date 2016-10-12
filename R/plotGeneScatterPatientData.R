@@ -92,8 +92,10 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 	  p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Sample', color = colorby)) + 
 	    geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
 	}
+	
 	p <- plotly_build(p)
-	p$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
-	p$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
+	p$x$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
+	p$x$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
+	
 	return(p)
 } 
