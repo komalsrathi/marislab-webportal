@@ -297,9 +297,9 @@ shinyServer(function(input, output, session){
     {
       cols <- 'None'
     }
-    updateSelectizeInput(session = session, inputId = "pgehselectInput3", choices = cols, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pgehselectInput3", choices = cols, selected = 'None', server = TRUE)
     cols <- c(cols, 'Gene')
-    updateSelectizeInput(session = session, inputId = "pgehselectInput4", choices = cols, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pgehselectInput4", choices = cols, selected = 'None', server = TRUE)
   })
 
   # patient gene bar plot
@@ -346,7 +346,7 @@ shinyServer(function(input, output, session){
     {
       cols <- 'None'
     }
-    updateSelectizeInput(session = session, inputId = "pgebpselectInput2", choices = cols, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pgebpselectInput2", choices = cols, selected = 'STAGE', server = TRUE)
   })
   
   # patient box plot
@@ -439,7 +439,7 @@ shinyServer(function(input, output, session){
       {
         cols <- 'None'
       }
-      updateSelectizeInput(session = session, inputId = "pggcselectInput2", choices = cols, server = TRUE)
+      updateSelectizeInput(session = session, inputId = "pggcselectInput2", choices = cols, selected = 'None', server = TRUE)
     })
   })
   
