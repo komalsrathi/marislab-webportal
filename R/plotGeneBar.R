@@ -94,11 +94,8 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
       ggtitle(gene1)
   }
   
-  
-  
   p <- plotly_build(p)
-  p$layout$annotations[[1]]$text <- ""
-  p$layout$yaxis$title <- y.axis
+  p$x$layout$yaxis$title <- y.axis
   
   return(p)
   
