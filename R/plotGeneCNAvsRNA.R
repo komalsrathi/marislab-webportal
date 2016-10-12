@@ -53,14 +53,8 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatyp
   }
   
   p <- plotly_build(p)
-  # p$data[[1]]$text <- tmpDataGC$Cell_Line
-  # p$data[[1]]$mode <- "markers+text"
-  # p$data[[1]]$textposition <- "top center"
-  # p$data[[1]]$marker$size <- 4
-  # p$data[[1]]$marker$color <- "rgb(220,20,60)"
-  # p$data[[1]]$marker$line$color <- "rgb(220,20,60)"
-  p$layout$xaxis$title <- paste0("mRNA"," (",y.axis,")")
-  p$layout$yaxis$title <- paste0("CNA"," (Copy Number)")
+  p$x$layout$xaxis$title <- paste0("mRNA"," (",y.axis,")")
+  p$x$layout$yaxis$title <- paste0("CNA"," (Copy Number)")
   
   return(p)
   
