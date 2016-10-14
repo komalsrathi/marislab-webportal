@@ -685,7 +685,7 @@ shinyServer(function(input, output, session){
       thres <- as.numeric(input$aoatextInput1)
       freq <- as.numeric(input$aoatextInput2)
       rank <- as.numeric(input$aoatextInput3)
-      dat <- dat[which(dat$Threshold == thres),]
+      dat <- dat[which(dat$Threshold >= thres),]
       if(freq !=0 ){
         dat <- dat[which(dat$Frequency > freq),]
       }
