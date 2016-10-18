@@ -63,14 +63,25 @@ plotBoxplotTargetRNA <- function(gene1, colorby, datatype, dat, log, customtheme
     pval <- summary(aov(lm(dat.c[,gene1]~dat.c[,colorby])))[[1]][[5]][1]
     pval <- round(pval, 6)
     myText <- paste("Anova P-Val=", pval, sep="")
-    p <- ggplot(dat.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + geom_boxplot() + customtheme + ggtitle(paste0(gene1,'\n',myText)) + theme(legend.position = "none")
+    p <- ggplot(dat.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + 
+      geom_boxplot() + customtheme + 
+      ggtitle(paste0(gene1,'\n',myText)) + 
+      theme(axis.text.y = element_text(size = 12), 
+            axis.text.x = element_text(size = 12), 
+            legend.position = "none")
   }
   if(length(levels(dat.c[,colorby]))==1)
   {
-    p <- ggplot(dat.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + customtheme + geom_boxplot() + theme(legend.position = "none")
+    p <- ggplot(dat.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + 
+      customtheme + geom_boxplot() + 
+      theme(axis.text.y = element_text(size = 12), 
+            axis.text.x = element_text(size = 12),
+            axis.title.y = element_text(size = 12),
+            legend.position = "none")
   }
   p <- plotly_build(p)
-  p$layout$yaxis$title <- y.axis
+  p$x$layout$yaxis$title <- y.axis
+  p$x$layout$xaxis$title <- ""
   
   return(p)
 }

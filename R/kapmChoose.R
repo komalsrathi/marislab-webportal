@@ -34,6 +34,6 @@ kapmChoose <- function(datatype, dataset, genes, endpoint)
   }
   
   
-  out <- ggplotly(out)
+  out <- plotly_build(out)
   return(out)
 }

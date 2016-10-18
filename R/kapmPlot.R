@@ -64,7 +64,11 @@ kapmPlot <- function(genes, myData, createPlot=T, tVar, eVar)
   if(createPlot==T)
   {
     tmpTitle <- paste(genes," |", "\nP-val(Adj) :", format(out[2], scientific=T, digits=3), "(", format(out[3], scientific=T, digits=3), ")")
-    myReturn <- qplot_survival(t.survframe, f.CI=F, myTitle=tmpTitle) + theme_bw()
+    myReturn <- qplot_survival(t.survframe, f.CI=F, myTitle=tmpTitle) + theme_bw() + 
+      theme(axis.text.x = element_text(size = 12),
+            axis.text.y = element_text(size = 12),
+            legend.text = element_text(size = 12),
+            legend.title = element_text(size = 14)) + xlab('\nTime') + ylab('Survival\n')
     #+scale_colour_manual(values=c("red", "blue") )  
   }
   

@@ -14,7 +14,7 @@ boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
   normDataAnnot <- normDataAnnot[(colnames(normData)[3:1643]),]
 
   tmpTum <- tumData[gene1,]
-  tmpTum <- data.frame(t(tmpTum), "Cancer")
+  tmpTum <- data.frame(t(tmpTum), "TARGET NBL")
   colnames(tmpTum) <- c("FPKM", "Tissue")
   
   tmpNorm <- normData[normData[,2]==gene1,3:1643]
@@ -37,14 +37,15 @@ boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
   p <- ggplot(tmpDat, aes(Tissue, FPKM, fill = Tissue)) + 
     geom_boxplot() + 
     ggtitle(gene1) + theme_bw() + 
-    theme(axis.text.x = element_text(angle = 60, hjust = 0),
+    theme(axis.text.x = element_text(size = 12, angle = 60, hjust = 0),
+          axis.text.y = element_text(size = 12),
           plot.margin = unit(c(1, 1, 7, 1), "cm"),
           legend.position = "none")
   
   p <- plotly_build(p)
   
-  p$layout$yaxis$title <- y.axis
-  p$layout$annotations[[1]]$text <- ""
-  
+  p$x$layout$yaxis$title <- y.axis
+  p$x$layout$xaxis$title <- ""
+
   return(p)
 }

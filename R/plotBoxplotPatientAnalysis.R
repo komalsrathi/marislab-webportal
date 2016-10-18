@@ -72,13 +72,25 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
   {
     anovaRes <- aov(lm(myDataExp.c[,gene1]~myDataExp.c[,colorby]))
     pval <- summary(anovaRes)[[1]][[5]][1]
-    pval <- round(pval, 6)
+    pval <- format(round(pval, 6), nsmall = 6)
     myText <- paste("Anova P-Val=", pval, sep="")
-    p <- ggplot(myDataExp.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + geom_boxplot() + customtheme + ggtitle(paste0(gene1,'\n',myText)) + theme(legend.position = "none")
+    p <- ggplot(myDataExp.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + 
+      geom_boxplot() + customtheme + ggtitle(paste0(gene1,'\n',myText)) + 
+      theme(legend.position = "none",
+            axis.text.x = element_text(size = 12),
+            axis.text.y = element_text(size = 12),
+            axis.title.x = element_text(size = 12),
+            axis.title.y = element_text(size = 12))
   }
   if(length(levels(myDataExp.c[,colorby]))==1)
   {
-    p <- ggplot(myDataExp.c, aes(x=colorby, y=gene1.mut, fill=colorby)) + customtheme + geom_boxplot() + theme(legend.position = "none")
+    p <- ggplot(myDataExp.c, aes(x=colorby, y=gene1.mut, fill=colorby)) + 
+      customtheme + geom_boxplot() + 
+      theme(legend.position = "none",
+            axis.text.x = element_text(size = 12),
+            axis.text.y = element_text(size = 12),
+            axis.title.x = element_text(size = 12),
+            axis.title.y = element_text(size = 12))
   }
   
   p <- plotly_build(p)

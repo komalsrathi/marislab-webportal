@@ -78,16 +78,23 @@ plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customthe
   
   if(length(colorby)>1){
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, color = "Tumor", label = "Sample")) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
+      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title) +
+      theme(axis.text.x = element_text(size = 12),
+            axis.text.y = element_text(size = 12),
+            legend.text = element_text(size = 10),
+            legend.title = element_text(size = 12))
   }
   if(length(colorby)==1){
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = "Sample")) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
+      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title) + 
+      theme(axis.text.x = element_text(size = 12),
+            axis.text.y = element_text(size = 12),
+            legend.text = element_text(size = 12))
   }
   
   p <- plotly_build(p)
-  p$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
-  p$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
+  p$x$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
+  p$x$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
   
   return(p)
 } 
