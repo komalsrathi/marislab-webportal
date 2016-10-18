@@ -566,23 +566,23 @@ dashboardPage(
       ##### RNASeq Target Data #####
       tabItem(tabName = "tvnb",
               fluidRow(
-                box(selectInput(inputId = "tvnbselectInput1", label = "Select dataset", choices = c("GTEx vs Tumor")),
+                box(selectInput(inputId = "tvnbselectInput1", label = "Select dataset", choices = c("GTEx Normals vs TARGET NBL")),
                     actionButton(inputId = "tvnbsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "tvnbselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "tvnbcheckboxInput1", label = "Log"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'tvnbsubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
-              plotlyOutput(outputId = "tvnbplot1", width = 1200, height = 1000)
+              plotlyOutput(outputId = "tvnbplot1", width = 1000, height = 800)
       ),
       tabItem(tabName = "tvnba",
               fluidRow(
-                box(selectInput(inputId = "tvnbaselectInput1", label = "Select dataset", choices = c("GTEx vs Tumor")),
+                box(selectInput(inputId = "tvnbaselectInput1", label = "Select dataset", choices = c("GTEx Normals vs TARGET NBL")),
                     actionButton(inputId = "tvnbasubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "tvnbaselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "tvnbacheckboxInput1", label = "Log"), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'tvnbasubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
-              plotlyOutput(outputId = "tvnbaplot1", width = 1200, height = 1000)
+              plotlyOutput(outputId = "tvnbaplot1", width = 1000, height = 800)
       ),
       ##### RNASeq Target Data #####
       

@@ -574,7 +574,8 @@ shinyServer(function(input, output, session){
     isolate({
       gene1 <- input$tvnbselectInput2
       logby <- input$tvnbcheckboxInput1
-      boxPlotGeneSUTC(gene1 = gene1, logby = logby, 
+      boxPlotGeneSUTC(gene1 = gene1, 
+                      logby = logby, 
                       tumData = tumData,
                       normData = normData, 
                       normDataAnnot = normDataAnnot)
