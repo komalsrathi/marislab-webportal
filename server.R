@@ -371,7 +371,7 @@ shinyServer(function(input, output, session){
     })
   })
   
-  output$pgebtable1 <- renderDataTable({
+  output$pgebtable1 <- DT::renderDataTable({
     if(input$pgebpsubmit2 == 0){
       return()
     }
