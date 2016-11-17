@@ -44,6 +44,11 @@ dashboardPage(
                menuSubItem("Mutation Table", icon = icon("table"), tabName = "clm"),
                menuSubItem("Cell Line Comparison Tool", icon = icon("table"), tabName = "clct")
       ),
+      menuItem("PDX Analysis Tools", tabName = "pdx", icon = icon("gears"),
+               menuSubItem("PDX Database", icon = icon("database"), tabName = "pdxdata"),
+               menuSubItem("PDX Gene Expression Barplot", icon = icon("bar-chart"), tabName = "pdxbar"),
+               menuSubItem("PDX Gene Expression Scatterplot", icon = icon("line-chart"), tabName = "pdxdot")
+      ),
       menuItem("Patient Sample Database", icon = icon("database"), tabName = "psdb"),
       menuItem("Patient Sample Visualization Tools", tabName = "patientsamples", icon = icon("gears"),
                menuSubItem("Patient Gene Expression Histogram", icon = icon("bar-chart"), tabName = "pgeh"),
@@ -394,6 +399,44 @@ dashboardPage(
               DT::dataTableOutput(outputId = 'clcttable1')
       ),
       ##### Cell Lines Utilities #####
+      
+      ##### PDX #####
+      # pdxdata
+      tabItem(tabName = "pdxdata",
+              fluidRow(
+                box(selectInput(inputId = 'pdxdataselectInput1', label = 'Select dataset',choices = c('PDX (n=24, FPKM, hg38)'='PDX_FPKM_hg38')), width = 5, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pdxdatasubmit1', label = "Load dataset"))), br(), br(),
+              DT::dataTableOutput(outputId = "pdxdatatable1")
+      ),
+      
+      # pdxbar
+      tabItem(tabName = "pdxbar",
+              fluidRow(
+                box(selectInput(inputId = "pdxbarselectInput1", label = "Select dataset", choices = c('PDX (n=24, FPKM, hg38)'='PDX_FPKM_hg38')),
+                    actionButton(inputId = "pdxbarsubmit1", label = "Load dataset"), width = 4, background = "navy"),
+                box(selectInput(inputId = "pdxbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "pdxbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
+                box(selectInput(inputId = "pdxbarselectInput3", label = "Sort by", choices = c('PDX', 'Gene')), width = 2, background = 'navy')
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pdxbarsubmit2', label = "Get Expression Plot"))), br(), br(),
+              plotlyOutput(outputId = "pdxbarplot1", width = 1000, height = 800)
+      ),
+      
+      # pdxdot content
+      tabItem(tabName = "pdxdot",
+              fluidRow(
+                box(selectInput(inputId = "pdxdotselectInput1", label = "Select dataset", choices = c('PDX (n=24, FPKM, hg38)'='PDX_FPKM_hg38')),
+                    actionButton(inputId = "pdxdotsubmit1", label = "Load dataset"), width = 4, background = "navy"),
+                box(selectInput(inputId = "pdxdotselectInput2", label = "Select Gene 1", choices = "none"), 
+                    selectInput(inputId = "pdxdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "pdxdotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
+                box(selectInput(inputId = "pdxdotselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pdxdotsubmit2', label = "Get Correlation Plot"))), br(), br(),
+              plotlyOutput(outputId = "pdxdotplot1", width = 1000, height = 800)
+      ),
+      ##### PDX #####
       
       ##### Patient Samples Utilities #####
       tabItem(tabName = "psdb",
