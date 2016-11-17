@@ -75,8 +75,11 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
   dat.c <- merge(dat.c, phenotype, by.x = 'Cell_Line', by.y = 'CellLine', all.x = TRUE)
   
   # sorting of bars
+  if(sortby == "CellLine"){
+    dat.c$Cell_Line <- factor(x = dat.c$Cell_Line, levels = sort(as.character(dat.c$Cell_Line)))
+  }
   if(sortby == "Gene"){
-    dat.c$Cell_Line <- reorder(dat.c$Cell_Line,dat.c[,gene1])
+    dat.c$Cell_Line <- reorder(dat.c$Cell_Line, dat.c[,gene1])
   }
   if(sortby == "MYCN_Status"){
     dat.c$Cell_Line <- reorder(dat.c$Cell_Line, as.numeric(dat.c$MYCN_Status))
