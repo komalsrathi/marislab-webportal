@@ -24,9 +24,8 @@ plotBoxplotTargetRNA <- function(gene1, colorby, datatype, dat, log, customtheme
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- dat.c[,-1]
-      dat.tmp <- as.data.frame(log2(dat.tmp+1))
-      dat.tmp <- cbind(Sample=dat.c$Sample, dat.tmp)
+      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
+      dat.tmp$Sample <- dat.c$Sample
       dat.c <- dat.tmp
     }
   }
@@ -41,9 +40,8 @@ plotBoxplotTargetRNA <- function(gene1, colorby, datatype, dat, log, customtheme
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- dat.c[,-1]
-      dat.tmp <- as.data.frame(log2(dat.tmp+1))
-      dat.tmp <- cbind(Sample=dat.c$Sample, dat.tmp)
+      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
+      dat.tmp$Sample <- dat.c$Sample
       dat.c <- dat.tmp
     }
   }

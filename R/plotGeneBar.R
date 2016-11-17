@@ -28,9 +28,8 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- dat.c[,-1]
-      dat.tmp <- as.data.frame(log2(dat.tmp+1))
-      dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
+      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
+      dat.tmp$Cell_Line <- dat.c$Cell_Line
       dat.c <- dat.tmp
     }
   }
@@ -64,9 +63,8 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- dat.c[,-1]
-      dat.tmp <- log2(dat.tmp+1)
-      dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
+      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
+      dat.tmp$Cell_Line <- dat.c$Cell_Line
       dat.c <- dat.tmp
     }
   }

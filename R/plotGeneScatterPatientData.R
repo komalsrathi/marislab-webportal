@@ -60,9 +60,8 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 	  if(log==TRUE)
 	  {
 	    y.axis <- "log2(FPKM)"
-	    myDataExp.tmp <- myDataExp.c[,-1]
-	    myDataExp.tmp <- as.data.frame(log2(myDataExp.tmp+1))
-	    myDataExp.tmp <- cbind(Sample=myDataExp.c$Sample, myDataExp.tmp)
+	    myDataExp.tmp <- as.data.frame(apply(myDataExp.c[,-1], MARGIN = 2, function(x) log2(x+1)))
+	    myDataExp.tmp$Sample <- myDataExp.c$Sample
 	    myDataExp.c <- myDataExp.tmp
 	  }
 	}

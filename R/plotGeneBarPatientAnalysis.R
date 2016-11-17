@@ -40,9 +40,8 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
     if(log==TRUE)
     {
       y.axis <- "log2(FPKM)"
-      myDataExp.tmp <- myDataExp.c[,-1]
-      myDataExp.tmp <- as.data.frame(log2(myDataExp.tmp+1))
-      myDataExp.tmp <- cbind(Patient_Sample=myDataExp.c$Patient_Sample, myDataExp.tmp)
+      myDataExp.tmp <- as.data.frame(apply(myDataExp.c[,-1], MARGIN = 2, function(x) log2(x+1)))
+      myDataExp.tmp$Patient_Sample <- myDataExp.c$Patient_Sample
       myDataExp.c <- myDataExp.tmp
     }
   }

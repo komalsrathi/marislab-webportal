@@ -22,9 +22,8 @@ plotGeneBarCNAPatientAnalysis <- function(gene1, myData, logby, sortby, customth
   
   if(logby == TRUE)
   {
-    myData.tmp <- myData.c[,-1]
-    myData.tmp <- as.data.frame(log2(myData.tmp)-1)
-    myData.tmp <- cbind(variable=myData.c$variable, myData.tmp)
+    myData.tmp <- as.data.frame(apply(myData.c[,-1], MARGIN = 2, function(x) log2(x-1)))
+    myData.tmp$variable <- myData.c$variable
     myData.c <- myData.tmp
   }
   colnames(myData.c)[1] <- 'Sample'
