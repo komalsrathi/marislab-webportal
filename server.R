@@ -24,6 +24,8 @@ source('R/boxPlotGeneHighSUTC.R')
 source('R/dbplot.R')
 source('R/plotBoxplotTargetRNA.R')
 source('R/plotGeneScatterTargetRNA.R')
+source('R/plotGeneBarPDX.R')
+source('R/plotGeneScatterPDX.R')
 
 # load datasets here
 load('data/data_summary.RData')
@@ -44,6 +46,7 @@ load('data/compAim3_DE.RData')
 load('data/compAim3_OE.RData')
 load('data/compAim3_TM.RData')
 load('data/Target724_targetcode.RData')
+load('data/PDX_FPKM_hg38.RData')
 
 shinyServer(function(input, output, session){
   
@@ -264,6 +267,76 @@ shinyServer(function(input, output, session){
                       dataExp = dataExp)
       rownames(dat) <- NULL
       viewDataTable(dat = dat)
+    })
+  })
+  
+  # pdx data
+  output$pdxdatatable1 <- DT::renderDataTable({
+    if(input$pdxdatasubmit1 == 0){
+      return()
+    }
+    isolate({
+      dat <- as.character(input$pdxdataselectInput1)
+      dat <- get(dat)
+      viewDataTable(dat = dat)
+    })
+  })
+  
+  # output expression plot for selected gene
+  observe({
+    if(input$pdxbarsubmit1 == 0){
+      return()
+    }
+    dat <- as.character(input$pdxbarselectInput1)
+    dat <- get(dat)
+    num <- rownames(dat)
+    updateSelectizeInput(session = session, inputId = "pdxbarselectInput2", choices = num, server = TRUE)
+  })
+  
+  # pdx bar plot
+  output$pdxbarplot1 <- renderPlotly({
+    if(input$pdxbarsubmit2 == 0){
+      return()
+    }
+    isolate({
+      datatype <- as.character(input$pdxbarselectInput1)
+      dat <- get(datatype)
+      gene1 <- as.character(input$pdxbarselectInput2)
+      logvalue <- input$pdxbarcheckboxInput1
+      sortby <- input$pdxbarselectInput3
+      plotGeneBarPDX(datatype = datatype, dat = dat, 
+                     gene1 = gene1, customtheme = tbw, 
+                     log = logvalue, sortby)
+    })
+  })
+  
+  # output correlation plot for selected genes
+  observe({
+    if(input$pdxdotsubmit1 == 0){
+      return()
+    }
+    dat <- as.character(input$pdxdotselectInput1)
+    dat <- get(dat)
+    num <- rownames(dat)
+    updateSelectizeInput(session = session, inputId = "pdxdotselectInput2", choices = num, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pdxdotselectInput3", choices = num, server = TRUE)
+  })
+  
+  output$pdxdotplot1 <- renderPlotly({
+    if(input$pdxdotsubmit2 == 0){
+      return()
+    }
+    isolate({
+      datatype <- as.character(input$pdxdotselectInput1)
+      dat <- get(datatype)
+      gene1 <- as.character(input$pdxdotselectInput2)
+      gene2 <- as.character(input$pdxdotselectInput3)
+      logvalue <- input$pdxdotcheckboxInput1
+      correlation <- input$pdxdotselectInput4
+      plotGeneScatterPDX(datatype = datatype, dat = dat, 
+                         gene1 = gene1, gene2 = gene2, 
+                         customtheme = tbw, 
+                         log = logvalue, corr = correlation)
     })
   })
   
