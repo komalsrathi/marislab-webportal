@@ -8,6 +8,7 @@ getTukeyHSDBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataEx
 {
   # get expression and annotation of the selected dataset
   # modify dataframe
+  myDataExp <- myDataExp[rownames(myDataExp) %in% gene1,]
   myDataExp$gene <- rownames(myDataExp)
   myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
   myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
@@ -19,10 +20,7 @@ getTukeyHSDBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataEx
     if(log==FALSE)
     {
       y.axis <- "RMA"
-      myDataExp.tmp <- myDataExp.c[,-1]
-      myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
-      myDataExp.tmp <- cbind(Patient_Sample=myDataExp.c$Patient_Sample, myDataExp.tmp)
-      myDataExp.c <- myDataExp.tmp
+      myDataExp.c[,gene1] <- 2^(myDataExp.c[,gene1])
     }
     if(log==TRUE)
     {
@@ -38,10 +36,7 @@ getTukeyHSDBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataEx
     if(log==TRUE)
     {
       y.axis <- "log2(FPKM)"
-      myDataExp.tmp <- myDataExp.c[,-1]
-      myDataExp.tmp <- as.data.frame(log2(myDataExp.tmp+1))
-      myDataExp.tmp <- cbind(Patient_Sample=myDataExp.c$Patient_Sample, myDataExp.tmp)
-      myDataExp.c <- myDataExp.tmp
+      myDataExp.c[,gene1] <- log2(myDataExp.c[,gene1]+1)
     }
   }
   
