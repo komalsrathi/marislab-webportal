@@ -8,7 +8,7 @@
 plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customtheme, correlation, colorby, targetcode){
   
   # load initial dataset
-  dat <- dat[,grep(paste(colorby,collapse = "|"), colnames(dat))]
+  dat <- dat[rownames(dat) %in% c(gene1, gene2), grep(paste(colorby, collapse = "|"), colnames(dat))]
   dat$gene <- rownames(dat)
   dat.m <- melt(data = dat, id.vars = 'gene')
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
@@ -46,9 +46,7 @@ plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customthe
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-      dat.tmp$Sample <- dat.c$Sample
-      dat.c <- dat.tmp
+      dat.c[,c(gene1,gene2)] <- log2(dat.c[,c(gene1,gene2)]+1)
     }
   }
   
@@ -63,9 +61,7 @@ plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customthe
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-      dat.tmp$Sample <- dat.c$Sample
-      dat.c <- dat.tmp
+      dat.c[,c(gene1,gene2)] <- log2(dat.c[,c(gene1,gene2)]+1)
     }
   }
   

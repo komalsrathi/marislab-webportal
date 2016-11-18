@@ -8,6 +8,7 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
 {
   # get expression and annotation of the selected dataset
   # modify dataframe
+  myDataExp <- myDataExp[rownames(myDataExp) %in% gene1,]
   myDataExp$gene <- rownames(myDataExp)
   myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
   myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
@@ -19,10 +20,7 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
     if(log==FALSE)
     {
       y.axis <- "RMA"
-      myDataExp.tmp <- myDataExp.c[,-1]
-      myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
-      myDataExp.tmp <- cbind(Patient_Sample=myDataExp.c$Patient_Sample, myDataExp.tmp)
-      myDataExp.c <- myDataExp.tmp
+      myDataExp.c[,gene1] <- 2^(myDataExp.c[,gene1])
     }
     if(log==TRUE)
     {
@@ -38,15 +36,12 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
     if(log==TRUE)
     {
       y.axis <- "log2(FPKM)"
-      myDataExp.tmp <- as.data.frame(apply(myDataExp.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-      myDataExp.tmp$Patient_Sample <- myDataExp.c$Patient_Sample
-      myDataExp.c <- myDataExp.tmp
+      myDataExp.c[,gene1] <- log2(myDataExp.c[,gene1]+1)
     }
   }
   
-  
   # add annotation data to expression set
-  myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="Patient_Sample",by.y='row.names')
+  myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="Patient_Sample", by.y='row.names')
   
   # eliminate confusion between MYCN gene and status
   if(length(grep('MYCN',colnames(myDataExp.c)))>1)
@@ -55,9 +50,9 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
     colnames(myDataExp.c)[coln] <- 'MYCN'
     coln <- grep("MYCN.y", colnames(myDataExp.c))
     colnames(myDataExp.c)[coln] <- 'MYCNS'
-    if(colorby=="MYCN")
+    if(colorby == "MYCN")
     {
-      colorby = "MYCNS"
+      colorby <- "MYCNS"
     }
   }
   

@@ -9,7 +9,7 @@ plotGeneBarCNAPatientAnalysis <- function(gene1, myData, logby, sortby, customth
 {
 
   # get selected dataset
-
+  myData <- myData[rownames(myData) %in% gene1,]
   myData$gene <- rownames(myData)
   myData.m <- melt(data = myData, id.vars = 'gene')
   myData.c <- dcast(data = myData.m, formula = variable~gene, value.var = 'value')
@@ -22,9 +22,7 @@ plotGeneBarCNAPatientAnalysis <- function(gene1, myData, logby, sortby, customth
   
   if(logby == TRUE)
   {
-    myData.tmp <- as.data.frame(apply(myData.c[,-1], MARGIN = 2, function(x) log2(x-1)))
-    myData.tmp$variable <- myData.c$variable
-    myData.c <- myData.tmp
+    myData.c[,gene1] <- log2(myData.c[,gene1]-1)
   }
   colnames(myData.c)[1] <- 'Sample'
   

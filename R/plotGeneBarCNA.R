@@ -7,6 +7,7 @@
 plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby)
 {
 	
+  dat <- dat[rownames(dat) %in% gene1,]
 	dat$gene <- rownames(dat)
 	dat.m <- melt(data = dat, id.vars = 'gene')
 	dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
@@ -14,14 +15,13 @@ plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby)
 
 	gene1.mut <- paste('`', gene1, '`', sep = "")
   
-	# reorder labels
-	idx <- sort(as.character(dat.c$Cell_Line), index=T)$ix
-	dat.c$Cell_Line <- factor(dat.c$Cell_Line, levels = dat.c[idx,"Cell_Line"])
-  
 	# add phenotype data - MYCN status
 	dat.c <- merge(dat.c, phenotype, by.x = 'Cell_Line', by.y = 'CellLine', all.x = TRUE)
 	
 	# sorting of bars
+	if(sortby == "CellLine"){
+	  dat.c$Cell_Line <- factor(x = dat.c$Cell_Line, levels = sort(as.character(dat.c$Cell_Line)))
+	}
 	if(sortby == "Gene"){
 	  dat.c$Cell_Line <- reorder(dat.c$Cell_Line,dat.c[,gene1])
 	}

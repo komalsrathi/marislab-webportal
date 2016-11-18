@@ -9,7 +9,7 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 {
 
   # get expression and annotation of the selected dataset
-
+  myDataExp <- myDataExp[rownames(myDataExp) %in% c(gene1, gene2),]
 	myDataExp$gene <- rownames(myDataExp)
 	myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
 	myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
@@ -41,10 +41,7 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 	  if(log==FALSE)
 	  {
 	    y.axis <- "RMA"
-	    myDataExp.tmp <- myDataExp.c[,-1]
-	    myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
-	    myDataExp.tmp <- cbind(Sample=myDataExp.c$Sample, myDataExp.tmp)
-	    myDataExp.c <- myDataExp.tmp
+	    myDataExp.c[,gene1] <- 2^(myDataExp.c[,gene1])
 	  }
 	  if(log==TRUE)
 	  {
@@ -60,9 +57,7 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
 	  if(log==TRUE)
 	  {
 	    y.axis <- "log2(FPKM)"
-	    myDataExp.tmp <- as.data.frame(apply(myDataExp.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-	    myDataExp.tmp$Sample <- myDataExp.c$Sample
-	    myDataExp.c <- myDataExp.tmp
+	    myDataExp.c <- log2(myDataExp.c[,gene1]+1)
 	  }
 	}
 	

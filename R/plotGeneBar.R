@@ -7,7 +7,8 @@
 plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortby, colorby)
 {
   
-  # load initial dataset
+  # load initial dataset and subset by gene
+  dat <- dat[rownames(dat) %in% gene1,]
   dat$gene <- rownames(dat)
   dat.m <- melt(data = dat, id.vars = 'gene')
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
@@ -17,6 +18,21 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
   gene1.mut <- paste('`',gene1,'`',sep='')
   
   # datatype
+  if(length(grep('RMA',datatype))==1)
+  {
+    y.axis <- 'RMA'
+    if(log == FALSE)
+    {
+      y.axis <- y.axis
+      dat.c[,gene1] <- 2^(dat.c[,gene1])
+    }
+    
+    if(log == TRUE)
+    {
+      y.axis <- paste0('Log2','(',y.axis,')')
+    }
+  }
+  
   if(length(grep('FPKM',datatype))==1)
   {
     y.axis <- 'FPKM'
@@ -28,27 +44,7 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-      dat.tmp$Cell_Line <- dat.c$Cell_Line
-      dat.c <- dat.tmp
-    }
-  }
-  
-  if(length(grep('RMA',datatype))==1)
-  {
-    y.axis <- 'RMA'
-    if(log == FALSE)
-    {
-      y.axis <- y.axis
-      dat.tmp <- dat.c[,-1]
-      dat.tmp <- as.data.frame(2^(dat.tmp))
-      dat.tmp <- cbind(Cell_Line=dat.c$Cell_Line, dat.tmp)
-      dat.c <- dat.tmp
-    }
-    
-    if(log == TRUE)
-    {
-      y.axis <- paste0('Log2','(',y.axis,')')
+      dat.c[,gene1] <- log2(dat.c[,gene1]+1)
     }
   }
   
@@ -63,9 +59,7 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-      dat.tmp$Cell_Line <- dat.c$Cell_Line
-      dat.c <- dat.tmp
+      dat.c[,gene1] <- log2(dat.c[,gene1]+1)
     }
   }
   

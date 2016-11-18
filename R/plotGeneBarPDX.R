@@ -8,6 +8,7 @@ plotGeneBarPDX <- function(datatype, dat, gene1, log, customtheme, sortby)
 {
   
   # load initial dataset
+  dat <- dat[rownames(dat) %in% gene1,]
   dat$gene <- rownames(dat)
   dat.m <- melt(data = dat, id.vars = 'gene')
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
@@ -28,9 +29,7 @@ plotGeneBarPDX <- function(datatype, dat, gene1, log, customtheme, sortby)
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-      dat.tmp$PDX <- dat.c$PDX
-      dat.c <- dat.tmp
+      dat.c[,gene1] <- log2(dat.c[,gene1]+1)
     }
   }
   

@@ -8,6 +8,7 @@
 plotGeneScatterPDX <- function(datatype, dat, gene1, gene2, log, customtheme, correlation){
   
   # load initial dataset
+  dat <- dat[rownames(dat) %in% c(gene1, gene2),]
   dat$gene <- rownames(dat)
   dat.m <- melt(data = dat, id.vars = 'gene')
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
@@ -45,9 +46,7 @@ plotGeneScatterPDX <- function(datatype, dat, gene1, gene2, log, customtheme, co
     if(log == TRUE)
     {
       y.axis <- paste0('Log2','(',y.axis,')')
-      dat.tmp <- as.data.frame(apply(dat.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-      dat.tmp$PDX <- dat.c$PDX
-      dat.c <- dat.tmp
+      dat.c[,c(gene1,gene2)] <- log2(dat.c[,c(gene1,gene2)]+1)
     }
   }
 

@@ -10,6 +10,7 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
 
   # get expression and annotation of the selected dataset
   # modify dataframe
+  myDataExp <- myDataExp[rownames(myDataExp) %in% gene1,]
   myDataExp$gene <- rownames(myDataExp)
   myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
   myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
@@ -21,10 +22,7 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
     if(log==FALSE)
     {
       y.axis <- "RMA"
-      myDataExp.tmp <- myDataExp.c[,-1]
-      myDataExp.tmp <- as.data.frame(2^myDataExp.tmp)
-      myDataExp.tmp <- cbind(Patient_Sample=myDataExp.c$Patient_Sample, myDataExp.tmp)
-      myDataExp.c <- myDataExp.tmp
+      myDataExp.c[,gene1] <- 2^(myDataExp.c[,gene1])
     }
     if(log==TRUE)
     {
@@ -40,9 +38,7 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
     if(log==TRUE)
     {
       y.axis <- "log2(FPKM)"
-      myDataExp.tmp <- as.data.frame(apply(myDataExp.c[,-1], MARGIN = 2, function(x) log2(x+1)))
-      myDataExp.tmp$Patient_Sample <- myDataExp.c$Patient_Sample
-      myDataExp.c <- myDataExp.tmp
+      myDataExp.c[,gene1] <- log2(myDataExp.c[,gene1]+1)
     }
   }
   
@@ -103,7 +99,13 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
   }
   
   p <- plotly_build(p)
-  p$x$layout$yaxis$title <- y.axis
+  if(density == FALSE){
+    p$x$layout$yaxis$title <- y.axis
+  }
+  if(density == TRUE){
+    p$x$layout$xaxis$title <- y.axis
+  }
+  
   
   return(p)
   
