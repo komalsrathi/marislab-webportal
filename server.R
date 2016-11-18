@@ -24,6 +24,7 @@ source('R/boxPlotGeneHighSUTC.R')
 source('R/dbplot.R')
 source('R/plotBoxplotTargetRNA.R')
 source('R/plotGeneScatterTargetRNA.R')
+source('R/getTukeyHSDBoxplotTargetRNA.R')
 source('R/plotGeneBarPDX.R')
 source('R/plotGeneScatterPDX.R')
 
@@ -715,6 +716,23 @@ shinyServer(function(input, output, session){
       plotBoxplotTargetRNA(gene1 = gene1, colorby = colorby, datatype = datatype, 
                            dat = dat, log = logvalue, customtheme = tbw, 
                            targetcode = Target724_targetcode)
+    })
+  })
+  
+  output$tgeboxtable1 <- DT::renderDataTable({
+    if(input$tgeboxsubmit2 == 0){
+      return()
+    }
+    isolate({
+      datatype <- as.character(input$tgeboxselectInput1)
+      dat <- get(datatype)
+      gene1 <- as.character(input$tgeboxselectInput2)
+      logvalue <- input$tgeboxcheckboxInput1
+      colorby <- as.character(input$tgeboxselectInput3)
+      dat <- getTukeyHSDBoxplotTargetRNA(gene1 = gene1, colorby = colorby, datatype = datatype, 
+                           dat = dat, log = logvalue, 
+                           targetcode = Target724_targetcode)
+      viewDataTable(dat = dat)
     })
   })
   
