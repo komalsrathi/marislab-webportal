@@ -654,7 +654,8 @@ dashboardPage(
                                                                                                   'RT'='TARGET-52-'), multiple = TRUE), width = 2, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'tgeboxsubmit2', label = "Get Boxplot"))), br(), br(),
-              plotlyOutput(outputId = "tgeboxplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "tgeboxplot1", width = 1000, height = 800),
+              DT::dataTableOutput(outputId = "tgeboxtable1")
       ),
       tabItem(tabName = "tgedot",
               fluidRow(
