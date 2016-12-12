@@ -1,4 +1,5 @@
 # source functions
+source('R/loaddatasets.R')
 source('R/viewDataTable.R')
 source('R/plotGeneScatter.R')
 source('R/plotGeneBar.R')
@@ -27,27 +28,6 @@ source('R/plotGeneScatterTargetRNA.R')
 source('R/getTukeyHSDBoxplotTargetRNA.R')
 source('R/plotGeneBarPDX.R')
 source('R/plotGeneScatterPDX.R')
-
-# load datasets here
-load('data/data_summary.RData')
-load('data/cellline_mData.RData')
-load('data/TumNormData.RData')
-load('data/allDataPatient.RData')
-load('data/Microarray_RMA_HumanGene1.0ST_29cells_genes.RData')
-load('data/Microarray_RMA_U133Plus2_17cells_CCLE_genes.RData')
-load('data/Microarray_RMA_U133Plus2_29cells_genes.RData')
-load('data/Microarray_RMA_HumanWG6v2_38cells_genes.RData')
-load('data/kallisto_TPM_41cells_genes.RData')
-load('data/STAR_FPKM_Target724_genes.RData')
-load('data/kallisto_TPM_Target724_genes.RData')
-load('data/STAR_FPKM_46cells_genes.RData')
-load('data/ExomeCalls85K8_10_13.RData')
-load('data/ExomeCallsCCLE.RData')
-load('data/compAim3_DE.RData')
-load('data/compAim3_OE.RData')
-load('data/compAim3_TM.RData')
-load('data/Target724_targetcode.RData')
-load('data/PDX_FPKM_hg38.RData')
 
 shinyServer(function(input, output, session){
   
