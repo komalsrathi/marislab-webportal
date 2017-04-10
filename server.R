@@ -353,7 +353,7 @@ shinyServer(function(input, output, session){
     }
     updateSelectizeInput(session = session, inputId = "pgehselectInput3", choices = cols, selected = 'None', server = TRUE)
     cols <- c(cols, 'Gene')
-    updateSelectizeInput(session = session, inputId = "pgehselectInput4", choices = cols, selected = 'None', server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pgehselectInput4", choices = cols, selected = 'Gene', server = TRUE)
   })
 
   # patient gene bar plot
@@ -467,10 +467,11 @@ shinyServer(function(input, output, session){
     }
     isolate({
       datatype <- as.character(input$pkmselectInput1)
-      dataset <-  get(paste0(datatype,'_All'))
+      myDataExp <- get(paste0(datatype, '_data'))
+      myDataAnn <- get(paste0(datatype, '_mData'))
       endpoint <- as.character(input$pkmselectInput2)
       genes <- as.character(input$pkmselectInput3)
-      kapmChoose(datatype = datatype, dataset = dataset, genes = genes, endpoint = endpoint)
+      kapmChoose(datatype = datatype, myDataExp = myDataExp, myDataAnn = myDataAnn, genes = genes, endpoint = endpoint)
     })
   })
   
