@@ -14,22 +14,22 @@ standScore <- function(x)
   x <- (x-mean(x))/sd(x)
 }
 
-kapmPlot <- function(genes, myData, createPlot=T, tVar, eVar)
+kapmPlot <- function(genes, myDataExp, myDataAnn, createPlot=T, tVar, eVar)
 {
   #Get metadata
-  tmpMeta <- myData[[2]]
+  tmpMeta <- myDataAnn
   
   #Now pick a gene/genes &
   if(length(genes)==1)
   {
-    myGene <- myData[[1]][genes,]
+    myGene <- myDataExp[genes,]
     tmpMeta[,"Gene"] <- as.numeric(myGene)
     tmpMeta <- tmpMeta[order(tmpMeta[,"Gene"]),]
   }
   
   if(length(genes)>1)
   {
-    myGene <- myData[[1]][genes,]
+    myGene <- myDataExp[genes,]
     myGene <- apply(myGene, FUN=standScore, MARGIN=1)
     myGene <- apply(myGene, FUN=max, MARGIN=1)
     tmpMeta[,"Gene"] <- as.numeric(myGene)
