@@ -199,7 +199,7 @@ dashboardPage(
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('CellLine', 'Gene', 'MYCN_Status')), width = 2, background = 'navy'),
+                box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')), width = 2, background = 'navy'),
                 box(selectInput(inputId = "clgeselectInput4", label = "Color by", choices = c('None', 'MYCN_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
@@ -246,7 +246,7 @@ dashboardPage(
                                                                                                      'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
-                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('CellLine', 'Gene', 'MYCN_Status')), width = 2, background = 'navy'),
+                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')), width = 2, background = 'navy'),
                 box(selectInput(inputId = "clgcnselectInput4", label = "Color by", choices = c('None', 'MYCN_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit2', label = "Get Copy Number Barplot"))), 
@@ -417,7 +417,7 @@ dashboardPage(
                     actionButton(inputId = "pdxbarsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "pdxbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pdxbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "pdxbarselectInput3", label = "Sort by", choices = c('PDX', 'Gene')), width = 2, background = 'navy')
+                box(selectInput(inputId = "pdxbarselectInput3", label = "Sort by", choices = c('Gene','PDX')), width = 2, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxbarsubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "pdxbarplot1", width = 1000, height = 800)
@@ -457,7 +457,7 @@ dashboardPage(
                                                                                                    'GSE49711 (GPL17553	IlluminaHiseq2000, n=498, FPKM)'='GSE49711_FPKM',
                                                                                                    'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                    'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
-                                                                                                   'TARGET NBL (RNAseq, n=159, STAR FPKM)'='TARGET_NBL_FPKM')), width = 5, background = "navy")
+                                                                                                   'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'psdbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "psdbtable1")
@@ -480,7 +480,7 @@ dashboardPage(
                                                                                                     'GSE49711 (GPL17553	IlluminaHiseq2000, n=498, FPKM)'='GSE49711_FPKM',
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
-                                                                                                    'TARGET NBL (RNAseq, n=159, STAR FPKM)'='TARGET_NBL_FPKM')),
+                                                                                                    'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
                     actionButton(inputId = "pgehsubmit1", label = "Load dataset"),width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Log Data"),
                     checkboxInput(inputId = "pgehcheckboxInput2", label = "Density"), width = 2, background = "navy"),
@@ -506,7 +506,7 @@ dashboardPage(
                                                                                                      'EMEXP669 (GPL96 U133A, n=24, RMA)'='EMEXP669',
                                                                                                      'GSE49711 (GPL17553	IlluminaHiseq2000, n=498, FPKM)'='GSE49711_FPKM',
                                                                                                      'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
-                                                                                                     'TARGET NBL (RNAseq, n=159, STAR FPKM)'='TARGET_NBL_FPKM')),
+                                                                                                     'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
                     actionButton(inputId = "pgebpsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pgebpcheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
@@ -546,7 +546,7 @@ dashboardPage(
                                                                                                     'GSE49711 (GPL17553	IlluminaHiseq2000, n=498, FPKM)'='GSE49711_FPKM',
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
-                                                                                                    'TARGET NBL (RNAseq, n=159, STAR FPKM)'='TARGET_NBL_FPKM')),
+                                                                                                    'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
                     actionButton(inputId = 'pggcsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(checkboxInput(inputId = "pggccheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("None","STAGE", "MYCN", "RISK")),
@@ -575,7 +575,7 @@ dashboardPage(
                                                                                                     'GSE49711 (GPL17553	IlluminaHiseq2000, n=498, FPKM)'='GSE49711_FPKM',
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
-                                                                                                    'TARGET NBL (RNAseq, n=159, STAR FPKM)'='TARGET_NBL_FPKM')),
+                                                                                                    'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
                     actionButton(inputId = 'pmcgsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy"),
                 box(textInput(inputId = "pmcgtextInput1", label = "Number", value = "10"), width = 3, background = "navy")
@@ -587,7 +587,7 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = "pgcnselectInput1", label = "Select dataset", choices = c('IH250')),
                     actionButton(inputId = "pgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "pgcncheckboxInput1", label = "Sort Data"),
+                box(checkboxInput(inputId = "pgcncheckboxInput1", label = "Sort Data", value = TRUE),
                     checkboxInput(inputId = "pgcncheckboxInput2", label = "Log Data"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy")
               ),
