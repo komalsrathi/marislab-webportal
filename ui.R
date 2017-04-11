@@ -123,7 +123,7 @@ dashboardPage(
       
       ######## Description #########
       tabItem(tabName = "datadesc",
-              DT::datatable(data = read.delim('data/datasets_desc.txt'),
+              DT::datatable(data = read.delim('data/datasets_desc.txt', check.names = FALSE),
                             rownames = FALSE, escape = FALSE, selection = "single",
                             extensions = c('Buttons'),
                             options = list(
@@ -404,7 +404,7 @@ dashboardPage(
       # pdxdata
       tabItem(tabName = "pdxdata",
               fluidRow(
-                box(selectInput(inputId = 'pdxdataselectInput1', label = 'Select dataset',choices = c('PDX (n=24, FPKM, hg38)'='PDX_FPKM_hg38')), width = 5, background = "navy")
+                box(selectInput(inputId = 'pdxdataselectInput1', label = 'Select dataset',choices = c('PDX (n=24, FPKM, hg38)'='PDX_FPKM_hg38')), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxdatasubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "pdxdatatable1")
@@ -414,7 +414,7 @@ dashboardPage(
       tabItem(tabName = "pdxbar",
               fluidRow(
                 box(selectInput(inputId = "pdxbarselectInput1", label = "Select dataset", choices = c('PDX (n=24, FPKM, hg38)'='PDX_FPKM_hg38')),
-                    actionButton(inputId = "pdxbarsubmit1", label = "Load dataset"), width = 4, background = "navy"),
+                    actionButton(inputId = "pdxbarsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pdxbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pdxbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pdxbarselectInput3", label = "Sort by", choices = c('Gene','PDX')), width = 2, background = 'navy')
@@ -427,7 +427,7 @@ dashboardPage(
       tabItem(tabName = "pdxdot",
               fluidRow(
                 box(selectInput(inputId = "pdxdotselectInput1", label = "Select dataset", choices = c('PDX (n=24, FPKM, hg38)'='PDX_FPKM_hg38')),
-                    actionButton(inputId = "pdxdotsubmit1", label = "Load dataset"), width = 4, background = "navy"),
+                    actionButton(inputId = "pdxdotsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pdxdotselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "pdxdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pdxdotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -482,11 +482,12 @@ dashboardPage(
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                     'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
                     actionButton(inputId = "pgehsubmit1", label = "Load dataset"),width = 3, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput2", label = "Select gene", choices = c("None")), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Log Data"),
                     checkboxInput(inputId = "pgehcheckboxInput2", label = "Density"), width = 2, background = "navy"),
-                box(selectInput(inputId = "pgehselectInput2", label = "Select gene", choices = c("None")), width = 2, background = "navy"),
-                box(selectInput(inputId = "pgehselectInput3", label = "Color by", choices = c("None")), width = 2, background = "navy"),
-                box(selectInput(inputId = "pgehselectInput4", label = "Sort by", choices = c("None")), width = 2, background = "navy")
+                box(selectInput(inputId = "pgehselectInput4", label = "Sort by", choices = c("None")), width = 2, background = "navy"),
+                box(selectInput(inputId = "pgehselectInput3", label = "Color by", choices = c("None")), width = 2, background = "navy")
+                
               ),
               fluidRow(column(5, actionButton(inputId = 'pgehsubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "pgehplot1", width = 1200, height = 800)
@@ -508,9 +509,9 @@ dashboardPage(
                                                                                                      'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                      'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
                     actionButton(inputId = "pgebpsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "pgebpcheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 3, background = "navy"),
-                box(selectInput(inputId = "pgebpselectInput3", label = "Select gene", choices = c("none")), width = 3, background = "navy")
+                box(selectInput(inputId = "pgebpselectInput3", label = "Select gene", choices = c("none")), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "pgebpcheckboxInput1", label = "Log Data"), width = 2, background = "navy"),
+                box(selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgebpsubmit2', label = "Get Patient Boxplot"))), br(), br(),
               plotlyOutput(outputId = "pgebpplot1", width = 1000, height = 800),
@@ -522,8 +523,8 @@ dashboardPage(
                                                                                                    'IH250 (n=250, RMA)'='IH250',
                                                                                                    'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960')),
                     actionButton(inputId = 'pkmsubmit1', label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pkmselectInput2", label = "Select endpoint", choices = c("os", "efs")), width = 3, background = "navy"),
-                box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none"), multiple = TRUE), width = 3, background = "navy")
+                box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none"), multiple = TRUE), width = 2, background = "navy"),
+                box(selectInput(inputId = "pkmselectInput2", label = "Select endpoint", choices = c("os", "efs")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pkmsubmit2', label = "Get Kaplan-Meier Plot"))), br(), br(),
               plotlyOutput(outputId = "pkmplot1", width = 1000, height = 800)
@@ -547,12 +548,12 @@ dashboardPage(
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                     'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
-                    actionButton(inputId = 'pggcsubmit1', label = "Load dataset"), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "pggccheckboxInput1", label = "Log Data"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("None","STAGE", "MYCN", "RISK")),
-                    selectInput(inputId = "pggcselectInput5", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 3, background = "navy"),
+                    actionButton(inputId = 'pggcsubmit1', label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "pggcselectInput3", label = "Select gene 1", choices = c("none")), 
-                    selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")), width = 3, background = "navy")
+                    selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "pggccheckboxInput1", label = "Log Data"), width = 2, background = "navy"),
+                box(selectInput(inputId = "pggcselectInput5", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
+                box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("None","STAGE", "MYCN", "RISK")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pggcsubmit2', label = "Get Gene Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "pggcplot1", width = 1000, height = 800)
@@ -576,9 +577,9 @@ dashboardPage(
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                     'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
-                    actionButton(inputId = 'pmcgsubmit1', label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 3, background = "navy"),
-                box(textInput(inputId = "pmcgtextInput1", label = "Number", value = "10"), width = 3, background = "navy")
+                    actionButton(inputId = 'pmcgsubmit1', label = "Load dataset"), width = 4, background = "navy"),
+                box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy"),
+                box(textInput(inputId = "pmcgtextInput1", label = "Number", value = "10"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pmcgsubmit2', label = "Get Top Gene Correlations"))), br(), br(),
               DT::dataTableOutput(outputId = 'pmcgtable1')
@@ -587,9 +588,9 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = "pgcnselectInput1", label = "Select dataset", choices = c('IH250')),
                     actionButton(inputId = "pgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pgcncheckboxInput1", label = "Sort Data", value = TRUE),
-                    checkboxInput(inputId = "pgcncheckboxInput2", label = "Log Data"), width = 2, background = "navy"),
-                box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy")
+                    checkboxInput(inputId = "pgcncheckboxInput2", label = "Log Data"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgcnsubmit2', label = "Get Copy Number Barplot"))), br(), br(),
               plotOutput(outputId = "pgcnplot1", width = 1000, height = 800)
@@ -610,9 +611,9 @@ dashboardPage(
       tabItem(tabName = "tvnb",
               fluidRow(
                 box(selectInput(inputId = "tvnbselectInput1", label = "Select dataset", choices = c("GTEx Normals vs TARGET NBL")),
-                    actionButton(inputId = "tvnbsubmit1", label = "Load dataset"), width = 4, background = "navy"),
-                box(selectInput(inputId = "tvnbselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "tvnbcheckboxInput1", label = "Log"), width = 3, background = "navy")
+                    actionButton(inputId = "tvnbsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "tvnbselectInput2", label = "Select Gene", choices = c("none")), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "tvnbcheckboxInput1", label = "Log"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'tvnbsubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
               plotlyOutput(outputId = "tvnbplot1", width = 1000, height = 800)
@@ -620,9 +621,9 @@ dashboardPage(
       tabItem(tabName = "tvnba",
               fluidRow(
                 box(selectInput(inputId = "tvnbaselectInput1", label = "Select dataset", choices = c("GTEx Normals vs TARGET NBL")),
-                    actionButton(inputId = "tvnbasubmit1", label = "Load dataset"), width = 4, background = "navy"),
-                box(selectInput(inputId = "tvnbaselectInput2", label = "Select Gene", choices = c("none")), width = 3, background = "navy"),
-                box(checkboxInput(inputId = "tvnbacheckboxInput1", label = "Log"), width = 3, background = "navy")
+                    actionButton(inputId = "tvnbasubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "tvnbaselectInput2", label = "Select Gene", choices = c("none")), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "tvnbacheckboxInput1", label = "Log"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'tvnbasubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
               plotlyOutput(outputId = "tvnbaplot1", width = 1000, height = 800)
