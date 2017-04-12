@@ -4,13 +4,14 @@ library(DT)
 library(plotly)
 library(reshape2)
 library(ggplot2)
-options(gsubfn.engine = "R")
 library(sqldf)
 library(limma)
 library(gridExtra)
 library(shinyIncubator)
 library(survival)
 library(ggthemes)
+options(gsubfn.engine = "R")
+options(shiny.sanitize.errors = TRUE)
 
 dashboardPage(
   
@@ -87,6 +88,11 @@ dashboardPage(
     ), # dashboardSidebar
 
   dashboardBody(
+    
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
+    ),
+    
     div(style="overflow-x: scroll"),
     
     # tabItems begins
