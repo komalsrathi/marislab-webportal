@@ -16,6 +16,9 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   
   # compute correlation
   cor <- cor.test(dat.c[,gene1], dat.c[,gene2], method = correlation)
+  validate(
+    need(!is.na(cor$p.value), "Correlation incorrect - SD is zero. Please try with other gene pairs!")
+  )
   if(cor$p.value==0){
     cor.pval <- '< 2.2e-16'
   }
