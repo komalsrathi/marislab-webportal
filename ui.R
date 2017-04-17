@@ -186,8 +186,8 @@ dashboardPage(
                                                                                                    'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                    'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                    'CL RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
-                                                                                                   'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes',
-                                                                                                   'Modified CL RNAseq (STAR) (n=6, FPKM)'='STAR_FPKM_6cells_modified_genes')), width = 5, background = "navy")
+                                                                                                   'CL RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes',
+                                                                                                   'Modified CL RNAseq (STAR) (n=8, FPKM)'='STAR_FPKM_8cells_modified_genes')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "cldbtable1")
@@ -202,8 +202,8 @@ dashboardPage(
                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                     'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                     'CL RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
-                                                                                                    'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes',
-                                                                                                    'Modified CL RNAseq (STAR) (n=6, FPKM)'='STAR_FPKM_6cells_modified_genes')),
+                                                                                                    'CL RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes',
+                                                                                                    'Modified CL RNAseq (STAR) (n=8, FPKM)'='STAR_FPKM_8cells_modified_genes')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -222,7 +222,7 @@ dashboardPage(
                                                                                                      'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
                                                                                                      'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
                                                                                                      'CL RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
-                                                                                                     'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes')),
+                                                                                                     'CL RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
