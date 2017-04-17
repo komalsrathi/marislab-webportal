@@ -57,7 +57,7 @@ plotBoxplotTargetRNA <- function(gene1, colorby, datatype, dat, log, customtheme
   {
     anovaRes <- aov(lm(dat.c[,gene1]~dat.c[,colorby]))
     pval <- summary(anovaRes)[[1]][[5]][1]
-    pval <- format(round(pval, 6), nsmall = 6)
+    pval <- signif(pval, 6)
     myText <- paste("Anova P-Val=", pval, sep="")
     p <- ggplot(dat.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + 
       geom_boxplot() + customtheme + 
