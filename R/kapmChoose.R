@@ -8,37 +8,15 @@ source('R/kapmPlot.R')
 
 kapmChoose <- function(datatype, myDataExp, myDataAnn, genes, endpoint)
 {
-  if(datatype=="NB88" & endpoint=="os")
+  if(endpoint == "os")
   {
-    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="nti_surv_overall", eVar="nti_event_overall_num")
+    tVar <- 'nti_surv_overall'
+    eVar <- 'nti_event_overall_num'
+  } else {
+    tVar <- 'nti_surv_progrfree'
+    eVar <- 'nti_event_progrfree_num'
   }
-  if(datatype=="NB88" & endpoint=="efs")
-  {
-    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="nti_surv_progrfree", eVar="nti_event_progrfree_num")
-  }
-  if(datatype=="IH250" & endpoint=="os")
-  {
-    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="stime", eVar="scens")
-  }
-  if(datatype=="IH250" & endpoint=="efs")
-  {
-    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="efstime", eVar="efscens")
-  }
-  if(datatype=="GSE3960" & endpoint=="os")
-  {
-    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="stime", eVar="scens")
-  }
-  if(datatype=="GSE3960" & endpoint=="efs")
-  {
-    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="efstime", eVar="efscens")
-  }
-  if(datatype=="GSE49711_FPKM" & endpoint == "os"){
-    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="nti_surv_overall", eVar="nti_event_overall_num")
-  }
-  if(datatype == "GSE49711_FPKM" & endpoint == "efs"){
-    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="nti_surv_progrfree", eVar="nti_event_progrfree_num")
-  }
-  
+  out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot = T, tVar = tVar, eVar = eVar)
   out <- plotly_build(out)
   return(out)
 }
