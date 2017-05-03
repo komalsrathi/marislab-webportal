@@ -536,7 +536,8 @@ dashboardPage(
               fluidRow(
                 box(selectInput(inputId = "pkmselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='NB88',
                                                                                                    'IH250 (n=250, RMA)'='IH250',
-                                                                                                   'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960')),
+                                                                                                   'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960',
+                                                                                                   'GSE49711 (GPL17553	IlluminaHiseq2000, n=498, FPKM)'='GSE49711_FPKM')),
                     actionButton(inputId = 'pkmsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none"), multiple = TRUE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pkmselectInput2", label = "Select endpoint", choices = c("os", "efs")), width = 2, background = "navy")
