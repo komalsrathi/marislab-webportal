@@ -32,7 +32,12 @@ kapmChoose <- function(datatype, myDataExp, myDataAnn, genes, endpoint)
   {
     out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="efstime", eVar="efscens")
   }
-  
+  if(datatype=="GSE49711_FPKM" & endpoint == "os"){
+    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="nti_surv_overall", eVar="nti_event_overall_num")
+  }
+  if(datatype == "GSE49711_FPKM" & endpoint == "efs"){
+    out <- kapmPlot(genes, myDataExp, myDataAnn, createPlot=T, tVar="nti_surv_progrfree", eVar="nti_event_progrfree_num")
+  }
   
   out <- plotly_build(out)
   return(out)
