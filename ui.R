@@ -48,7 +48,8 @@ dashboardPage(
       menuItem("PDX Analysis Tools", tabName = "pdx", icon = icon("gears"),
                menuSubItem("PDX Database", icon = icon("database"), tabName = "pdxdata"),
                menuSubItem("PDX Gene Expression Barplot", icon = icon("bar-chart"), tabName = "pdxbar"),
-               menuSubItem("PDX Gene Expression Scatterplot", icon = icon("line-chart"), tabName = "pdxdot")
+               menuSubItem("PDX Gene Expression Scatterplot", icon = icon("line-chart"), tabName = "pdxdot"),
+               menuSubItem("PDX Mutation Table", icon = icon("table"), tabName = "pdxm")
       ),
       menuItem("Patient Sample Database", icon = icon("database"), tabName = "psdb"),
       menuItem("Patient Sample Visualization Tools", tabName = "patientsamples", icon = icon("gears"),
@@ -447,6 +448,17 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxdotsubmit2', label = "Get Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "pdxdotplot1", width = 1000, height = 800)
+      ),
+      
+      tabItem(tabName = "pdxm",
+              fluidRow(
+                box(selectInput(inputId = "pdxmselectInput1", label = "Select dataset", choices = c("PDX Exome Calls"="ExomeCallsPDX")),
+                    actionButton(inputId = "pdxmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pdxmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pdxmsubmit2', label = "Get Mutation Table"))), 
+              br(), br(),
+              DT::dataTableOutput(outputId = 'pdxmtable1')
       ),
       ##### PDX #####
       
