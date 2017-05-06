@@ -24,5 +24,5 @@ viewDataTable.fixedcols <- function(dat){
                                     "}"),
                   scrollX = TRUE,
                   fixedColumns = list(leftColumns = 3)
-                ))
+                ), class = 'nowrap display')
 }
