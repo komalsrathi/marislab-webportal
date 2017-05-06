@@ -321,6 +321,30 @@ shinyServer(function(input, output, session){
     })
   })
   
+  observe({
+    if(input$pdxmsubmit1 == 0){
+      return()
+    }
+    isolate({
+      dat <- as.character(input$pdxmselectInput1)
+      dat <- get(dat)
+      num <- unique(as.character(dat$Gene))
+      updateSelectizeInput(session = session, inputId = "pdxmselectInput2", choices = num, server = TRUE)
+    })
+  })
+  
+  output$pdxmtable1 <- DT::renderDataTable({
+    if(input$pdxmsubmit2 == 0){
+      return()
+    }
+    isolate({
+      dataset <- as.character(input$pdxmselectInput1)
+      dataset <- get(dataset)
+      gene <- as.character(input$pdxmselectInput2)
+      viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
+    })
+  })
+  
   # patient sample database
   output$psdbtable1 <- DT::renderDataTable({
     if(input$psdbsubmit1 == 0){
