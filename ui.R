@@ -211,7 +211,7 @@ dashboardPage(
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')), width = 2, background = 'navy'),
-                box(selectInput(inputId = "clgeselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_status')), width = 2, background = "navy")
+                box(selectInput(inputId = "clgeselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
@@ -233,7 +233,7 @@ dashboardPage(
                     selectInput(inputId = "clggcselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "clggccheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
-                box(selectInput(inputId = "clggcselectInput5", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_status')), width = 2, background = "navy")
+                box(selectInput(inputId = "clggcselectInput5", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit2', label = "Get Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "clggcplot1", width = 1000, height = 800)
@@ -260,7 +260,7 @@ dashboardPage(
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')), width = 2, background = 'navy'),
-                box(selectInput(inputId = "clgcnselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_status')), width = 2, background = "navy")
+                box(selectInput(inputId = "clgcnselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit2', label = "Get Copy Number Barplot"))), 
               br(), br(),
@@ -275,7 +275,7 @@ dashboardPage(
                     actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
-                box(selectInput(inputId = "clcvmselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_status')), width = 2, background = "navy")
+                box(selectInput(inputId = "clcvmselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clcvmsubmit2', label = "Get CN vs Mutation Plot"))), 
               br(), br(),
@@ -431,7 +431,7 @@ dashboardPage(
                 box(selectInput(inputId = "pdxbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pdxbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pdxbarselectInput3", label = "Sort by", choices = c('Gene','PDX')), width = 2, background = 'navy'),
-                box(selectInput(inputId = "pdxbarselectInput4", label = "Color by", choices = c('None','ALK_Status','MYCN_Status','TP53_status')), width = 2, background = 'navy')
+                box(selectInput(inputId = "pdxbarselectInput4", label = "Color by", choices = c('None','ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxbarsubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "pdxbarplot1", width = 1000, height = 800)
@@ -446,7 +446,7 @@ dashboardPage(
                     selectInput(inputId = "pdxdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pdxdotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pdxdotselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
-                box(selectInput(inputId = "pdxdotselectInput5", label = "Color by", choices = c("None", 'ALK_Status','MYCN_Status','TP53_status')), width = 2, background = "navy")
+                box(selectInput(inputId = "pdxdotselectInput5", label = "Color by", choices = c("None", 'ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxdotsubmit2', label = "Get Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "pdxdotplot1", width = 1000, height = 800)
