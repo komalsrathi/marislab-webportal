@@ -257,8 +257,8 @@ shinyServer(function(input, output, session){
       return()
     }
     isolate({
-      dat <- as.character(input$pdxdataselectInput1)
-      dat <- get(dat)
+      dataset <- as.character(input$pdxbarselectInput1)
+      dat <- get(paste0(dataset,'_data'))
       viewDataTable(dat = dat)
     })
   })
@@ -268,8 +268,8 @@ shinyServer(function(input, output, session){
     if(input$pdxbarsubmit1 == 0){
       return()
     }
-    dat <- as.character(input$pdxbarselectInput1)
-    dat <- get(dat)
+    dataset <- as.character(input$pdxbarselectInput1)
+    dat <- get(paste0(dataset,'_data'))
     num <- rownames(dat)
     updateSelectizeInput(session = session, inputId = "pdxbarselectInput2", choices = num, server = TRUE)
   })
@@ -281,13 +281,17 @@ shinyServer(function(input, output, session){
     }
     isolate({
       datatype <- as.character(input$pdxbarselectInput1)
-      dat <- get(datatype)
+      dat <- get(paste0(datatype,'_data'))
+      phenotype <- get(paste0(datatype,'_mData'))
       gene1 <- as.character(input$pdxbarselectInput2)
       logvalue <- input$pdxbarcheckboxInput1
       sortby <- input$pdxbarselectInput3
-      plotGeneBarPDX(datatype = datatype, dat = dat, 
+      colorby <- input$pdxbarselectInput4
+      plotGeneBarPDX(datatype = datatype, 
+                     phenotype = phenotype,
+                     dat = dat, 
                      gene1 = gene1, customtheme = tbw, 
-                     log = logvalue, sortby)
+                     log = logvalue, sortby, colorby)
     })
   })
   
@@ -296,8 +300,8 @@ shinyServer(function(input, output, session){
     if(input$pdxdotsubmit1 == 0){
       return()
     }
-    dat <- as.character(input$pdxdotselectInput1)
-    dat <- get(dat)
+    dataset <- as.character(input$pdxbarselectInput1)
+    dat <- get(paste0(dataset,'_data'))
     num <- rownames(dat)
     updateSelectizeInput(session = session, inputId = "pdxdotselectInput2", choices = num, server = TRUE)
     updateSelectizeInput(session = session, inputId = "pdxdotselectInput3", choices = num, server = TRUE)
@@ -308,16 +312,20 @@ shinyServer(function(input, output, session){
       return()
     }
     isolate({
-      datatype <- as.character(input$pdxdotselectInput1)
-      dat <- get(datatype)
+      datatype <- as.character(input$pdxbarselectInput1)
+      dat <- get(paste0(datatype,'_data'))
+      phenotype <- get(paste0(datatype,'_mData'))
       gene1 <- as.character(input$pdxdotselectInput2)
       gene2 <- as.character(input$pdxdotselectInput3)
       logvalue <- input$pdxdotcheckboxInput1
       correlation <- input$pdxdotselectInput4
+      colorby <- input$pdxdotselectInput5
       plotGeneScatterPDX(datatype = datatype, dat = dat, 
+                         phenotype = phenotype,
                          gene1 = gene1, gene2 = gene2, 
                          customtheme = tbw, 
-                         log = logvalue, corr = correlation)
+                         log = logvalue, corr = correlation,
+                         colorby = colorby)
     })
   })
   
@@ -484,6 +492,19 @@ shinyServer(function(input, output, session){
     })
   })
   
+  observe({
+    if(input$pkmsubmit1 == 0){
+      return()
+    }
+    isolate({
+      datatype <- as.character(input$pkmselectInput1)
+      myDataAnn <- get(paste0(datatype, '_mData'))
+      risk <- unique(myDataAnn$RISK)
+      risk <- c('All', risk)
+      updateSelectizeInput(session = session, inputId = "pkmselectInput4", choices = risk)
+    })
+  })
+  
   # kaplan meier plot
   output$pkmplot1 <- renderPlotly({
     if(input$pkmsubmit2 == 0){
@@ -495,7 +516,8 @@ shinyServer(function(input, output, session){
       myDataAnn <- get(paste0(datatype, '_mData'))
       endpoint <- as.character(input$pkmselectInput2)
       genes <- as.character(input$pkmselectInput3)
-      kapmChoose(datatype = datatype, myDataExp = myDataExp, myDataAnn = myDataAnn, genes = genes, endpoint = endpoint)
+      risk <- as.character(input$pkmselectInput4)
+      kapmChoose(datatype = datatype, myDataExp = myDataExp, myDataAnn = myDataAnn, risk = risk, genes = genes, endpoint = endpoint)
     })
   })
   
