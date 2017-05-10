@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 ####################################
 
-plotGeneBarPDX <- function(datatype, dat, gene1, log, customtheme, sortby)
+plotGeneBarPDX <- function(datatype, dat, phenotype, gene1, log, customtheme, sortby, colorby)
 {
   
   # load initial dataset
@@ -33,6 +33,9 @@ plotGeneBarPDX <- function(datatype, dat, gene1, log, customtheme, sortby)
     }
   }
   
+  # add phenotype data
+  dat.c <- merge(dat.c, phenotype, by.x = 'PDX', by.y = 'row.names', all.x = TRUE)
+  
   # sorting of bars
   if(sortby == "PDX"){
     dat.c$PDX <- factor(x = dat.c$PDX, levels = sort(as.character(dat.c$PDX)))
@@ -42,11 +45,20 @@ plotGeneBarPDX <- function(datatype, dat, gene1, log, customtheme, sortby)
   }
   
   # ggplot 
-  p <- ggplot(dat.c, aes_string(x='PDX', y=gene1.mut)) +
-    geom_bar(stat="identity") + customtheme + 
-    theme(axis.text.x  = element_text(angle=45), 
-          plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
-    ggtitle(gene1)
+  if(colorby != "None"){
+    p <- ggplot(dat.c, aes_string(x='PDX', y=gene1.mut, fill = colorby)) +
+      geom_bar(stat="identity") + customtheme + 
+      theme(axis.text.x  = element_text(angle=45), 
+            plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+      ggtitle(gene1)
+  } else {
+    p <- ggplot(dat.c, aes_string(x='PDX', y=gene1.mut)) +
+      geom_bar(stat="identity") + customtheme + 
+      theme(axis.text.x  = element_text(angle=45), 
+            plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+      ggtitle(gene1)
+  }
+  
   
   p <- plotly_build(p)
   p$x$layout$yaxis$title <- y.axis

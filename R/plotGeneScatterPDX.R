@@ -5,7 +5,7 @@
 ####################################
 
 # plotGeneScatter begins
-plotGeneScatterPDX <- function(datatype, dat, gene1, gene2, log, customtheme, correlation){
+plotGeneScatterPDX <- function(datatype, dat, phenotype, gene1, gene2, log, customtheme, correlation, colorby){
   
   # load initial dataset
   dat <- dat[rownames(dat) %in% c(gene1, gene2),]
@@ -50,8 +50,15 @@ plotGeneScatterPDX <- function(datatype, dat, gene1, gene2, log, customtheme, co
     }
   }
 
-  p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'PDX')) + 
+  dat.c <- merge(dat.c, phenotype, by.x = 'PDX', by.y = 'row.names', all.x = TRUE)
+  
+  if(colorby != "None"){
+    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'PDX', color = colorby)) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
+  } else {
+    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'PDX')) + 
+      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
+  }
   
   p <- plotly_build(p)
   
