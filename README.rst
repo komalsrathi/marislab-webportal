@@ -51,12 +51,12 @@ Updates
 * Adds ~15 datasets from R2/GEO/ArrayExpress.
 * Updates patient data dropdown using colnames in metadata.
 * Replaces Tabletools with Buttons extension.
+* added functionality for b/w plots using dropdown.
+* added description for each project.
+
 * More to come later!
 
 Improvements required
 ^^^^^^^^^^^^^^^^^^^^^
 
-* add description for each project.
-* for a plot, get raw data from which the plot came.
-* add functionality for b/w plots using dropdown.
 * user traffic record
