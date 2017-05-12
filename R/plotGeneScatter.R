@@ -14,22 +14,22 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
   colnames(dat.c)[1] = "Cell_Line"
   
-  # compute correlation
+  # # compute correlation
   cor <- cor.test(dat.c[,gene1], dat.c[,gene2], method = correlation)
-  validate(
-    need(!is.na(cor$p.value), "Correlation incorrect - SD is zero. Please try with other gene pairs!")
-  )
-  if(cor$p.value==0){
+  if(is.na(cor$p.value)){
+    cor.pval <- NA
+  } else if(cor$p.value==0){
     cor.pval <- '< 2.2e-16'
-  }
-  if(cor$p.value>0){
-    cor.pval <- format(cor$p.value, scientific = T)
-  }
-  if(cor$estimate==1){
+  } else if(cor$p.value>0){
+    cor.pval <- format(cor$p.value, scientific = T, digits = 3)
+  } 
+  
+  if(is.na(cor$estimate)){
+    cor.est <- NA
+  } else if(cor$estimate==1){
     cor.est <- 1
-  }
-  if(cor$estimate!=1){
-    cor.est <- format(cor$estimate, scientific = T)
+  } else if(cor$estimate!=1){
+    cor.est <- format(cor$estimate, scientific = T, digits = 3)
   }
   cor.title <- paste("Cor = ", cor.est, " | P-Val = ", cor.pval, sep="")
   
@@ -85,14 +85,21 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   
   # merge phenotype data
   dat.c <- merge(dat.c, phenotype, by.x = 'Cell_Line', by.y = 'CellLine', all.x = TRUE)
-  
+
+  # get correlations
+  if(colorby != "None"){
+    correlations <- plyr::ddply(.data = dat.c, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = gene1, gene2 = gene2, correlation = correlation))
+  } else {
+    correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
+  }
+
   if(colorby != "None"){
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, color = colorby, label = 'Cell_Line')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
+      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
   }
   if(colorby == "None"){
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Cell_Line')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
+      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
   }
   
   p <- plotly_build(p)
@@ -100,5 +107,6 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   p$x$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
   p$x$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
   
-  return(p)
+  newList <- list(p, correlations)
+  return(newList)
 } # plotGeneScatter ends
