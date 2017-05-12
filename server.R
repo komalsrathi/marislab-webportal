@@ -28,6 +28,7 @@ source('R/plotGeneScatterTargetRNA.R')
 source('R/getTukeyHSDBoxplotTargetRNA.R')
 source('R/plotGeneBarPDX.R')
 source('R/plotGeneScatterPDX.R')
+source('R/getCorr.R')
 
 shinyServer(function(input, output, session){
   
@@ -103,8 +104,19 @@ shinyServer(function(input, output, session){
       logvalue <- input$clggccheckboxInput1
       correlation <- input$clggcselectInput4
       colorby <- input$clggcselectInput5
-      plotGeneScatter(datatype = datatype, dat = dat, gene1 = gene1, gene2 = gene2, 
+      dotcl <<- plotGeneScatter(datatype = datatype, dat = dat, gene1 = gene1, gene2 = gene2, 
                       customtheme = tbw, log = logvalue, corr = correlation, colorby = colorby, phenotype = phenotype)
+      dotcl[[1]]
+    })
+  })
+  
+  output$clggctable1 <- renderDataTable({
+    if(input$clggcsubmit2 == 0){
+      return()
+    }
+    isolate({
+      cor.table <- dotcl[[2]]
+      viewDataTable(dat = cor.table)
     })
   })
   
@@ -320,12 +332,23 @@ shinyServer(function(input, output, session){
       logvalue <- input$pdxdotcheckboxInput1
       correlation <- input$pdxdotselectInput4
       colorby <- input$pdxdotselectInput5
-      plotGeneScatterPDX(datatype = datatype, dat = dat, 
+      dotpdx <<- plotGeneScatterPDX(datatype = datatype, dat = dat, 
                          phenotype = phenotype,
                          gene1 = gene1, gene2 = gene2, 
                          customtheme = tbw, 
                          log = logvalue, corr = correlation,
                          colorby = colorby)
+      dotpdx[[1]]
+    })
+  })
+  
+  output$pdxdottable1 <- renderDataTable({
+    if(input$pdxdotsubmit2 == 0){
+      return()
+    }
+    isolate({
+      cor.table <- dotpdx[[2]]
+      viewDataTable(dat = cor.table)
     })
   })
   
@@ -558,11 +581,22 @@ shinyServer(function(input, output, session){
       gene1 <- as.character(input$pggcselectInput3)
       gene2 <- as.character(input$pggcselectInput4)
       correlation <- input$pggcselectInput5
-      plotGeneScatterPatientData(gene1 = gene1, gene2 = gene2, 
+      dotpp <<- plotGeneScatterPatientData(gene1 = gene1, gene2 = gene2, 
                                  datatype = dataset,
                                  myDataExp = myDataExp, myDataAnn = myDataAnn,
                                  log = log, colorby = colorby, correlation = correlation,
                                  customtheme = tbw)
+      dotpp[[1]]
+    })
+  })
+  
+  output$pggctable1 <- renderDataTable({
+    if(input$pggcsubmit2 == 0){
+      return()
+    }
+    isolate({
+      cor.table <- dotpp[[2]]
+      viewDataTable(dat = cor.table)
     })
   })
   
