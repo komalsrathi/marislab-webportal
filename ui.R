@@ -236,7 +236,8 @@ dashboardPage(
                 box(selectInput(inputId = "clggcselectInput5", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit2', label = "Get Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "clggcplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "clggcplot1", width = 1000, height = 800),
+              DT::dataTableOutput(outputId = "clggctable1")
       ),
       
       # clm content
@@ -449,7 +450,8 @@ dashboardPage(
                 box(selectInput(inputId = "pdxdotselectInput5", label = "Color by", choices = c("None", 'ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxdotsubmit2', label = "Get Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "pdxdotplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "pdxdotplot1", width = 1000, height = 800),
+              DT::dataTableOutput(outputId = "pdxdottable1")
       ),
       
       tabItem(tabName = "pdxm",
@@ -593,7 +595,8 @@ dashboardPage(
                 box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("None","STAGE", "MYCN", "RISK")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pggcsubmit2', label = "Get Gene Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "pggcplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "pggcplot1", width = 1000, height = 800),
+              DT::dataTableOutput(outputId = "pggctable1")
       ),
       tabItem(tabName = "pmcg",
               fluidRow(
