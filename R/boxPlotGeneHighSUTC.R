@@ -8,32 +8,26 @@ boxPlotGeneHighSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
 {
   
   # format data
-  rownames(tumData) <- tumData[,1]
-  tumData <- tumData[-1]
-  rownames(normDataAnnot) <- normDataAnnot[,1]
-  rownames(normDataAnnot) <- gsub("-", ".", rownames(normDataAnnot))
-  normDataAnnot <- normDataAnnot[(colnames(normData)[3:1643]),]
+  normData <- normData[rownames(normData) == gene1,]
+  tumData <- tumData[rownames(tumData)== gene1,]
+  normData <- melt(normData)
+  tumData <- melt(tumData)
   
-  tmpTum <- tumData[gene1,]
-  tmpTum <- data.frame(t(tmpTum), "TARGET NBL")
-  colnames(tmpTum) <- c("FPKM", "Tissue")
+  normData <- merge(normData, normDataAnnot[,c('SAMPID','SMTS')], by.x = 'variable', by.y = 'SAMPID')
+  tumData$SMTS <- 'TARGET NBL'
   
-  tmpNorm <- normData[normData[,2]==gene1,3:1643]
-  tmpNorm <- t(tmpNorm)
-  tmpNorm <- data.frame(tmpNorm, as.character(normDataAnnot[,"SMTS"]))
-  colnames(tmpNorm) <- c("FPKM", "Tissue")
+  tmpDat <- rbind(tumData, normData)
+  colnames(tmpDat) <- c('ID','FPKM','Tissue')
   
-  tmpDat <- rbind(tmpTum, tmpNorm)
-  
-  if(logby == TRUE)
-  {
+  if(logby == TRUE) {
     tmpDat$FPKM <- log2(tmpDat$FPKM)
     y.axis <- "Log2(FPKM)"
-  }
-  if(logby == FALSE)
-  {
+  } else {
     y.axis <- "FPKM"
   }
+  
+  tmpDat$Tissue <- as.factor(tmpDat$Tissue)
+  tmpDat$Tissue <- relevel(tmpDat$Tissue, ref = 'TARGET NBL')
   
   p <- ggplot(tmpDat, aes(Tissue, FPKM, fill = Tissue)) + 
     geom_boxplot() + ggtitle(gene1) + theme_bw() + 
