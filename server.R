@@ -697,7 +697,7 @@ shinyServer(function(input, output, session){
     if(input$tvnbsubmit1==0){
       return()
     }
-    num <- as.character(intersect(tumData$gene_id,normData$Description))
+    num <- as.character(rownames(tumData))
     updateSelectizeInput(session = session, inputId = "tvnbselectInput2", choices = num, server = TRUE)
   })
   
@@ -722,7 +722,7 @@ shinyServer(function(input, output, session){
     if(input$tvnbasubmit1==0){
       return()
     }
-    num <- as.character(intersect(tumData$gene_id,normData$Description))
+    num <- as.character(rownames(tumData))
     updateSelectizeInput(session = session, inputId = "tvnbaselectInput2", choices = num, server = TRUE)
   })
   
