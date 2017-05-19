@@ -8,14 +8,22 @@ boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
 {
   # format data
   normData <- normData[rownames(normData) == gene1,]
-  tumData <- tumData[rownames(tumData)== gene1,]
   normData <- melt(normData)
-  tumData <- melt(tumData)
-  
   normData <- merge(normData, normDataAnnot[,c('SAMPID','SMTSD')], by.x = 'variable', by.y = 'SAMPID')
+  
+  tumData <- tumData[rownames(tumData) == gene1,]
+  tumData <- melt(tumData)
   tumData$SMTSD <- 'TARGET NBL'
   
-  tmpDat <- rbind(tumData, normData)
+  FetalAdrenalGland_FPKM_hg38_data <- FetalAdrenalGland_FPKM_hg38_data[rownames(FetalAdrenalGland_FPKM_hg38_data) == gene1,]
+  if(nrow(FetalAdrenalGland_FPKM_hg38_data) > 0){
+    FetalAdrenalGland_FPKM_hg38_data <- melt(FetalAdrenalGland_FPKM_hg38_data)
+    FetalAdrenalGland_FPKM_hg38_data$SMTSD <- 'Fetal Adrenal Gland'
+    tmpDat <- rbind(tumData, normData, FetalAdrenalGland_FPKM_hg38_data)
+  } else {
+    tmpDat <- rbind(tumData, normData)
+  }
+  
   colnames(tmpDat) <- c('ID','FPKM','Tissue')
   
   if(logby == TRUE) {
