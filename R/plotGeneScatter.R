@@ -38,46 +38,30 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   gene2.mut <- paste('`',gene2,'`',sep = '')
   
   # datatype
-  if(length(grep('FPKM',datatype))==1)
-  {
+  if(length(grep('FPKM',datatype))==1) {
     y.axis <- 'FPKM'
     if(log == FALSE)
     {
       y.axis <- y.axis
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
       dat.c[,c(gene1,gene2)] <- log2(dat.c[,c(gene1,gene2)]+1)
     }
-  }
-  
-  if(length(grep('RMA',datatype))==1)
-  {
+  } else if(length(grep('RMA',datatype))==1) {
     y.axis <- 'RMA'
     if(log == FALSE)
     {
       y.axis <- y.axis
       dat.c[,c(gene1,gene2)] <- 2^(dat.c[,c(gene1,gene2)])
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
     }
-  }
-  
-  if(length(grep('TPM', datatype))==1)
-  {
+  } else if(length(grep('TPM', datatype))==1) {
     y.axis <- 'TPM'
     if(log == FALSE)
     {
       y.axis <- y.axis
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
       dat.c[,c(gene1,gene2)] <- log2(dat.c[,c(gene1,gene2)]+1)
     }
@@ -89,19 +73,14 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   # get correlations
   if(colorby != "None"){
     correlations <- plyr::ddply(.data = dat.c, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = gene1, gene2 = gene2, correlation = correlation))
-  } else {
-    correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
-  }
-
-  if(colorby != "None"){
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, color = colorby, label = 'Cell_Line')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
-  }
-  if(colorby == "None"){
+  } else {
+    correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Cell_Line')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
   }
-  
+
   p <- plotly_build(p)
   
   p$x$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
