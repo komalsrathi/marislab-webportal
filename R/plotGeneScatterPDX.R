@@ -38,16 +38,11 @@ plotGeneScatterPDX <- function(datatype, dat, phenotype, gene1, gene2, log, cust
   gene2.mut <- paste('`',gene2,'`',sep = '')
   
   # datatype
-  if(length(grep('FPKM',datatype))==1)
-  {
+  if(length(grep('FPKM',datatype))==1) {
     y.axis <- 'FPKM'
-    if(log == FALSE)
-    {
+    if(log == FALSE) {
       y.axis <- y.axis
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
       dat.c[,c(gene1,gene2)] <- log2(dat.c[,c(gene1,gene2)]+1)
     }
@@ -58,14 +53,10 @@ plotGeneScatterPDX <- function(datatype, dat, phenotype, gene1, gene2, log, cust
   # get correlations
   if(colorby != "None"){
     correlations <- plyr::ddply(.data = dat.c, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = gene1, gene2 = gene2, correlation = correlation))
-  } else {
-    correlations <- data.frame(Cor = cor.est, Pval = cor.pval, row.names = NULL)
-  }
-  
-  if(colorby != "None"){
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'PDX', color = colorby)) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
   } else {
+    correlations <- data.frame(Cor = cor.est, Pval = cor.pval, row.names = NULL)
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'PDX')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title)
   }
