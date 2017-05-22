@@ -16,17 +16,20 @@ plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customthe
   
   # compute correlation
   cor <- cor.test(dat.c[,gene1], dat.c[,gene2], method = correlation)
-  if(cor$p.value==0){
+  if(is.na(cor$p.value)){
+    cor.pval <- NA
+  } else if(cor$p.value==0){
     cor.pval <- '< 2.2e-16'
-  }
-  if(cor$p.value>0){
-    cor.pval <- format(cor$p.value, scientific = T)
-  }
-  if(cor$estimate==1){
+  } else if(cor$p.value>0){
+    cor.pval <- format(cor$p.value, scientific = T, digits = 3)
+  } 
+  
+  if(is.na(cor$estimate)){
+    cor.est <- NA
+  } else if(cor$estimate==1){
     cor.est <- 1
-  }
-  if(cor$estimate!=1){
-    cor.est <- format(cor$estimate, scientific = T)
+  } else if(cor$estimate!=1){
+    cor.est <- format(cor$estimate, scientific = T, digits = 3)
   }
   cor.title <- paste("Cor = ", cor.est, " | P-Val = ", cor.pval, sep="")
   
@@ -35,31 +38,21 @@ plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customthe
   gene2.mut <- paste('`',gene2,'`',sep = '')
   
   # datatype
-  if(length(grep('FPKM',datatype))==1)
-  {
+  if(length(grep('FPKM',datatype))==1) {
     y.axis <- 'FPKM'
     if(log == FALSE)
     {
       y.axis <- y.axis
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
       dat.c[,c(gene1,gene2)] <- log2(dat.c[,c(gene1,gene2)]+1)
     }
-  }
-  
-  if(length(grep('TPM', datatype))==1)
-  {
+  } else if(length(grep('TPM', datatype))==1) {
     y.axis <- 'TPM'
     if(log == FALSE)
     {
       y.axis <- y.axis
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
       dat.c[,c(gene1,gene2)] <- log2(dat.c[,c(gene1,gene2)]+1)
     }
@@ -69,8 +62,9 @@ plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customthe
   targetcode[] <- lapply(targetcode, as.character)
   dat.c <- merge(dat.c, targetcode, by = "Code")
   dat.c$Tumor <- as.factor(dat.c$Tumor)
+  colorby = "Tumor"
   
-  if(length(colorby)>1){
+  if(length(levels(dat.c[,colorby]))>1){
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, color = "Tumor", label = "Sample")) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title) +
       theme(axis.text.x = element_text(size = 12),
@@ -78,7 +72,7 @@ plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customthe
             legend.text = element_text(size = 10),
             legend.title = element_text(size = 12))
   }
-  if(length(colorby)==1){
+  if(length(levels(dat.c[,colorby]))==1){
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = "Sample")) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title) + 
       theme(axis.text.x = element_text(size = 12),
