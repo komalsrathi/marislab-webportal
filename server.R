@@ -887,4 +887,8 @@ shinyServer(function(input, output, session){
     })
   })
   
+  output$tmlistdatatable1 <- DT::renderDataTable({
+    viewDataTable(dat = TMlist)
+  })
+  
 }) # shinyServer ends
