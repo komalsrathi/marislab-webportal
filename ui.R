@@ -76,9 +76,8 @@ dashboardPage(
                menuSubItem("Aim 3 Tumor Normal Differential Analysis", icon = icon("table"), tabName = "atnda")
       ),
       menuItem("Other Tools", tabName = "analysistools", icon = icon("gears"),
-               menuSubItem("Venn Diagrams (Ext)", icon = icon("pie-chart"), href = "http://bioinfogp.cnb.csic.es/tools/venny"),
-               menuSubItem("Gene Set Enrichment", icon = icon("star"), tabName = "gse"),
-               menuSubItem("IC50 Analysis", icon = icon("star"), tabName = "ia")
+               menuSubItem("Transmembrane Protein List", icon = icon("star"), tabName = "tmlist"),
+               menuSubItem("Venn Diagrams (Ext)", icon = icon("pie-chart"), href = "http://bioinfogp.cnb.csic.es/tools/venny")
       ),
       menuItem("More Info", tabName = "moreinfo", icon = icon("th"),
                menuSubItem("README", icon = icon("file-text"), tabName = "readme"),
@@ -754,6 +753,15 @@ dashboardPage(
               DT::dataTableOutput(outputId = 'atndatable1')
       ),
       ##### Compendia Analysis #####
+      
+      tabItem(tabName = "tmlist",
+              fluidRow(
+                box(title = "TM list", background = "navy", 
+                    width = 12, collapsible = T, collapsed = T, 
+                    solidHeader = TRUE, includeHTML('data/TMlist_desc.html'))
+              ),
+              DT::dataTableOutput(outputId = "tmlistdatatable1")
+      ),
       
       ######### README, MISC ########
       # readme content
