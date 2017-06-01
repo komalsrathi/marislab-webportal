@@ -26,8 +26,8 @@ Abstract
 
 .. _Abstract: ./docs/abstract.rst
 
-Updates
-^^^^^^^
+Updates from old version
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Creates dropdown to select between datasets.
 * Changes all textInputs to selectInputs.
@@ -54,9 +54,17 @@ Updates
 * added functionality for b/w plots using dropdown.
 * added description for each project.
 
-* More to come later!
-
-Improvements required
-^^^^^^^^^^^^^^^^^^^^^
+Improvements required (long term)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * user traffic record
+
+What's new
+^^^^^^^^^^
+
+* PDX MYCN status has been updated	
+
+Coming soon
+^^^^^^^^^^^
+
+* Reprocessed PDX data with mouse substraction 
