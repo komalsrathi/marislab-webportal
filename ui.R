@@ -417,7 +417,8 @@ dashboardPage(
       # pdxdata
       tabItem(tabName = "pdxdata",
               fluidRow(
-                box(selectInput(inputId = 'pdxdataselectInput1', label = 'Select dataset',choices = c('PDX (n=16, FPKM, hg38)'='PDX_FPKM_hg38')), width = 3, background = "navy")
+                box(selectInput(inputId = 'pdxdataselectInput1', label = 'Select dataset',choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38',
+                                                                                                      'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_nomm')), width = 3, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxdatasubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "pdxdatatable1")
@@ -426,7 +427,8 @@ dashboardPage(
       # pdxbar
       tabItem(tabName = "pdxbar",
               fluidRow(
-                box(selectInput(inputId = "pdxbarselectInput1", label = "Select dataset", choices = c('PDX (n=16, FPKM, hg38)'='PDX_FPKM_hg38')),
+                box(selectInput(inputId = "pdxbarselectInput1", label = "Select dataset", choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38',
+                                                                                                      'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_nomm')),
                     actionButton(inputId = "pdxbarsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pdxbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pdxbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -440,7 +442,8 @@ dashboardPage(
       # pdxdot content
       tabItem(tabName = "pdxdot",
               fluidRow(
-                box(selectInput(inputId = "pdxdotselectInput1", label = "Select dataset", choices = c('PDX (n=16, FPKM, hg38)'='PDX_FPKM_hg38')),
+                box(selectInput(inputId = "pdxdotselectInput1", label = "Select dataset", choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38',
+                                                                                                      'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_nomm')),
                     actionButton(inputId = "pdxdotsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pdxdotselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "pdxdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
