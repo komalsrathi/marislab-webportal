@@ -286,7 +286,7 @@ shinyServer(function(input, output, session){
     }
     withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
       isolate({
-        dataset <- as.character(input$pdxbarselectInput1)
+        dataset <- as.character(input$pdxdataselectInput1)
         dat <- get(paste0(dataset,'_data'))
         viewDataTable(dat = dat)
       })
