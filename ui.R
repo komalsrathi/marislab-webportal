@@ -12,11 +12,12 @@ library(survival)
 library(ggthemes)
 options(gsubfn.engine = "R")
 options(shiny.sanitize.errors = TRUE)
+library(RGA)
 
 dashboardPage(
   
   # dashboardHeader begins
-  dashboardHeader(title = 'Neuroblastoma Web Portal', titleWidth = 400), # dashboardHeader ends
+  dashboardHeader(title = 'Neuroblastoma Web Portal', titleWidth = 400, dropdownMenuOutput("messageMenu")), # dashboardHeader ends
   
   # dashboardSidebar begins
   dashboardSidebar(width = 400,
