@@ -34,6 +34,28 @@ shinyServer(function(input, output, session){
   
   tbw <- themebw()
 
+  # weekly stats
+  output$messageMenu <- renderMenu({
+    authorize(username = getOption("rga.username"),
+              client.id = getOption("rga.client.id"),
+              client.secret = getOption("rga.client.secret"),
+              cache = getOption("rga.cache"), reauth = FALSE, token = NULL)
+    ga_profiles <- list_profiles()
+    id <- ga_profiles$id
+    first.date <- firstdate(id)
+    ga_data <- get_ga(id, start.date = "7daysAgo", end.date = Sys.Date(),
+                      metrics = "ga:users, ga:sessions, ga:pageviews",
+                      dimensions = "ga:source")
+    users <- paste0('Users this week: ',ga_data$users)
+    sessions <- paste0('Sessions this week: ', ga_data$sessions)
+    views <- paste0('Views this week: ',ga_data$pageviews)
+    dropdownMenu(type = "notifications", badgeStatus = "danger",
+                 notificationItem(icon = icon("user-secret"), status = "info", text = users),
+                 notificationItem(icon = icon("users"), status = "success", text = sessions),
+                 notificationItem(icon = icon("users"), status = "success", text = views)
+    )
+  })
+  
   # summary output
   output$dbplot1 <- renderPlotly({
     dbplot(data_summary = data_summary)
