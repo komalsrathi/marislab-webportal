@@ -459,7 +459,7 @@ dashboardPage(
       
       tabItem(tabName = "pdxm",
               fluidRow(
-                box(selectInput(inputId = "pdxmselectInput1", label = "Select dataset", choices = c("PDX Exome Calls"="ExomeCallsPDX")),
+                box(selectInput(inputId = "pdxmselectInput1", label = "Select dataset", choices = c("PDX Exome Calls (Wheeler Lab)"="ExomeCallsPDX")),
                     actionButton(inputId = "pdxmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pdxmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
