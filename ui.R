@@ -77,6 +77,7 @@ dashboardPage(
                menuSubItem("Aim 3 Tumor Normal Differential Analysis", icon = icon("table"), tabName = "atnda")
       ),
       menuItem("Other Tools", tabName = "analysistools", icon = icon("gears"),
+               menuSubItem("Neuroblastoma NOT Antigens", icon = icon("star"), tabName = "notant"),
                menuSubItem("Transmembrane Protein List", icon = icon("star"), tabName = "tmlist"),
                menuSubItem("Venn Diagrams (Ext)", icon = icon("pie-chart"), href = "http://bioinfogp.cnb.csic.es/tools/venny")
       ),
@@ -760,11 +761,20 @@ dashboardPage(
       
       tabItem(tabName = "tmlist",
               fluidRow(
-                box(title = "TM list", background = "navy", 
+                box(title = "Transmembrane list", background = "navy", 
                     width = 12, collapsible = T, collapsed = T, 
                     solidHeader = TRUE, includeHTML('data/TMlist_desc.html'))
               ),
               DT::dataTableOutput(outputId = "tmlistdatatable1")
+      ),
+      
+      tabItem(tabName = "notant",
+              fluidRow(
+                box(title = "Neuroblastoma NOT Antigens", background = "navy",
+                    width = 12, collapsible = T, collapsed = T,
+                    solidHeader = T, includeHTML('data/NOTAntigens_desc.html'))
+              ),
+              DT::dataTableOutput(outputId = "notantdatatable1")
       ),
       
       ######### README, MISC ########
