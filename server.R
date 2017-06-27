@@ -969,4 +969,8 @@ shinyServer(function(input, output, session){
     viewDataTable(dat = TMlist)
   })
   
+  output$notantdatatable1 <- DT::renderDataTable({
+    viewDataTable(dat = NOTAntigen)
+  })
+  
 }) # shinyServer ends
