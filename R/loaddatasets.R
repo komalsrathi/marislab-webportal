@@ -22,11 +22,11 @@ load('data/compAim3_DE.RData')
 load('data/compAim3_OE.RData')
 load('data/compAim3_TM.RData')
 load('data/Target724_targetcode.RData')
-load('data/PDX_FPKM_hg38_data.RData')
-load('data/PDX_FPKM_hg38_mData.RData')
 load('data/ExomeCallsPDX.RData')
-load('data/PDX_FPKM_hg38_nomm_data.RData')
-load('data/PDX_FPKM_hg38_nomm_mData.RData')
+load('data/PDX_FPKM_hg38_Califano_subtracted_data.RData')
+load('data/PDX_FPKM_hg38_Califano_subtracted_mData.RData')
+load('data/PDX_FPKM_hg38_Wheeler_subtracted_data.RData')
+load('data/PDX_FPKM_hg38_Wheeler_subtracted_mData.RData')
 ############ load datasets here using .RData ##############
 
 
