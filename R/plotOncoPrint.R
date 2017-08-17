@@ -58,7 +58,7 @@ plotOncoPrint <- function(genes, dataCNABin, dataMutBin, dataAnnBin, dataExpGene
   )
   p <- ggplot(datam, aes(ID, variable)) + geom_tile(aes(fill = value))
   p <- p + geom_tile(colour = "white", fill = NA, size = 1.2)
-  p <- p + scale_fill_manual(values = c("grey", "red", "blue", "yellow")) + theme_change
+  p <- p + scale_fill_manual(values = c("0-None"="grey", "1-Del"="red", "2-Amp"="blue", "3-Mut"="yellow")) + theme_change
   
   
   # Okay now do expression
