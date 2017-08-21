@@ -29,6 +29,7 @@ source('R/getTukeyHSDBoxplotTargetRNA.R')
 source('R/plotGeneBarPDX.R')
 source('R/plotGeneScatterPDX.R')
 source('R/getCorr.R')
+source('R/plotCelllinesPdxComparisons.R')
 
 shinyServer(function(input, output, session){
   
@@ -971,6 +972,42 @@ shinyServer(function(input, output, session){
   
   output$notantdatatable1 <- DT::renderDataTable({
     viewDataTable(dat = NOTAntigen)
+  })
+  
+  observe({
+    if(input$pdxclplotssubmit1==0){
+      return()
+    }
+    dat <- as.character(input$pdxclplotsselectInput1)
+    dat <- get(dat)
+    genes <- unique(as.character(dat$gene_symbol))
+    updateSelectizeInput(session = session, inputId = "pdxclplotsselectInput2", choices = genes, server = TRUE)
+  })
+  
+  output$pdxclscatterplot1 <- renderPlotly({
+    if(input$pdxclplotssubmit2 == 0){
+      return()
+    }
+    withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+      isolate({
+        dat <- get(input$pdxclplotsselectInput1)
+        gene1 <- as.character(input$pdxclplotsselectInput2)
+        logvalue <- input$pdxclplotscheckboxInput1
+        correlation <- input$pdxclplotsselectInput3
+        colorby <- as.character(input$pdxclplotsselectInput4)
+        pdxcompare <<- plotCelllinesPdxComparisons(dat = dat, gene1 = gene1, log = logvalue, customtheme = tbw, correlation = correlation, colorby = colorby)
+        pdxcompare[[1]]
+      })
+    })
+  })
+  
+  output$pdxclbarplot2 <- renderPlotly({
+    if(input$pdxclplotssubmit2 == 0){
+      return()
+    }
+    isolate({
+      pdxcompare[[2]]
+    })
   })
   
 }) # shinyServer ends
