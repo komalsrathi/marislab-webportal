@@ -52,6 +52,9 @@ dashboardPage(
                menuSubItem("PDX Gene Expression Scatterplot", icon = icon("line-chart"), tabName = "pdxdot"),
                menuSubItem("PDX Mutation Table", icon = icon("table"), tabName = "pdxm")
       ),
+      menuItem("PDX-Cell line Comparison", tabName = "pdxcl", icon = icon("gears"),
+               menuSubItem("Plots", icon = icon("bar-chart"), tabName = "pdxclplots")
+               ),
       menuItem("Patient Sample Database", icon = icon("database"), tabName = "psdb"),
       menuItem("Patient Sample Visualization Tools", tabName = "patientsamples", icon = icon("gears"),
                menuSubItem("Patient Gene Expression Histogram", icon = icon("bar-chart"), tabName = "pgeh"),
@@ -469,6 +472,24 @@ dashboardPage(
               DT::dataTableOutput(outputId = 'pdxmtable1')
       ),
       ##### PDX #####
+      
+      
+      #### PDX-Cell lines ####
+      tabItem(tabName = "pdxclplots",
+              fluidRow(
+              box(selectInput(inputId = "pdxclplotsselectInput1", label = "Select dataset", choices = c("PDX (Wheeler Lab)/Cell Line RNASeq"="PDX_CellLines_Comparison")),
+                              actionButton(inputId = "pdxclplotssubmit1", label = "Load dataset"), width = 2, background = "navy"),
+              box(selectInput(inputId = "pdxclplotsselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
+              box(checkboxInput(inputId = "pdxclplotscheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
+              box(selectInput(inputId = "pdxclplotsselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
+              box(selectInput(inputId = "pdxclplotsselectInput4", label = "Color by", choices = c("None", 'ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pdxclplotssubmit2', label = "Get Comparison plots"))), 
+              br(), br(),
+              plotlyOutput(outputId = "pdxclscatterplot1", width = 800, height = 400),
+              plotlyOutput(outputId = "pdxclbarplot2", width = 800, height = 400)
+      ),
+      #### PDX-Cell lines ####
       
       ##### Patient Samples Utilities #####
       tabItem(tabName = "psdb",
