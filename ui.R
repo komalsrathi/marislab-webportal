@@ -186,13 +186,13 @@ dashboardPage(
       # cldb content
       tabItem(tabName = "cldb",
               fluidRow(
-                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                box(selectInput(inputId = 'cldbselectInput1', label = 'Select dataset',choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
                                                                                                    'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
                                                                                                    'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
-                                                                                                   'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
-                                                                                                   'CL RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
+                                                                                                   'Microarray HumanWG6v2 GSE19274 (n=37, RMA)'='Microarray_RMA_HumanWG6v2_37cells_genes',
+                                                                                                   'CL RNAseq (Kallisto) (n=40, TPM)'='kallisto_TPM_40cells_genes',
                                                                                                    'Modified CL RNAseq (Kallisto) (n=8, TPM)'='kallisto_TPM_8cells_modified_genes',
-                                                                                                   'CL RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes',
+                                                                                                   'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes',
                                                                                                    'Modified CL RNAseq (STAR) (n=8, FPKM)'='STAR_FPKM_8cells_modified_genes')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'cldbsubmit1', label = "Load dataset"))), br(), br(),
@@ -203,13 +203,13 @@ dashboardPage(
       # clge content
       tabItem(tabName = "clge",
               fluidRow(
-                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                box(selectInput(inputId = "clgeselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
                                                                                                     'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
-                                                                                                    'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
-                                                                                                    'CL RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
+                                                                                                    'Microarray HumanWG6v2 GSE19274 (n=37, RMA)'='Microarray_RMA_HumanWG6v2_37cells_genes',
+                                                                                                    'CL RNAseq (Kallisto) (n=40, TPM)'='kallisto_TPM_40cells_genes',
                                                                                                     'Modified CL RNAseq (Kallisto) (n=8, TPM)'='kallisto_TPM_8cells_modified_genes',
-                                                                                                    'CL RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes',
+                                                                                                    'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes',
                                                                                                     'Modified CL RNAseq (STAR) (n=8, FPKM)'='STAR_FPKM_8cells_modified_genes')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
@@ -224,13 +224,13 @@ dashboardPage(
       # clggc content
       tabItem(tabName = "clggc",
               fluidRow(
-                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                box(selectInput(inputId = "clggcselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
                                                                                                      'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
                                                                                                      'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
-                                                                                                     'Microarray HumanWG6v2 GSE19274 (n=38, RMA)'='Microarray_RMA_HumanWG6v2_38cells_genes',
-                                                                                                     'CL RNAseq (Kallisto) (n=41, TPM)'='kallisto_TPM_41cells_genes',
+                                                                                                     'Microarray HumanWG6v2 GSE19274 (n=37, RMA)'='Microarray_RMA_HumanWG6v2_37cells_genes',
+                                                                                                     'CL RNAseq (Kallisto) (n=40, TPM)'='kallisto_TPM_40cells_genes',
                                                                                                      'Modified CL RNAseq (Kallisto) (n=8, TPM)'='kallisto_TPM_8cells_modified_genes',
-                                                                                                     'CL RNAseq (STAR) (n=41, FPKM)'='STAR_FPKM_41cells_genes',
+                                                                                                     'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes',
                                                                                                      'Modified CL RNAseq (STAR) (n=8, FPKM)'='STAR_FPKM_8cells_modified_genes')),
                     actionButton(inputId = "clggcsubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clggcselectInput2", label = "Select Gene 1", choices = "none"), 
@@ -260,7 +260,7 @@ dashboardPage(
       # clgcn content
       tabItem(tabName = "clgcn",
               fluidRow(
-                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
                                                                                                      'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
@@ -275,7 +275,7 @@ dashboardPage(
       # clcvm content
       tabItem(tabName = "clcvm",
               fluidRow(
-                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
                                                                                                      'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes'), selected = NULL),
                     actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
@@ -290,7 +290,7 @@ dashboardPage(
       # clh content
       tabItem(tabName = "clh",
               fluidRow(
-                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                box(selectInput(inputId = "clhselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
                                                                                                    'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')), width = 3, background = "navy"),
                 box(fileInput(inputId = 'clhfileInput1', label = 'Upload list of genes:', accept = c('csv','tsv','txt')), width = 5, background = "navy")
               ),
@@ -302,7 +302,7 @@ dashboardPage(
       # clct content
       tabItem(tabName = "clct",
               fluidRow(
-                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=29, RMA)'='Microarray_RMA_HumanGene1.0ST_29cells_genes',
+                box(selectInput(inputId = "clctselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')), width = 3, background = "navy"),
                 box(selectInput(inputId = "clctselectInput2", label = "Set 1", choices = c("SKNBE2(e)"="SKNBE2",
                                                                                            "SKNBE2C(e)"="SKNBE2C",
