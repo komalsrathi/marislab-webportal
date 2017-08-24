@@ -45,6 +45,9 @@ plotCelllinesPdxComparisons <- function(dat, gene1, log, customtheme, correlatio
   y.axis <- paste0('Cell-Lines (', y.axis,')')
   
   dat.m <- melt(dat, variable.name = 'group', value.name = 'FPKM')
+  dat.m <- dat.m[with(dat.m, order(desc(MYCN_Status), FPKM, names)),]
+  dat.m$names <- as.character(dat.m$names)
+  dat.m$names <- factor(dat.m$names, levels = unique(as.character(dat.m$names)))
   
   # plot
   if(colorby != "None"){
@@ -54,7 +57,7 @@ plotCelllinesPdxComparisons <- function(dat, gene1, log, customtheme, correlatio
     q <- ggplot(data = dat.m, aes_string(x = 'names', y = 'FPKM', fill = 'group', label = colorby)) + 
       geom_bar(stat = 'identity', position = 'dodge')  + xlab(label = '') + themebw() + 
       theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) +
-      guides(color = FALSE)
+      guides(color = FALSE) + ggtitle(paste0('Gene = ',gene1))
   } else {
     p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', label = 'names')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
@@ -62,7 +65,7 @@ plotCelllinesPdxComparisons <- function(dat, gene1, log, customtheme, correlatio
     q <- ggplot(data = dat.m, aes_string(x = 'names', y = 'FPKM', fill = 'group')) + 
       geom_bar(stat = 'identity', position = 'dodge')  + xlab(label = '') + themebw() + 
       theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
-      guides(color = FALSE)
+      guides(color = FALSE) + ggtitle(paste0('Gene = ',gene1))
   }
   
   p <- plotly_build(p)
