@@ -512,7 +512,7 @@ dashboardPage(
                                                                                                    'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                    'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                    'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST',
-                                                                                                   'TARGET NBL RST (RNAseq, n=8, STAR FPKM'='TARGET_NBL_FPKM_RST')), width = 5, background = "navy")
+                                                                                                   'TARGET NBL RST (RNAseq, n=7, STAR FPKM)'='TARGET_NBL_FPKM_RST')), width = 5, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'psdbsubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "psdbtable1")
@@ -537,7 +537,7 @@ dashboardPage(
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                     'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST',
-                                                                                                    'TARGET NBL RST (RNAseq, n=8, STAR FPKM'='TARGET_NBL_FPKM_RST')),
+                                                                                                    'TARGET NBL RST (RNAseq, n=7, STAR FPKM)'='TARGET_NBL_FPKM_RST')),
                     actionButton(inputId = "pgehsubmit1", label = "Load dataset"),width = 3, background = "navy"),
                 box(selectInput(inputId = "pgehselectInput2", label = "Select gene", choices = c("None")), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pgehcheckboxInput1", label = "Log Data"),
@@ -566,7 +566,7 @@ dashboardPage(
                                                                                                      'GSE62564 (GPL11154, IlluminaHiseq2000, n=498, RPKM)'='GSE62564_FPKM',
                                                                                                      'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                      'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST',
-                                                                                                     'TARGET NBL RST (RNAseq, n=8, STAR FPKM'='TARGET_NBL_FPKM_RST')),
+                                                                                                     'TARGET NBL RST (RNAseq, n=7, STAR FPKM)'='TARGET_NBL_FPKM_RST')),
                     actionButton(inputId = "pgebpsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgebpselectInput3", label = "Select gene", choices = c("none")), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pgebpcheckboxInput1", label = "Log Data"), width = 2, background = "navy"),
@@ -582,7 +582,8 @@ dashboardPage(
                                                                                                    'IH250 (n=250, RMA)'='IH250',
                                                                                                    'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960',
                                                                                                    'GSE49711 (GPL17553	IlluminaHiseq2000, n=498, FPKM)'='GSE49711_FPKM',
-                                                                                                   'GSE62564 (GPL11154, IlluminaHiseq2000, n=498, RPKM)'='GSE62564_FPKM')),
+                                                                                                   'GSE62564 (GPL11154, IlluminaHiseq2000, n=498, RPKM)'='GSE62564_FPKM',
+                                                                                                   'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST')),
                     actionButton(inputId = 'pkmsubmit1', label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pkmselectInput3", label = "Select gene", choices = c("none"), multiple = TRUE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pkmselectInput2", label = "Select endpoint", choices = c("os", "efs")), width = 2, background = "navy"),
@@ -611,7 +612,7 @@ dashboardPage(
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                     'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST',
-                                                                                                    'TARGET NBL RST (RNAseq, n=8, STAR FPKM'='TARGET_NBL_FPKM_RST')),
+                                                                                                    'TARGET NBL RST (RNAseq, n=7, STAR FPKM)'='TARGET_NBL_FPKM_RST')),
                     actionButton(inputId = 'pggcsubmit1', label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "pggcselectInput3", label = "Select gene 1", choices = c("none")), 
                     selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")), width = 2, background = "navy"),
@@ -643,7 +644,7 @@ dashboardPage(
                                                                                                     'GSE65303 (GPL16876	Custom44k, n=18, RMA)'='GSE65303',
                                                                                                     'TARGET NBL (HUEX10, n=249, RMA)'='TARGET_NBL',
                                                                                                     'TARGET NBL PST (RNAseq, n=151, STAR FPKM)'='TARGET_NBL_FPKM_PST',
-                                                                                                    'TARGET NBL RST (RNAseq, n=8, STAR FPKM'='TARGET_NBL_FPKM_RST')),
+                                                                                                    'TARGET NBL RST (RNAseq, n=7, STAR FPKM)'='TARGET_NBL_FPKM_RST')),
                     actionButton(inputId = 'pmcgsubmit1', label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "pmcgselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy"),
                 box(textInput(inputId = "pmcgtextInput1", label = "Number", value = "10"), width = 2, background = "navy")
@@ -700,16 +701,16 @@ dashboardPage(
       #### Target Data ####
       tabItem(tabName = "tgedata",
               fluidRow(
-                box(selectInput(inputId = "tgedataselectInput1", label = 'Select dataset', choices = c('TARGET (all tumors) (STAR) (n=724, FPKM)'='STAR_FPKM_Target724_genes',
-                                                                                                       'TARGET (all tumors) (Kallisto) (n=724, TPM)'='kallisto_TPM_Target724_genes')), width = 5, background = "navy")
+                box(selectInput(inputId = "tgedataselectInput1", label = 'Select dataset', choices = c('TARGET (all tumors) (STAR) (n=723, FPKM)'='STAR_FPKM_Target723_genes',
+                                                                                                       'TARGET (all tumors) (Kallisto) (n=723, TPM)'='kallisto_TPM_Target723_genes')), width = 5, background = "navy")
                 ),
                 fluidRow(column(5, actionButton(inputId = 'tgedatasubmit1', label = "Load dataset"))), br(), br(),
                 DT::dataTableOutput(outputId = "tgedatatable1")
               ),
       tabItem(tabName = "tgebox",
               fluidRow(
-                box(selectInput(inputId = "tgeboxselectInput1", label = "Select dataset", choices = c('TARGET RNAseq (STAR) (n=724, FPKM)'='STAR_FPKM_Target724_genes',
-                                                                                                      'TARGET RNAseq (Kallisto) (n=724, TPM)'='kallisto_TPM_Target724_genes')),
+                box(selectInput(inputId = "tgeboxselectInput1", label = "Select dataset", choices = c('TARGET RNAseq (STAR) (n=723, FPKM)'='STAR_FPKM_Target723_genes',
+                                                                                                      'TARGET RNAseq (Kallisto) (n=723, TPM)'='kallisto_TPM_Target723_genes')),
                     actionButton(inputId = "tgeboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "tgeboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "tgeboxcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -727,8 +728,8 @@ dashboardPage(
       ),
       tabItem(tabName = "tgedot",
               fluidRow(
-                box(selectInput(inputId = "tgedotselectInput1", label = "Select dataset", choices = c('TARGET RNAseq (STAR) (n=724, FPKM)'='STAR_FPKM_Target724_genes',
-                                                                                                      'TARGET RNAseq (Kallisto) (n=724, TPM)'='kallisto_TPM_Target724_genes')),
+                box(selectInput(inputId = "tgedotselectInput1", label = "Select dataset", choices = c('TARGET RNAseq (STAR) (n=723, FPKM)'='STAR_FPKM_Target723_genes',
+                                                                                                      'TARGET RNAseq (Kallisto) (n=723, TPM)'='kallisto_TPM_Target723_genes')),
                     actionButton(inputId = "tgedotsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "tgedotselectInput2", label = "Select Gene 1", choices = "none"), 
                     selectInput(inputId = "tgedotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
