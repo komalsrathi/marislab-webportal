@@ -38,6 +38,7 @@ dashboardPage(
       menuItem("Cell Lines Visualization Tools", tabName = "celllines", icon = icon("gears"),
                menuSubItem("Gene Expression", icon = icon("bar-chart"), tabName = "clge"),
                menuSubItem("Gene/Gene Correlation", icon = icon("line-chart"), tabName = "clggc"),
+               menuSubItem("Most Correlated Genes", icon = icon("table"), tabName = "clcg"),
                menuSubItem("Gene Copy Number plot", icon = icon("bar-chart"), tabName = "clgcn"),
                menuSubItem("CNA vs mRNA plot", icon = icon("line-chart"), tabName = "clcvm"),
                menuSubItem("Cell Line Heatmap", icon = icon("th"), tabName = "clh")
@@ -270,6 +271,24 @@ dashboardPage(
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit2', label = "Get Copy Number Barplot"))), 
               br(), br(),
               plotlyOutput(outputId = 'clgcnplot1', width = 1000, height = 800)
+      ),
+      
+      tabItem(tabName = "clcg",
+              fluidRow(
+                box(selectInput(inputId = "clcgselectInput1", label = "Select dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
+                                                                                                    'Microarray U133Plus2 Sanger CLE (n=29, RMA)'='Microarray_RMA_U133Plus2_29cells_genes',
+                                                                                                    'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
+                                                                                                    'Microarray HumanWG6v2 GSE19274 (n=37, RMA)'='Microarray_RMA_HumanWG6v2_37cells_genes',
+                                                                                                    'CL RNAseq (Kallisto) (n=40, TPM)'='kallisto_TPM_40cells_genes',
+                                                                                                    'Modified CL RNAseq (Kallisto) (n=8, TPM)'='kallisto_TPM_8cells_modified_genes',
+                                                                                                    'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes',
+                                                                                                    'Modified CL RNAseq (STAR) (n=8, FPKM)'='STAR_FPKM_8cells_modified_genes')),
+                    actionButton(inputId = 'clcgsubmit1', label = "Load dataset"), width = 4, background = "navy"),
+                box(selectInput(inputId = "clcgselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy"),
+                box(textInput(inputId = "clcgtextInput1", label = "Number", value = "10"), width = 2, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'clcgsubmit2', label = "Get Top Gene Correlations"))), br(), br(),
+              DT::dataTableOutput(outputId = 'clcgtable1')
       ),
       
       # clcvm content
