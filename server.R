@@ -243,6 +243,38 @@ shinyServer(function(input, output, session){
     })
   })
   
+  observe({
+    if(input$clcgsubmit1 == 0){
+      return()
+    }
+    isolate({
+      # load dataset and get rownames
+      dataset <- input$clcgselectInput1
+      myData <- get(dataset)
+      num <- rownames(myData)
+      n <- as.numeric(nrow(myData))
+      updateSelectizeInput(session = session, inputId = "clcgselectInput2", choices = num, server = TRUE)
+      updateTextInput(session = session, inputId = "clcgtextInput1", value = n)
+    })
+  })
+  
+  # cell line most correlated genes
+  output$clcgtable1 <- DT::renderDataTable({
+    if(input$clcgsubmit2 == 0){
+      return()
+    }
+    withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+      isolate({
+        dataset <- as.character(input$clcgselectInput1)
+        myData <- get(dataset)
+        gene1 <- as.character(input$clcgselectInput2)
+        numRet <- as.numeric(input$clcgtextInput1)
+        cortab <- getCorrelationPatientAnalysis(gene1 = gene1, myData = myData, numRet = numRet)
+        viewDataTable(dat = cortab)
+      })
+    })
+  })
+  
   # heatmap - read the genes in for creating heatmaps
   fileInput <- reactive({
     infile <- input$clhfileInput1
