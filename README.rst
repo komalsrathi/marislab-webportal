@@ -63,8 +63,6 @@ What's new
 ^^^^^^^^^^
 
 * PDX MYCN status has been updated	
-
-Coming soon
-^^^^^^^^^^^
-
 * Reprocessed PDX data with mouse substraction 
+* Cell line and PDX comparisons
+
