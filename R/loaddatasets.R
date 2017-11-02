@@ -28,6 +28,9 @@ load('data/PDX_FPKM_hg38_Califano_subtracted_mData.RData')
 load('data/PDX_FPKM_hg38_Wheeler_subtracted_data.RData')
 load('data/PDX_FPKM_hg38_Wheeler_subtracted_mData.RData')
 load('data/PDX_CellLines_Comparison.RData')
+load('data/PPTC_FPKM_hg19_Wheeler_subtracted_data.RData')
+load('data/PPTC_FPKM_hg19_Wheeler_subtracted_mData.RData')
+load('data/PPTC_ExomeCalls.RData')
 ############ load datasets here using .RData ##############
 
 
