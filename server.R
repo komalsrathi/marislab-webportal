@@ -30,6 +30,9 @@ source('R/plotGeneBarPDX.R')
 source('R/plotGeneScatterPDX.R')
 source('R/getCorr.R')
 source('R/plotCelllinesPdxComparisons.R')
+source('R/plotGeneBarPPTC.R')
+source('R/plotGeneScatterPPTC.R')
+source('R/plotGeneBoxPPTC.R')
 
 shinyServer(function(input, output, session){
   
@@ -1039,6 +1042,168 @@ shinyServer(function(input, output, session){
     }
     isolate({
       pdxcompare[[2]]
+    })
+  })
+  
+  # pptc
+  # update gene and tumor names
+  observe({
+    if(input$pptcbarsubmit1 == 0){
+      return()
+    }
+    dataset <- as.character(input$pptcbarselectInput1)
+    dat <- get(paste0(dataset,'_data'))
+    num <- rownames(dat)
+    updateSelectizeInput(session = session, inputId = "pptcbarselectInput2", choices = num, server = TRUE)
+    
+    mdat <- get(paste0(dataset,'_mData'))
+    tum <- mdat$tumor_subtype_level1
+    updateSelectizeInput(session = session, inputId = "pptcbarselectInput3", choices = tum, server = TRUE)
+  })
+  
+  # create plot
+  output$pptcbarplot1 <- renderPlotly({
+    if(input$pptcbarsubmit2 == 0){
+      return()
+    }
+    withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+      isolate({
+        datatype <- as.character(input$pptcbarselectInput1)
+        dat <- get(paste0(datatype,'_data'))
+        phenotype <- get(paste0(datatype,'_mData'))
+        gene1 <- as.character(input$pptcbarselectInput2)
+        tumor <- as.character(input$pptcbarselectInput3)
+        logvalue <- input$pptcbarcheckboxInput1
+        sortby <- input$pptcbarselectInput4
+        plotGeneBarPPTC(dat = dat, phenotype = phenotype,
+                        gene1 = gene1, customtheme = tbw, 
+                        log = logvalue, sortby, tumor)
+      })
+    })
+  })
+  
+  # pptc scatterplot
+  # update gene and tumor names
+  observe({
+    if(input$pptcdotsubmit1 == 0){
+      return()
+    }
+    dataset <- as.character(input$pptcdotselectInput1)
+    dat <- get(paste0(dataset,'_data'))
+    num <- rownames(dat)
+    updateSelectizeInput(session = session, inputId = "pptcdotselectInput2", choices = num, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pptcdotselectInput3", choices = num, server = TRUE)
+    
+    mdat <- get(paste0(dataset,'_mData'))
+    tum <- mdat$tumor_subtype_level1
+    updateSelectizeInput(session = session, inputId = "pptcdotselectInput4", choices = tum, server = TRUE)
+  })
+  
+  # create plot
+  output$pptcdotplot1 <- renderPlotly({
+    if(input$pptcdotsubmit2 == 0){
+      return()
+    }
+    withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+      isolate({
+        dataset <- as.character(input$pptcdotselectInput1)
+        myDataExp <- get(paste0(dataset,'_data'))
+        myDataAnn <- get(paste0(dataset,'_mData'))
+        gene1 <- as.character(input$pptcdotselectInput2)
+        gene2 <- as.character(input$pptcdotselectInput3)
+        logvalue <- input$pptcdotcheckboxInput1
+        correlation <- input$pptcdotselectInput5
+        tumor <- input$pptcdotselectInput4
+        dotpptc <<- plotGeneScatterPPTC(myDataExp = myDataExp, myDataAnn = myDataAnn,
+                                        gene1 = gene1, gene2 = gene2,
+                                        log = logvalue, tumor = tumor, correlation = correlation,
+                                        customtheme = tbw)
+        dotpptc[[1]]
+      })
+    })
+  })
+  
+  output$pptcdottable1 <- renderDataTable({
+    if(input$pptcdotsubmit2 == 0){
+      return()
+    }
+    isolate({
+      cor.table <- dotpptc[[2]]
+      viewDataTable(dat = cor.table)
+    })
+  })
+  
+  # pptc mutation table
+  observe({
+    if(input$pptcmutsubmit1 == 0){
+      return()
+    }
+    isolate({
+      dat <- as.character(input$pptcmutselectInput1)
+      dat <- get(dat)
+      num <- unique(as.character(dat$Gene))
+      updateSelectizeInput(session = session, inputId = "pptcmutselectInput2", choices = num, server = TRUE)
+    })
+  })
+  
+  output$pptcmuttable1 <- DT::renderDataTable({
+    if(input$pptcmutsubmit2 == 0){
+      return()
+    }
+    withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+      isolate({
+        dataset <- as.character(input$pptcmutselectInput1)
+        dataset <- get(dataset)
+        gene <- as.character(input$pptcmutselectInput2)
+        viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
+      })
+    })
+  })
+  
+  # PPTC boxplot
+  observe({
+    if(input$pptcboxsubmit1==0){
+      return()
+    }
+    dataset <- as.character(input$pptcboxselectInput1)
+    dat <- get(paste0(dataset,'_data'))
+    num <- rownames(dat)
+    updateSelectizeInput(session = session, inputId = "pptcboxselectInput2", choices = num, server = TRUE)
+    
+    
+    mdat <- get(paste0(dataset,'_mData'))
+    tum <- mdat$tumor_subtype_level1
+    updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE)
+  })
+  
+  
+  output$pptcboxplot1 <- renderPlotly({
+    if(input$pptcboxsubmit2 == 0){
+      return()
+    }
+    withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+      isolate({
+        dataset <- as.character(input$pptcboxselectInput1)
+        myDataExp <- get(paste0(dataset,'_data'))
+        myDataAnn <- get(paste0(dataset,'_mData'))
+        gene1 <- as.character(input$pptcboxselectInput2)
+        logvalue <- input$pptcboxcheckboxInput1
+        tumor <- as.character(input$pptcboxselectInput3)
+        tukeyplot <<- plotGeneBoxPPTC(gene1 = gene1, tumor = tumor, myDataAnn = myDataAnn,
+                        myDataExp = myDataExp, log = logvalue, customtheme = tbw)
+        tukeyplot[[1]]
+      })
+    })
+  })
+  
+  
+  output$pptcboxtable1 <- renderDataTable({
+    if(input$pptcboxsubmit2 == 0){
+      return()
+    }
+    isolate({
+      tukey.table <- tukeyplot[[2]]
+      viewDataTable(dat = tukey.table)
     })
   })
   
