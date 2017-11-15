@@ -1134,32 +1134,32 @@ shinyServer(function(input, output, session){
   })
   
   # pptc mutation table
-  observe({
-    if(input$pptcmutsubmit1 == 0){
-      return()
-    }
-    isolate({
-      dat <- as.character(input$pptcmutselectInput1)
-      dat <- get(dat)
-      num <- unique(as.character(dat$Gene))
-      updateSelectizeInput(session = session, inputId = "pptcmutselectInput2", choices = num, server = TRUE)
-    })
-  })
+  # observe({
+  #   if(input$pptcmutsubmit1 == 0){
+  #     return()
+  #   }
+  #   isolate({
+  #     dat <- as.character(input$pptcmutselectInput1)
+  #     dat <- get(dat)
+  #     num <- unique(as.character(dat$Gene))
+  #     updateSelectizeInput(session = session, inputId = "pptcmutselectInput2", choices = num, server = TRUE)
+  #   })
+  # })
   
-  output$pptcmuttable1 <- DT::renderDataTable({
-    if(input$pptcmutsubmit2 == 0){
-      return()
-    }
-    withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
-      isolate({
-        dataset <- as.character(input$pptcmutselectInput1)
-        dataset <- get(dataset)
-        gene <- as.character(input$pptcmutselectInput2)
-        viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
-      })
-    })
-  })
-  
+  # output$pptcmuttable1 <- DT::renderDataTable({
+  #   if(input$pptcmutsubmit2 == 0){
+  #     return()
+  #   }
+  #   withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+  #     isolate({
+  #       dataset <- as.character(input$pptcmutselectInput1)
+  #       dataset <- get(dataset)
+  #       gene <- as.character(input$pptcmutselectInput2)
+  #       viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
+  #     })
+  #   })
+  # })
+
   # PPTC boxplot
   observe({
     if(input$pptcboxsubmit1==0){
