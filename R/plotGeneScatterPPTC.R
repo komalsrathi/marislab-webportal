@@ -20,8 +20,8 @@ plotGeneScatterPPTC <- function(gene1, gene2, myDataExp, myDataAnn, log, tumor, 
   if(length(tumor) == 1 && tumor == "none"){
     colorby <- "None"
   } else if(length(tumor) >= 1 && tumor != "none"){
-    myDataAnn <- myDataAnn[which(myDataAnn$tumor_subtype_level1 %in% tumor),]
-    colorby <- 'tumor_subtype_level1'
+    myDataAnn <- myDataAnn[which(myDataAnn$tumor_subtype %in% tumor),]
+    colorby <- 'tumor_subtype'
   }  
   myDataExp <- myDataExp[rownames(myDataExp) %in% c(gene1, gene2),colnames(myDataExp) %in% rownames(myDataAnn)]
   myDataExp$gene <- rownames(myDataExp)

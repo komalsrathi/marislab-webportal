@@ -14,9 +14,8 @@
 
 plotGeneBoxPPTC <- function(gene1, tumor, myDataExp, myDataAnn, log, customtheme)
 {
-  
-  myDataAnn <- myDataAnn[which(myDataAnn$tumor_subtype_level1 %in% tumor),]
-  colorby <- 'tumor_subtype_level1'
+  myDataAnn <- myDataAnn[which(myDataAnn$tumor_subtype %in% tumor),]
+  colorby <- 'tumor_subtype'
   
   myDataExp <- myDataExp[rownames(myDataExp) %in% gene1,colnames(myDataExp) %in% rownames(myDataAnn)]
   myDataExp$gene <- rownames(myDataExp)
@@ -37,7 +36,7 @@ plotGeneBoxPPTC <- function(gene1, tumor, myDataExp, myDataAnn, log, customtheme
   
   # add annotation data to expression set
   myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x = "Sample", by.y = 'row.names')
-  
+
   if(length(tumor) > 2) {
     anovaRes <- aov(lm(myDataExp.c[,gene1]~myDataExp.c[,colorby]))
     dat.tukey <- TukeyHSD(anovaRes)[[1]]
@@ -45,7 +44,7 @@ plotGeneBoxPPTC <- function(gene1, tumor, myDataExp, myDataAnn, log, customtheme
       geom_boxplot() + customtheme + 
       ggtitle(gene1) + 
       theme(axis.text.y = element_text(size = 12), 
-            axis.text.x = element_text(size = 12), 
+            axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 12), 
             legend.position = "none")
   } else if(length(tumor) == 2) {
     anovaRes <- aov(lm(myDataExp.c[,gene1]~myDataExp.c[,colorby]))
@@ -59,7 +58,6 @@ plotGeneBoxPPTC <- function(gene1, tumor, myDataExp, myDataAnn, log, customtheme
       theme(axis.text.y = element_text(size = 12), 
             axis.text.x = element_text(size = 12), 
             legend.position = "none")
-    
   } else if(length(tumor) == 1) {
     p <- ggplot(myDataExp.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + 
       customtheme + geom_boxplot() + 

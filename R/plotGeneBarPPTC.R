@@ -36,7 +36,7 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   dat.c <- merge(dat.c, phenotype, by = 'sample', all.x = TRUE)
   
   # subset if tumor is defined
-  dat.c <- dat.c[which(dat.c$tumor_subtype_level1 == tumor),]
+  dat.c <- dat.c[which(dat.c$tumor_subtype == tumor),]
   
   # sorting of bars
   if(sortby == "PDX"){
@@ -46,7 +46,7 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   }
   
   # ggplot 
-  p <- ggplot(dat.c, aes_string(x='sample', y=gene1.mut, fill = 'tumor_subtype_level1')) + guides(fill=FALSE) + 
+  p <- ggplot(dat.c, aes_string(x='sample', y=gene1.mut, fill = 'tumor_subtype')) + guides(fill=FALSE) + 
       geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), 
                                                       plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
       ggtitle(gene1)
