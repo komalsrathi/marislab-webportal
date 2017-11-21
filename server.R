@@ -1057,7 +1057,7 @@ shinyServer(function(input, output, session){
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput2", choices = num, server = TRUE)
     
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- mdat$tumor_subtype_level1
+    tum <- unique(mdat$tumor_subtype)
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput3", choices = tum, server = TRUE)
   })
   
@@ -1095,7 +1095,7 @@ shinyServer(function(input, output, session){
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput3", choices = num, server = TRUE)
     
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- mdat$tumor_subtype_level1
+    tum <- unique(mdat$tumor_subtype)
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput4", choices = tum, server = TRUE)
   })
   
@@ -1134,46 +1134,56 @@ shinyServer(function(input, output, session){
   })
   
   # pptc mutation table
-  # observe({
-  #   if(input$pptcmutsubmit1 == 0){
-  #     return()
-  #   }
-  #   isolate({
-  #     dat <- as.character(input$pptcmutselectInput1)
-  #     dat <- get(dat)
-  #     num <- unique(as.character(dat$Gene))
-  #     updateSelectizeInput(session = session, inputId = "pptcmutselectInput2", choices = num, server = TRUE)
-  #   })
-  # })
+  observe({
+    if(input$pptcmutsubmit1 == 0){
+      return()
+    }
+    isolate({
+      dat <- as.character(input$pptcmutselectInput1)
+      dat <- get(dat)
+      num <- unique(as.character(dat$Gene))
+      updateSelectizeInput(session = session, inputId = "pptcmutselectInput2", choices = num, server = TRUE)
+    })
+  })
   
-  # output$pptcmuttable1 <- DT::renderDataTable({
-  #   if(input$pptcmutsubmit2 == 0){
-  #     return()
-  #   }
-  #   withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
-  #     isolate({
-  #       dataset <- as.character(input$pptcmutselectInput1)
-  #       dataset <- get(dataset)
-  #       gene <- as.character(input$pptcmutselectInput2)
-  #       viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
-  #     })
-  #   })
-  # })
+  output$pptcmuttable1 <- DT::renderDataTable({
+    if(input$pptcmutsubmit2 == 0){
+      return()
+    }
+    withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+      isolate({
+        dataset <- as.character(input$pptcmutselectInput1)
+        dataset <- get(dataset)
+        gene <- as.character(input$pptcmutselectInput2)
+        viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
+      })
+    })
+  })
 
   # PPTC boxplot
   observe({
-    if(input$pptcboxsubmit1==0){
+    if(input$pptcboxsubmit1 == 0){
       return()
     }
     dataset <- as.character(input$pptcboxselectInput1)
     dat <- get(paste0(dataset,'_data'))
     num <- rownames(dat)
     updateSelectizeInput(session = session, inputId = "pptcboxselectInput2", choices = num, server = TRUE)
-    
-    
+  })
+  observe({
+    if(input$pptcboxsubmit1 == 0){
+      return()
+    }
+    dataset <- as.character(input$pptcboxselectInput1)
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- mdat$tumor_subtype_level1
-    updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE)
+    tum <- unique(as.character(mdat$tumor_subtype))
+    if(input$selectall2 == 1 | input$selectall2 %% 2 != 0){
+      updateSelectizeInput(session = session, inputId = 'pptcboxselectInput3', choices = tum, server = TRUE, selected = tum)
+    }
+    if(input$selectall2 == 0 | input$selectall2 %% 2 == 0){
+      updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE, selected = NULL)
+    }
+    # updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE)
   })
   
   
