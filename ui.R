@@ -59,8 +59,8 @@ dashboardPage(
       menuItem("PPTC PDX Models", tabName = "pptc", icon = icon("gears"),
                menuSubItem("Expression Barplot", icon = icon("bar-chart"), tabName = "pptcbar"),
                menuSubItem("Expression Scatterplot", icon = icon("bar-chart"), tabName = "pptcdot"),
-               menuSubItem("Expression Boxplot", icon = icon("bar-chart"), tabName = "pptcbox")
-               # menuSubItem("Mutation Table", icon = icon("database"), tabName = "pptcmut")
+               menuSubItem("Expression Boxplot", icon = icon("bar-chart"), tabName = "pptcbox"),
+               menuSubItem("Mutation Table", icon = icon("database"), tabName = "pptcmut")
                ),
       menuItem("Patient Sample Database", icon = icon("database"), tabName = "psdb"),
       menuItem("Patient Sample Visualization Tools", tabName = "patientsamples", icon = icon("gears"),
@@ -552,22 +552,23 @@ dashboardPage(
                     actionButton(inputId = "pptcboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pptcboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pptcboxcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "pptcboxselectInput3", label = "Select Tumor", choices = c("none"), multiple = TRUE), width = 2, background = "navy")
+                box(selectInput(inputId = "pptcboxselectInput3", label = "Select Tumor", choices = c("none"), multiple = TRUE),
+                    actionLink("selectall2","Select/Unselect All"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcboxsubmit2', label = "Get Boxplot"))), br(), br(),
               plotlyOutput(outputId = "pptcboxplot1", width = 1000, height = 800),
               DT::dataTableOutput(outputId = "pptcboxtable1")
       ),
-      # tabItem(tabName = "pptcmut",
-      #         fluidRow(
-      #           box(selectInput(inputId = "pptcmutselectInput1", label = "Select dataset", choices = c("PPTC Exome Calls (Wheeler Lab)"="PPTC_ExomeCalls")),
-      #               actionButton(inputId = "pptcmutsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-      #           box(selectInput(inputId = "pptcmutselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
-      #         ),
-      #         fluidRow(column(5, actionButton(inputId = 'pptcmutsubmit2', label = "Get Mutation Table"))), 
-      #         br(), br(),
-      #         DT::dataTableOutput(outputId = 'pptcmuttable1')
-      # ),
+      tabItem(tabName = "pptcmut",
+              fluidRow(
+                box(selectInput(inputId = "pptcmutselectInput1", label = "Select dataset", choices = c("PPTC Exome Calls (Wheeler Lab)"="PPTC_ExomeCalls")),
+                    actionButton(inputId = "pptcmutsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pptcmutselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pptcmutsubmit2', label = "Get Mutation Table"))),
+              br(), br(),
+              DT::dataTableOutput(outputId = 'pptcmuttable1')
+      ),
       #### PPTC ####
       
       ##### Patient Samples Utilities #####
