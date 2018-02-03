@@ -8,26 +8,29 @@
 # gene1 <- "GPC2"
 # gene2 <- "MYCN"
 # log <- FALSE
-# tumor <- c('Neuroblastoma', 'ALL', 'Brain_Medulloblastoma')
+# tumor <- c('Neuroblastoma', 'Ependymoma', 'Medulloblastoma')
 # myDataAnn <- get(load('data/PPTC_FPKM_hg19_Wheeler_subtracted_mData.RData'))
 # correlation <- 'pearson'
 
 # plot scatter plot of 2 genes ##################
-plotGeneScatterPPTC <- function(gene1, gene2, myDataExp, myDataAnn, log, tumor, correlation, customtheme)
+plotGeneScatterPPTC <- function(gene1, gene2, myDataExp, myDataAnn, log, tumor, correlation, customtheme, colorby)
 {
   
   # get expression and annotation of the selected dataset
-  if(length(tumor) == 1 && tumor == "none"){
-    colorby <- "None"
-  } else if(length(tumor) >= 1 && tumor != "none"){
-    myDataAnn <- myDataAnn[which(myDataAnn$tumor_subtype %in% tumor),]
-    colorby <- 'tumor_subtype'
+  # if(length(tumor) == 1 && tumor == "none"){
+  #   colorby <- "None"
+  # } else if(length(tumor) >= 1 && tumor != "none"){
+  #   myDataAnn <- myDataAnn[which(myDataAnn$CANCER %in% tumor),]
+  #   colorby <- 'CANCER'
+  # }  
+  if(length(tumor) >= 1 && tumor != "none"){
+    myDataAnn <- myDataAnn[which(myDataAnn$CANCER %in% tumor),]
   }  
   myDataExp <- myDataExp[rownames(myDataExp) %in% c(gene1, gene2),colnames(myDataExp) %in% rownames(myDataAnn)]
   myDataExp$gene <- rownames(myDataExp)
   myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
   myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
-  colnames(myDataExp.c)[1] = "Sample"
+  colnames(myDataExp.c)[1] = "SAMPLE_ID"
   
   #For title correlation and p-value
   cor <- cor.test(myDataExp.c[,gene1], myDataExp.c[,gene2], method = correlation)
@@ -61,23 +64,23 @@ plotGeneScatterPPTC <- function(gene1, gene2, myDataExp, myDataAnn, log, tumor, 
   }
   
   # add annotation data to expression set
-  myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x = "Sample", by.y = 'row.names')
+  myDataExp.c <- merge(myDataExp.c, myDataAnn, by = "SAMPLE_ID")
   
   # colorby tumor
   if(colorby != "None"){
     correlations <- plyr::ddply(.data = myDataExp.c, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = gene1, gene2 = gene2, correlation = correlation))
-    p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Sample', color = colorby)) + 
+    p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'SAMPLE_ID', color = colorby)) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
   } else {
     correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
-    p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Sample')) + 
+    p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'SAMPLE_ID')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
   }
   
   p <- plotly_build(p)
   p$x$layout$yaxis$title <- paste0(gene2,' (', y.axis,')')
   p$x$layout$xaxis$title <- paste0(gene1,' (', y.axis,')')
-  
+  print(correlations)
   newList <- list(p, correlations)
   return(newList)
 } 

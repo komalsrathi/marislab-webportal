@@ -11,7 +11,7 @@
 # sortby <- 'Gene'
 # tumor <- 'Neuroblastoma'
 
-plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tumor)
+plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tumor, colorby)
 {
   
   # load initial dataset and subset by gene
@@ -19,7 +19,7 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   dat$gene <- rownames(dat)
   dat.m <- melt(data = dat, id.vars = 'gene')
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
-  colnames(dat.c)[1] = "sample"
+  colnames(dat.c)[1] <- "SAMPLE_ID"
   
   # modify gene name, dashes present
   gene1.mut <- paste('`',gene1,'`',sep='')
@@ -33,23 +33,33 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   }
   
   # add phenotype data - MYCN status
-  dat.c <- merge(dat.c, phenotype, by = 'sample', all.x = TRUE)
+  dat.c <- merge(dat.c, phenotype, by = "SAMPLE_ID", all.x = TRUE)
   
   # subset if tumor is defined
-  dat.c <- dat.c[which(dat.c$tumor_subtype == tumor),]
+  dat.c <- dat.c[which(dat.c$CANCER == tumor),]
   
   # sorting of bars
   if(sortby == "PDX"){
-    dat.c$sample <- factor(x = dat.c$sample, levels = sort(as.character(dat.c$sample)))
+    dat.c$SAMPLE_ID <- factor(x = dat.c$SAMPLE_ID, levels = sort(as.character(dat.c$SAMPLE_ID)))
   } else if(sortby == "Gene"){
-    dat.c$sample <- reorder(dat.c$sample, dat.c[,gene1])
+    dat.c$SAMPLE_ID <- reorder(dat.c$SAMPLE_ID, dat.c[,gene1])
   }
   
   # ggplot 
-  p <- ggplot(dat.c, aes_string(x='sample', y=gene1.mut, fill = 'tumor_subtype')) + guides(fill=FALSE) + 
-      geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), 
-                                                      plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+  if(colorby == "None"){
+    p <- ggplot(dat.c, aes_string(x='SAMPLE_ID', y=gene1.mut)) + guides(fill=FALSE) + 
+      geom_bar(stat="identity") + customtheme + 
+      theme(axis.text.x  = element_text(angle=45), 
+            plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
       ggtitle(gene1)
+  } else {
+    p <- ggplot(dat.c, aes_string(x='SAMPLE_ID', y=gene1.mut, fill = colorby)) + 
+      geom_bar(stat="identity") + customtheme + 
+      theme(axis.text.x  = element_text(angle=45), 
+            plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+      ggtitle(gene1)
+    
+  }
   p <- plotly_build(p)
   p$x$layout$yaxis$title <- y.axis
   

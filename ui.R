@@ -124,37 +124,12 @@ dashboardPage(
               fluidRow(
                 box(title = "Data summary plot", status = "warning", width = 12, collapsed = T, collapsible = T, solidHeader = T, 
                     plotlyOutput(outputId = "dbplot1", width = 950, height = 400))
-                # box(title = "Data summary table", status = "warning", width = 12, collapsible = T, collapsed = T, solidHeader = T, 
-                #     DT::datatable(data = read.delim('data/data_summary.txt'),
-                #                   rownames = FALSE, selection = "single",
-                #                   extension = c('Buttons'),
-                #                   options = list(
-                #                     dom = 'Bfrtip',
-                #                     buttons = list('pageLength'),
-                #                     searchHighlight = TRUE,
-                #                     initComplete = JS("function(settings, json) {",
-                #                                       "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
-                #                                       "}")
-                #                   )))
               )
       ),
       
       ######## Description #########
       tabItem(tabName = "datadesc",
-              DT::datatable(data = read.delim('data/datasets_desc.txt', check.names = FALSE),
-                            rownames = FALSE, escape = FALSE, selection = "single",
-                            extensions = c('Buttons'),
-                            options = list(
-                              dom = 'Bfrtip',
-                              buttons = list('pageLength'),
-                              searchHighlight = TRUE,
-                              initComplete = JS("function(settings, json) {",
-                                                "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
-                                                "}"),
-                              scrollX = TRUE,
-                              scrollY = TRUE
-                            ),
-                            class = 'nowrap display')
+              DT::dataTableOutput(outputId = "datadesctable1")
       ),
       
       ######## Description #########
@@ -162,31 +137,11 @@ dashboardPage(
       ######## Resources ###########
       # rdbi content
       tabItem(tabName = "rdbi",
-              DT::datatable(data = read.csv('data/internal.txt'), 
-                            rownames = FALSE, escape = FALSE, selection = "single",
-                            extensions = c('Buttons'),
-                            options = list(
-                              dom = 'Bfrtip',
-                              buttons = list('pageLength'),
-                              searchHighlight = TRUE,
-                              initComplete = JS("function(settings, json) {",
-                                                "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
-                                                "}")
-                            ))
+              DT::dataTableOutput(outputId = "rdbitable1")
       ),
       
       tabItem(tabName = "rdbe",
-              DT::datatable(data = read.csv('data/external.txt'), 
-                            rownames = FALSE, escape = FALSE, selection = "single",
-                            extensions = c('Buttons'),
-                            options = list(
-                              dom = 'Bfrtip',
-                              buttons = list('pageLength'),
-                              searchHighlight = TRUE,
-                              initComplete = JS("function(settings, json) {",
-                                                "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
-                                                "}")
-                            ))
+              DT::dataTableOutput(outputId = "rdbetable1")
       ),
       ######## Resources ###########
       
@@ -525,6 +480,7 @@ dashboardPage(
                 box(selectInput(inputId = "pptcbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput3", label = "Select Tumor", choices = c("none")), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput4", label = "Sort by", choices = c('Gene','PDX')), width = 2, background = 'navy'),
+                box(selectInput(inputId = "pptcbarselectInput5", label = "Color by", choices = "None"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pptcbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcbarsubmit2', label = "Get Expression Barplot"))), 
@@ -539,6 +495,7 @@ dashboardPage(
                     selectInput(inputId = "pptcdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcdotselectInput4", label = "Select Tumor", choices = c("none"), multiple = TRUE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcdotselectInput5", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = 'navy'),
+                box(selectInput(inputId = "pptcdotselectInput6", label = "Color by", choices = "None"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pptcdotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcdotsubmit2', label = "Get Correlation Plot"))), 

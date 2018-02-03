@@ -38,6 +38,52 @@ shinyServer(function(input, output, session){
   
   tbw <- themebw()
 
+  # data description
+  output$datadesctable1 <- DT::renderDataTable({
+    DT::datatable(data = read.delim('data/datasets_desc.txt', check.names = FALSE),
+                  rownames = FALSE, escape = FALSE, selection = "single",
+                  extensions = c('Buttons'),
+                  options = list(
+                    dom = 'Bfrtip',
+                    buttons = list('pageLength'),
+                    searchHighlight = TRUE,
+                    initComplete = JS("function(settings, json) {",
+                                      "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
+                                      "}"),
+                    scrollX = TRUE,
+                    scrollY = TRUE
+                  ),
+                  class = 'nowrap display')
+  })
+  
+  output$rdbitable1 <- DT::renderDataTable({
+    DT::datatable(data = read.csv('data/internal.txt'), 
+                  rownames = FALSE, escape = FALSE, selection = "single",
+                  extensions = c('Buttons'),
+                  options = list(
+                    dom = 'Bfrtip',
+                    buttons = list('pageLength'),
+                    searchHighlight = TRUE,
+                    initComplete = JS("function(settings, json) {",
+                                      "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
+                                      "}")
+                  ))
+  })
+  
+  output$rdbetable1 <- DT::renderDataTable({
+    DT::datatable(data = read.csv('data/external.txt'), 
+                  rownames = FALSE, escape = FALSE, selection = "single",
+                  extensions = c('Buttons'),
+                  options = list(
+                    dom = 'Bfrtip',
+                    buttons = list('pageLength'),
+                    searchHighlight = TRUE,
+                    initComplete = JS("function(settings, json) {",
+                                      "$(this.api().table().header()).css({'background-color': '#4C4C4C', 'color': '#fff'});",
+                                      "}")
+                  ))
+  })
+  
   # weekly stats
   output$messageMenu <- renderMenu({
     authorize(username = getOption("rga.username"),
@@ -1057,8 +1103,10 @@ shinyServer(function(input, output, session){
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput2", choices = num, server = TRUE)
     
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- unique(mdat$tumor_subtype)
+    tum <- unique(mdat$CANCER)
+    cols <- c("None",colnames(mdat))
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput3", choices = tum, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pptcbarselectInput5", choices = cols, selected = 'None', server = TRUE)
   })
   
   # create plot
@@ -1075,9 +1123,10 @@ shinyServer(function(input, output, session){
         tumor <- as.character(input$pptcbarselectInput3)
         logvalue <- input$pptcbarcheckboxInput1
         sortby <- input$pptcbarselectInput4
+        colorby <- input$pptcbarselectInput5
         plotGeneBarPPTC(dat = dat, phenotype = phenotype,
                         gene1 = gene1, customtheme = tbw, 
-                        log = logvalue, sortby, tumor)
+                        log = logvalue, sortby, tumor, colorby)
       })
     })
   })
@@ -1095,8 +1144,10 @@ shinyServer(function(input, output, session){
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput3", choices = num, server = TRUE)
     
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- unique(mdat$tumor_subtype)
+    tum <- unique(mdat$CANCER)
+    cols <- c("None", colnames(mdat))
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput4", choices = tum, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pptcdotselectInput6", choices = cols, server = TRUE)
   })
   
   # create plot
@@ -1114,10 +1165,11 @@ shinyServer(function(input, output, session){
         logvalue <- input$pptcdotcheckboxInput1
         correlation <- input$pptcdotselectInput5
         tumor <- input$pptcdotselectInput4
+        colorby <- input$pptcdotselectInput6
         dotpptc <<- plotGeneScatterPPTC(myDataExp = myDataExp, myDataAnn = myDataAnn,
                                         gene1 = gene1, gene2 = gene2,
                                         log = logvalue, tumor = tumor, correlation = correlation,
-                                        customtheme = tbw)
+                                        customtheme = tbw, colorby = colorby)
         dotpptc[[1]]
       })
     })
@@ -1176,7 +1228,7 @@ shinyServer(function(input, output, session){
     }
     dataset <- as.character(input$pptcboxselectInput1)
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- unique(as.character(mdat$tumor_subtype))
+    tum <- unique(as.character(mdat$CANCER))
     if(input$selectall2 == 1 | input$selectall2 %% 2 != 0){
       updateSelectizeInput(session = session, inputId = 'pptcboxselectInput3', choices = tum, server = TRUE, selected = tum)
     }
