@@ -26,10 +26,10 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   
   # datatype
   if(log == FALSE){
-    y.axis <- 'Log2 (FPKM)'
+    y.axis <- 'FPKM'
   } else {
     dat.c[,gene1] <- log2(dat.c[,gene1]+1)
-    y.axis <- 'FPKM'
+    y.axis <- 'log2 (FPKM)'
   }
   
   # add phenotype data - MYCN status
