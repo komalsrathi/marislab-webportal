@@ -33,6 +33,8 @@ load('data/PPTC_FPKM_hg19_Wheeler_subtracted_mData.RData')
 load('data/PPTC_ExomeCalls.RData')
 load('data/TARGET_MIRNA_FPKM_data.RData')
 load('data/TARGET_MIRNA_FPKM_mData.RData')
+load('data/PPTC_FPKM_hg38_Wheeler_subtracted_data.RData')
+load('data/PPTC_FPKM_hg38_Wheeler_subtracted_mData.RData')
 ############ load datasets here using .RData ##############
 
 
