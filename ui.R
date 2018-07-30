@@ -47,12 +47,12 @@ dashboardPage(
                menuSubItem("Mutation Table", icon = icon("table"), tabName = "clm"),
                menuSubItem("Cell Line Comparison Tool", icon = icon("table"), tabName = "clct")
       ),
-      menuItem("PDX Analysis Tools", tabName = "pdx", icon = icon("gears"),
-               menuSubItem("PDX Database", icon = icon("database"), tabName = "pdxdata"),
-               menuSubItem("PDX Gene Expression Barplot", icon = icon("bar-chart"), tabName = "pdxbar"),
-               menuSubItem("PDX Gene Expression Scatterplot", icon = icon("line-chart"), tabName = "pdxdot"),
-               menuSubItem("PDX Mutation Table", icon = icon("table"), tabName = "pdxm")
-      ),
+      # menuItem("PDX Analysis Tools", tabName = "pdx", icon = icon("gears"),
+      #          menuSubItem("PDX Database", icon = icon("database"), tabName = "pdxdata"),
+      #          menuSubItem("PDX Gene Expression Barplot", icon = icon("bar-chart"), tabName = "pdxbar"),
+      #          menuSubItem("PDX Gene Expression Scatterplot", icon = icon("line-chart"), tabName = "pdxdot"),
+      #          menuSubItem("PDX Mutation Table", icon = icon("table"), tabName = "pdxm")
+      # ),
       menuItem("PDX-Cell line Comparison", tabName = "pdxcl", icon = icon("gears"),
                menuSubItem("Plots", icon = icon("bar-chart"), tabName = "pdxclplots")
                ),
@@ -457,12 +457,12 @@ dashboardPage(
       #### PDX-Cell lines ####
       tabItem(tabName = "pdxclplots",
               fluidRow(
-              box(selectInput(inputId = "pdxclplotsselectInput1", label = "Select dataset", choices = c("PDX (Wheeler Lab)/Cell Line RNASeq"="PDX_CellLines_Comparison")),
+              box(selectInput(inputId = "pdxclplotsselectInput1", label = "Select dataset", choices = c("PDX (Wheeler Lab)/Cell Line RNASeq (n = 15)"="PDX_CellLines_Comparison")),
                               actionButton(inputId = "pdxclplotssubmit1", label = "Load dataset"), width = 2, background = "navy"),
               box(selectInput(inputId = "pdxclplotsselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
               box(checkboxInput(inputId = "pdxclplotscheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
               box(selectInput(inputId = "pdxclplotsselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
-              box(selectInput(inputId = "pdxclplotsselectInput4", label = "Color by", choices = c("None", 'ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = "navy")
+              box(selectInput(inputId = "pdxclplotsselectInput4", label = "Color by", choices = c("None", 'ALK_STATUS','MYCN_STATUS','TP53_STATUS')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxclplotssubmit2', label = "Get Comparison plots"))), 
               br(), br(),
@@ -475,8 +475,9 @@ dashboardPage(
       #### PPTC ####
       tabItem(tabName = "pptcbar",
               fluidRow(
-                box(selectInput(inputId = "pptcbarselectInput1", label = "Select dataset", choices = c("PPTC RNASeq (hg19, BCM processed)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       "PPTC NBL RNASeq (hg38, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted")),
+                box(selectInput(inputId = "pptcbarselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 270, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
+                                                                                                       "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
+                                                                                                       "Kallisto (hg19, n = 270, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcbarsubmit1", label = "Load dataset"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput3", label = "Select Tumor", choices = c("none")), width = 2, background = "navy"),
@@ -490,8 +491,9 @@ dashboardPage(
       ),
       tabItem(tabName = "pptcdot",
               fluidRow(
-                box(selectInput(inputId = "pptcdotselectInput1", label = "Select dataset", choices = c("PPTC RNASeq (hg19, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       "PPTC NBL RNASeq (hg38, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted")),
+                box(selectInput(inputId = "pptcdotselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 270, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
+                                                                                                       "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
+                                                                                                       "Kallisto (hg19, n = 270, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcdotsubmit1", label = "Load dataset"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcdotselectInput2", label = "Select Gene 1", choices = "none"),
                     selectInput(inputId = "pptcdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
@@ -507,8 +509,9 @@ dashboardPage(
       ),
       tabItem(tabName = "pptcbox",
               fluidRow(
-                box(selectInput(inputId = "pptcboxselectInput1", label = "Select dataset", choices = c("PPTC RNASeq (hg19, BCM processed)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       "PPTC NBL RNASeq (hg38, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted")),
+                box(selectInput(inputId = "pptcboxselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 270, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
+                                                                                                       "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
+                                                                                                       "Kallisto (hg19, n = 270, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pptcboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pptcboxcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
