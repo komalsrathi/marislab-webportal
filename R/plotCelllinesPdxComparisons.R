@@ -46,14 +46,14 @@ plotCelllinesPdxComparisons <- function(dat, gene1, log, customtheme, correlatio
   
   dat.m <- melt(dat, variable.name = 'group', value.name = 'FPKM')
   if(colorby == "None"){
-    dat.m$colorby <- dat.m[,'MYCN_Status']
+    dat.m$colorby <- dat.m[,'MYCN_STATUS']
   } else {
     dat.m$colorby <- dat.m[,colorby]
   }
   dat.m <- dat.m[with(dat.m, order(dplyr::desc(colorby), FPKM, names)),]
   dat.m$names <- as.character(dat.m$names)
   dat.m$names <- factor(dat.m$names, levels = unique(as.character(dat.m$names)))
-  dat.m$labels <- paste0('\nMYCN: ',dat.m$MYCN_Status, '\nALK: ',dat.m$ALK_Status, '\nTP53: ',dat.m$TP53_Status)
+  dat.m$labels <- paste0('\nMYCN: ',dat.m$MYCN_STATUS, '\nALK: ',dat.m$ALK_STATUS, '\nTP53: ',dat.m$TP53_STATUS)
   
   # plot
   if(colorby != "None"){
