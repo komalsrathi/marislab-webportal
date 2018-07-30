@@ -262,7 +262,7 @@ dashboardPage(
                 box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'clcvmsubmit2', label = "Get CN vs Mutation Plot"))), 
+              fluidRow(column(5, actionButton(inputId = 'clcvmsubmit2', label = "Get CN vs mRNA Plot"))), 
               br(), br(),
               plotlyOutput(outputId = 'clcvmplot1', width = 1000, height = 800)
       ),
