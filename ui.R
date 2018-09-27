@@ -223,7 +223,8 @@ dashboardPage(
       tabItem(tabName = "clgcn",
               fluidRow(
                 box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
-                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes')),
+                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
+                                                                                                     'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')), width = 2, background = 'navy'),
@@ -256,7 +257,8 @@ dashboardPage(
       tabItem(tabName = "clcvm",
               fluidRow(
                 box(selectInput(inputId = "clcvmselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
-                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes'), selected = NULL),
+                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
+                                                                                                     'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes'), selected = NULL),
                     actionButton(inputId = "clcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "clcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
