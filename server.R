@@ -262,7 +262,7 @@ shinyServer(function(input, output, session){
     }
     isolate({
       dat <- input$clcvmselectInput1
-      dat <- get(paste0(dat,'_expgene'))
+      dat <- get(paste0(dat))
       num <- rownames(dat)
       updateSelectizeInput(session = session, inputId = "clcvmselectInput2", choices = num, server = TRUE)
     })
@@ -275,7 +275,7 @@ shinyServer(function(input, output, session){
     withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
       isolate({
         datatype <- input$clcvmselectInput1
-        mrna <- get(paste0(datatype,'_expgene'))
+        mrna <- get(paste0(datatype))
         cna <- get(paste0(datatype,'_cna'))
         gene1 <- as.character(input$clcvmselectInput2)
         correlation <- as.character(input$clcvmselectInput3)
