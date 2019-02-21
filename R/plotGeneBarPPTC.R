@@ -19,7 +19,7 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   dat$gene <- rownames(dat)
   dat.m <- melt(data = dat, id.vars = 'gene')
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
-  colnames(dat.c)[1] <- "SAMPLE_ID"
+  colnames(dat.c)[1] <- "MODEL"
   
   # modify gene name, dashes present
   gene1.mut <- paste('`',gene1,'`',sep='')
@@ -33,27 +33,27 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   }
   
   # add phenotype data - MYCN status
-  dat.c <- merge(dat.c, phenotype, by = "SAMPLE_ID", all.x = TRUE)
+  dat.c <- merge(dat.c, phenotype, by = "MODEL", all.x = TRUE)
   
   # subset if tumor is defined
-  dat.c <- dat.c[which(dat.c$CANCER == tumor),]
+  dat.c <- dat.c[which(dat.c$CANCER_TYPE == tumor),]
   
   # sorting of bars
   if(sortby == "PDX"){
-    dat.c$SAMPLE_ID <- factor(x = dat.c$SAMPLE_ID, levels = sort(as.character(dat.c$SAMPLE_ID)))
+    dat.c$MODEL <- factor(x = dat.c$MODEL, levels = sort(as.character(dat.c$MODEL)))
   } else if(sortby == "Gene"){
-    dat.c$SAMPLE_ID <- reorder(dat.c$SAMPLE_ID, dat.c[,gene1])
+    dat.c$MODEL <- reorder(dat.c$MODEL, dat.c[,gene1])
   }
   
   # ggplot 
   if(colorby == "None"){
-    p <- ggplot(dat.c, aes_string(x='SAMPLE_ID', y=gene1.mut)) + guides(fill=FALSE) + 
+    p <- ggplot(dat.c, aes_string(x='MODEL', y=gene1.mut)) + guides(fill=FALSE) + 
       geom_bar(stat="identity") + customtheme + 
       theme(axis.text.x  = element_text(angle=45), 
             plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
       ggtitle(gene1)
   } else {
-    p <- ggplot(dat.c, aes_string(x='SAMPLE_ID', y=gene1.mut, fill = colorby)) + 
+    p <- ggplot(dat.c, aes_string(x='MODEL', y=gene1.mut, fill = colorby)) + 
       geom_bar(stat="identity") + customtheme + 
       theme(axis.text.x  = element_text(angle=45), 
             plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
