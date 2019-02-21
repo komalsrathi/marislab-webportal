@@ -250,7 +250,8 @@ shinyServer(function(input, output, session){
         sortby <- input$clgcnselectInput3
         phenotype <- cellline_mData
         colorby <- input$clgcnselectInput4
-        plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = tbw, sortby = sortby, phenotype = phenotype, colorby = colorby)
+        logby <- input$clgncheckboxInput1
+        plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = tbw, sortby = sortby, phenotype = phenotype, colorby = colorby, logby = logby)
       })
     })
   })
@@ -780,8 +781,18 @@ shinyServer(function(input, output, session){
       # load dataset and get rownames
       dataset <- input$pgcnselectInput1
       myData <- get(paste0(dataset,'_cdata'))
+      gene <- input$pgcnselectInput2
       num <- rownames(myData)
       updateSelectizeInput(session = session, inputId = "pgcnselectInput2", choices = num, server = TRUE)
+      myData.pheno <- get(paste0(dataset,'_mData'))
+      cols <- c('None',intersect(colnames(myData.pheno),c('MYCN_Status','RISK','STAGE')))
+      if(length(cols)==0)
+      {
+        cols <- 'None'
+      }
+      updateSelectizeInput(session = session, inputId = "pgcnselectInput4", choices = cols, selected = 'None', server = TRUE)
+      cols <- c(cols, gene)
+      updateSelectizeInput(session = session, inputId = "pgcnselectInput3", choices = cols, selected = gene, server = TRUE)
     })
   })
   
@@ -794,12 +805,12 @@ shinyServer(function(input, output, session){
       isolate({
         dataset <- input$pgcnselectInput1
         myData <- get(paste0(dataset,'_cdata'))
-        sortby <- input$pgcncheckboxInput1
-        log <- input$pgcncheckboxInput2
+        myData.pheno <- get(paste0(dataset,'_mData'))
         gene1 <- as.character(input$pgcnselectInput2)
-        plotGeneBarCNAPatientAnalysis(gene1 = gene1, myData = myData, 
-                                      log = log, sortby = sortby,
-                                      customtheme = tbw)
+        logby <- input$pgcncheckboxInput1
+        sortby <- input$pgcnselectInput3
+        colorby <- input$pgcnselectInput4
+        plotGeneBarCNAPatientAnalysis(gene1 = gene1, myData = myData, sortby = sortby, customtheme = tbw, logby = logby, phenotype = myData.pheno, colorby = colorby)
       })
     })
   })
@@ -1103,7 +1114,7 @@ shinyServer(function(input, output, session){
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput2", choices = num, server = TRUE)
     
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- unique(mdat$CANCER)
+    tum <- unique(mdat$CANCER_TYPE)
     cols <- c("None",colnames(mdat))
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput3", choices = tum, server = TRUE)
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput5", choices = cols, selected = 'None', server = TRUE)
@@ -1144,7 +1155,7 @@ shinyServer(function(input, output, session){
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput3", choices = num, server = TRUE)
     
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- unique(mdat$CANCER)
+    tum <- unique(mdat$CANCER_TYPE)
     cols <- c("None", colnames(mdat))
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput4", choices = tum, server = TRUE)
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput6", choices = cols, server = TRUE)
@@ -1186,31 +1197,31 @@ shinyServer(function(input, output, session){
   })
   
   # pptc mutation table
-  observe({
-    if(input$pptcmutsubmit1 == 0){
-      return()
-    }
-    isolate({
-      dat <- as.character(input$pptcmutselectInput1)
-      dat <- get(dat)
-      num <- unique(as.character(dat$Gene))
-      updateSelectizeInput(session = session, inputId = "pptcmutselectInput2", choices = num, server = TRUE)
-    })
-  })
-  
-  output$pptcmuttable1 <- DT::renderDataTable({
-    if(input$pptcmutsubmit2 == 0){
-      return()
-    }
-    withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
-      isolate({
-        dataset <- as.character(input$pptcmutselectInput1)
-        dataset <- get(dataset)
-        gene <- as.character(input$pptcmutselectInput2)
-        viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
-      })
-    })
-  })
+  # observe({
+  #   if(input$pptcmutsubmit1 == 0){
+  #     return()
+  #   }
+  #   isolate({
+  #     dat <- as.character(input$pptcmutselectInput1)
+  #     dat <- get(dat)
+  #     num <- unique(as.character(dat$Gene))
+  #     updateSelectizeInput(session = session, inputId = "pptcmutselectInput2", choices = num, server = TRUE)
+  #   })
+  # })
+  # 
+  # output$pptcmuttable1 <- DT::renderDataTable({
+  #   if(input$pptcmutsubmit2 == 0){
+  #     return()
+  #   }
+  #   withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+  #     isolate({
+  #       dataset <- as.character(input$pptcmutselectInput1)
+  #       dataset <- get(dataset)
+  #       gene <- as.character(input$pptcmutselectInput2)
+  #       viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
+  #     })
+  #   })
+  # })
 
   # PPTC boxplot
   observe({
@@ -1228,14 +1239,13 @@ shinyServer(function(input, output, session){
     }
     dataset <- as.character(input$pptcboxselectInput1)
     mdat <- get(paste0(dataset,'_mData'))
-    tum <- unique(as.character(mdat$CANCER))
+    tum <- unique(as.character(mdat$CANCER_TYPE))
     if(input$selectall2 == 1 | input$selectall2 %% 2 != 0){
       updateSelectizeInput(session = session, inputId = 'pptcboxselectInput3', choices = tum, server = TRUE, selected = tum)
     }
     if(input$selectall2 == 0 | input$selectall2 %% 2 == 0){
       updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE, selected = NULL)
     }
-    # updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE)
   })
   
   
