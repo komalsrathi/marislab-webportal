@@ -14,14 +14,14 @@
 
 plotGeneBoxPPTC <- function(gene1, tumor, myDataExp, myDataAnn, log, customtheme)
 {
-  myDataAnn <- myDataAnn[which(myDataAnn$CANCER %in% tumor),]
-  colorby <- 'CANCER'
+  myDataAnn <- myDataAnn[which(myDataAnn$CANCER_TYPE %in% tumor),]
+  colorby <- 'CANCER_TYPE'
   
   myDataExp <- myDataExp[rownames(myDataExp) %in% gene1,colnames(myDataExp) %in% rownames(myDataAnn)]
   myDataExp$gene <- rownames(myDataExp)
   myDataExp.m <- melt(data = myDataExp, id.vars = 'gene')
   myDataExp.c <- dcast(data = myDataExp.m, formula = variable~gene, value.var = 'value')
-  colnames(myDataExp.c)[1] = "SAMPLE_ID"
+  colnames(myDataExp.c)[1] = "MODEL"
   
   # plot log values? 
   if(log == FALSE) {
@@ -35,7 +35,7 @@ plotGeneBoxPPTC <- function(gene1, tumor, myDataExp, myDataAnn, log, customtheme
   gene1.mut <- paste('`',gene1,'`',sep='')
   
   # add annotation data to expression set
-  myDataExp.c <- merge(myDataExp.c, myDataAnn, by = "SAMPLE_ID")
+  myDataExp.c <- merge(myDataExp.c, myDataAnn, by = "MODEL")
 
   if(length(tumor) > 2) {
     anovaRes <- aov(lm(myDataExp.c[,gene1]~myDataExp.c[,colorby]))
