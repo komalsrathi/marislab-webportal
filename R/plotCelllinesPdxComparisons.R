@@ -46,29 +46,29 @@ plotCelllinesPdxComparisons <- function(dat, gene1, log, customtheme, correlatio
   
   dat.m <- melt(dat, variable.name = 'group', value.name = 'FPKM')
   if(colorby == "None"){
-    dat.m$colorby <- dat.m[,'MYCN_STATUS']
+    dat.m$colorby <- dat.m[,'MYCN_Status']
   } else {
     dat.m$colorby <- dat.m[,colorby]
   }
-  dat.m <- dat.m[with(dat.m, order(dplyr::desc(colorby), FPKM, names)),]
-  dat.m$names <- as.character(dat.m$names)
-  dat.m$names <- factor(dat.m$names, levels = unique(as.character(dat.m$names)))
-  dat.m$labels <- paste0('\nMYCN: ',dat.m$MYCN_STATUS, '\nALK: ',dat.m$ALK_STATUS, '\nTP53: ',dat.m$TP53_STATUS)
+  dat.m <- dat.m[with(dat.m, order(dplyr::desc(colorby), FPKM, Label)),]
+  dat.m$Label <- as.character(dat.m$Label)
+  dat.m$Label <- factor(dat.m$Label, levels = unique(as.character(dat.m$Label)))
+  dat.m$labels <- paste0('\nMYCN: ',dat.m$MYCN_Status, '\nALK: ',dat.m$ALK_Status, '\nTP53: ',dat.m$TP53_Status)
   
   # plot
   if(colorby != "None"){
-    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', color = colorby, label = 'names')) + 
+    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', color = colorby, label = 'Label')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
     
-    q <- ggplot(data = dat.m, aes_string(x = 'names', y = 'FPKM', fill = 'group', label = 'labels')) + 
+    q <- ggplot(data = dat.m, aes_string(x = 'Label', y = 'FPKM', fill = 'group', label = 'labels')) + 
       geom_bar(stat = 'identity', position = 'dodge')  + xlab(label = '') + themebw() + 
       theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) +
       guides(color = FALSE) + ggtitle(paste0('Gene = ',gene1))
   } else {
-    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', label = 'names')) + 
+    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', label = 'Label')) + 
       geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
     
-    q <- ggplot(data = dat.m, aes_string(x = 'names', y = 'FPKM', fill = 'group', label = 'labels')) + 
+    q <- ggplot(data = dat.m, aes_string(x = 'Label', y = 'FPKM', fill = 'group', label = 'labels')) + 
       geom_bar(stat = 'identity', position = 'dodge')  + xlab(label = '') + themebw() + 
       theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
       guides(color = FALSE) + ggtitle(paste0('Gene = ',gene1))
