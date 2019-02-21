@@ -59,8 +59,8 @@ dashboardPage(
       menuItem("PPTC PDX Models", tabName = "pptc", icon = icon("gears"),
                menuSubItem("Expression Barplot", icon = icon("bar-chart"), tabName = "pptcbar"),
                menuSubItem("Expression Scatterplot", icon = icon("bar-chart"), tabName = "pptcdot"),
-               menuSubItem("Expression Boxplot", icon = icon("bar-chart"), tabName = "pptcbox"),
-               menuSubItem("Mutation Table", icon = icon("database"), tabName = "pptcmut")
+               menuSubItem("Expression Boxplot", icon = icon("bar-chart"), tabName = "pptcbox")
+               # menuSubItem("Mutation Table", icon = icon("database"), tabName = "pptcmut")
                ),
       menuItem("Patient Sample Database", icon = icon("database"), tabName = "psdb"),
       menuItem("Patient Sample Visualization Tools", tabName = "patientsamples", icon = icon("gears"),
@@ -227,7 +227,8 @@ dashboardPage(
                                                                                                      'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
-                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')), width = 2, background = 'navy'),
+                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')),
+                                checkboxInput(inputId = "clgncheckboxInput1", label = "Log Data"), width = 2, background = 'navy'),
                 box(selectInput(inputId = "clgcnselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit2', label = "Get Copy Number Barplot"))), 
@@ -400,6 +401,7 @@ dashboardPage(
       ),
       ##### Cell Lines Utilities #####
       
+      
       ##### PDX #####
       # pdxdata
       tabItem(tabName = "pdxdata",
@@ -410,7 +412,7 @@ dashboardPage(
               fluidRow(column(5, actionButton(inputId = 'pdxdatasubmit1', label = "Load dataset"))), br(), br(),
               DT::dataTableOutput(outputId = "pdxdatatable1")
       ),
-      
+
       # pdxbar
       tabItem(tabName = "pdxbar",
               fluidRow(
@@ -425,14 +427,14 @@ dashboardPage(
               fluidRow(column(5, actionButton(inputId = 'pdxbarsubmit2', label = "Get Expression Plot"))), br(), br(),
               plotlyOutput(outputId = "pdxbarplot1", width = 1000, height = 800)
       ),
-      
+
       # pdxdot content
       tabItem(tabName = "pdxdot",
               fluidRow(
                 box(selectInput(inputId = "pdxdotselectInput1", label = "Select dataset", choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38_Califano_subtracted',
                                                                                                       'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_Wheeler_subtracted')),
                     actionButton(inputId = "pdxdotsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pdxdotselectInput2", label = "Select Gene 1", choices = "none"), 
+                box(selectInput(inputId = "pdxdotselectInput2", label = "Select Gene 1", choices = "none"),
                     selectInput(inputId = "pdxdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pdxdotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pdxdotselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
@@ -442,29 +444,29 @@ dashboardPage(
               plotlyOutput(outputId = "pdxdotplot1", width = 1000, height = 800),
               DT::dataTableOutput(outputId = "pdxdottable1")
       ),
-      
+
       tabItem(tabName = "pdxm",
               fluidRow(
                 box(selectInput(inputId = "pdxmselectInput1", label = "Select dataset", choices = c("PDX Exome Calls (Wheeler Lab)"="ExomeCallsPDX")),
                     actionButton(inputId = "pdxmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pdxmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
               ),
-              fluidRow(column(5, actionButton(inputId = 'pdxmsubmit2', label = "Get Mutation Table"))), 
+              fluidRow(column(5, actionButton(inputId = 'pdxmsubmit2', label = "Get Mutation Table"))),
               br(), br(),
               DT::dataTableOutput(outputId = 'pdxmtable1')
       ),
       ##### PDX #####
-      
+
       
       #### PDX-Cell lines ####
       tabItem(tabName = "pdxclplots",
               fluidRow(
-              box(selectInput(inputId = "pdxclplotsselectInput1", label = "Select dataset", choices = c("PDX (Wheeler Lab)/Cell Line RNASeq (n = 15)"="PDX_CellLines_Comparison")),
+              box(selectInput(inputId = "pdxclplotsselectInput1", label = "Select dataset", choices = c("PPTC PDX/Cell Line RNASeq (n = 15)"="PDX_CellLines_Comparison")),
                               actionButton(inputId = "pdxclplotssubmit1", label = "Load dataset"), width = 2, background = "navy"),
               box(selectInput(inputId = "pdxclplotsselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
               box(checkboxInput(inputId = "pdxclplotscheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
               box(selectInput(inputId = "pdxclplotsselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
-              box(selectInput(inputId = "pdxclplotsselectInput4", label = "Color by", choices = c("None", 'ALK_STATUS','MYCN_STATUS','TP53_STATUS')), width = 2, background = "navy")
+              box(selectInput(inputId = "pdxclplotsselectInput4", label = "Color by", choices = c("None", 'ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pdxclplotssubmit2', label = "Get Comparison plots"))), 
               br(), br(),
@@ -478,7 +480,7 @@ dashboardPage(
       tabItem(tabName = "pptcbar",
               fluidRow(
                 box(selectInput(inputId = "pptcbarselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 270, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
+                                                                                                       # "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
                                                                                                        "Kallisto (hg19, n = 270, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcbarsubmit1", label = "Load dataset"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
@@ -494,7 +496,7 @@ dashboardPage(
       tabItem(tabName = "pptcdot",
               fluidRow(
                 box(selectInput(inputId = "pptcdotselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 270, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
+                                                                                                       # "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
                                                                                                        "Kallisto (hg19, n = 270, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcdotsubmit1", label = "Load dataset"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcdotselectInput2", label = "Select Gene 1", choices = "none"),
@@ -512,7 +514,7 @@ dashboardPage(
       tabItem(tabName = "pptcbox",
               fluidRow(
                 box(selectInput(inputId = "pptcboxselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 270, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
+                                                                                                       # "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
                                                                                                        "Kallisto (hg19, n = 270, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pptcboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
@@ -524,16 +526,16 @@ dashboardPage(
               plotlyOutput(outputId = "pptcboxplot1", width = 1000, height = 800),
               DT::dataTableOutput(outputId = "pptcboxtable1")
       ),
-      tabItem(tabName = "pptcmut",
-              fluidRow(
-                box(selectInput(inputId = "pptcmutselectInput1", label = "Select dataset", choices = c("PPTC Exome Calls (Wheeler Lab)"="PPTC_ExomeCalls")),
-                    actionButton(inputId = "pptcmutsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pptcmutselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
-              ),
-              fluidRow(column(5, actionButton(inputId = 'pptcmutsubmit2', label = "Get Mutation Table"))),
-              br(), br(),
-              DT::dataTableOutput(outputId = 'pptcmuttable1')
-      ),
+      # tabItem(tabName = "pptcmut",
+      #         fluidRow(
+      #           box(selectInput(inputId = "pptcmutselectInput1", label = "Select dataset", choices = c("PPTC Exome Calls (Wheeler Lab)"="PPTC_ExomeCalls")),
+      #               actionButton(inputId = "pptcmutsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+      #           box(selectInput(inputId = "pptcmutselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+      #         ),
+      #         fluidRow(column(5, actionButton(inputId = 'pptcmutsubmit2', label = "Get Mutation Table"))),
+      #         br(), br(),
+      #         DT::dataTableOutput(outputId = 'pptcmuttable1')
+      # ),
       #### PPTC ####
       
       ##### Patient Samples Utilities #####
@@ -708,8 +710,9 @@ dashboardPage(
                 box(selectInput(inputId = "pgcnselectInput1", label = "Select dataset", choices = c('IH250')),
                     actionButton(inputId = "pgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy"),
-                box(checkboxInput(inputId = "pgcncheckboxInput1", label = "Sort Data", value = TRUE),
-                    checkboxInput(inputId = "pgcncheckboxInput2", label = "Log Data"), width = 2, background = "navy")
+                box(selectInput(inputId = "pgcnselectInput3", label = "Sort by", choices = c("None")), 
+                    checkboxInput(inputId = "pgcncheckboxInput1", label = "Log Data"), width = 2, background = "navy"),
+                box(selectInput(inputId = "pgcnselectInput4", label = "Color by", choices = c("None")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgcnsubmit2', label = "Get Copy Number Barplot"))), br(), br(),
               plotOutput(outputId = "pgcnplot1", width = 1000, height = 800)
