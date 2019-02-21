@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 #####################################
 
-plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby)
+plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby, logby)
 {
 	
   dat <- dat[rownames(dat) %in% gene1,]
@@ -27,6 +27,11 @@ plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby)
 	}
 	if(sortby == "MYCN_Status"){
 	  dat.c$Cell_Line <- reorder(dat.c$Cell_Line, as.numeric(dat.c$MYCN_Status))
+	}
+	
+	# log data where possible
+	if(logby == TRUE){
+	  dat.c[,gene1] <- log2(dat.c[,gene1]-1)
 	}
 	
 	# plot
