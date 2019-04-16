@@ -31,6 +31,7 @@ For developers:
 
 # Cell line data formatting
 
-- the names should have TPM, FPKM or RMA
+- the data file names should have TPM, FPKM or RMA
 - rownames of metadata should match colnames of the data files
 - metadata should have a column called "CellLine". This should be same as the colnames of the data files.
+- data files should have _data.RData suffix and metadata files should have _mData.RData suffix
