@@ -358,6 +358,24 @@ shinyServer(function(input, output, session){
     })
   })
   
+  # update cell line comparison input
+  # update clctselectInput2 and then clctselectInput3 
+  observe({
+    dataset <- as.character(input$clctselectInput1)
+    dat <- get(paste0(dataset,'_expprobe'))
+    num <- colnames(dat)
+    updateSelectizeInput(session = session, inputId = "clctselectInput2", choices = num, server = TRUE)
+  })
+  
+  observe({
+    dataset <- as.character(input$clctselectInput1)
+    dat <- get(paste0(dataset,'_expprobe'))
+    num <- colnames(dat)
+    selected <- input$clctselectInput2
+    num <- setdiff(colnames(dat), selected)
+    updateSelectizeInput(session = session, inputId = "clctselectInput3", choices = num, server = TRUE)
+  })
+  
   # cell line comparison table
   output$clcttable1 <- DT::renderDataTable({
     if(input$clctsubmit1 == 0){
