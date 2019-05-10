@@ -7,19 +7,15 @@
 library(limma)
 # function to run Limma comparison
 # supply targets file and comparison
-runLimma <- function(targets, contrast, gs, pvalue, probeAnnot, dataExp)
-{ 
+runLimma <- function(targets, contrast, gs, pvalue, probeAnnot, dataExp) { 
   
   targetsDF <- targets
   targets <- targets[,1]
   
   # running limma in gene or geneset space
-  if(gs==F)
-  {
+  if(gs==F){
     myData <- dataExp
-  }
-  if(gs==T)
-  {
+  } else {
     myData <- GeneSetExprsMat
   }
   
@@ -39,8 +35,7 @@ runLimma <- function(targets, contrast, gs, pvalue, probeAnnot, dataExp)
   outputAll$ID <- rownames(outputAll)
   
   # Add gene annotation
-  if(gs==F)
-  {
+  if(gs==F){
     outputAll <- merge(outputAll, probeAnnot, by.x="ID", by.y="ID")
   }
   
