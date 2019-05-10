@@ -15,26 +15,20 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
   colnames(myDataExp.c)[1] = "Patient_Sample"
   
   # plot log values
-  if(length(grep('FPKM',datatype))==0)
-  {
-    if(log==FALSE)
-    {
+  if(length(grep('FPKM',datatype))==0){
+    if(log==FALSE){
       y.axis <- "RMA"
       myDataExp.c[,gene1] <- 2^(myDataExp.c[,gene1])
     }
-    if(log==TRUE)
-    {
+    if(log==TRUE){
       y.axis <- "log2(RMA)"
     }
   }
-  if(length(grep('FPKM',datatype))==1)
-  {
-    if(log==FALSE)
-    {
+  if(length(grep('FPKM',datatype))==1){
+    if(log==FALSE){
       y.axis <- "FPKM"
     }
-    if(log==TRUE)
-    {
+    if(log==TRUE){
       y.axis <- "log2(FPKM)"
       myDataExp.c[,gene1] <- log2(myDataExp.c[,gene1]+1)
     }
@@ -44,14 +38,12 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
   myDataExp.c <- merge(myDataExp.c, myDataAnn, by.x="Patient_Sample", by.y='row.names')
   
   # eliminate confusion between MYCN gene and status
-  if(length(grep('MYCN',colnames(myDataExp.c)))>1)
-  {
+  if(length(grep('MYCN',colnames(myDataExp.c)))>1){
     coln <- grep("MYCN.x", colnames(myDataExp.c))
     colnames(myDataExp.c)[coln] <- 'MYCN'
     coln <- grep("MYCN.y", colnames(myDataExp.c))
     colnames(myDataExp.c)[coln] <- 'MYCNS'
-    if(colorby == "MYCN")
-    {
+    if(colorby == "MYCN"){
       colorby <- "MYCNS"
     }
   }
@@ -60,26 +52,37 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
   gene1.mut <- paste('`',gene1,'`',sep='')
   
   # change colorby to factor
-  myDataExp.c[,colorby] <- as.factor(myDataExp.c[,colorby])
-  
-  if(length(levels(myDataExp.c[,colorby]))>1)
-  {
-    anovaRes <- aov(lm(myDataExp.c[,gene1]~myDataExp.c[,colorby]))
-    pval <- summary(anovaRes)[[1]][[5]][1]
-    pval <- signif(pval, 6)
-    myText <- paste("Anova P-Val=", pval, sep="")
-    p <- ggplot(myDataExp.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + 
-      geom_boxplot() + customtheme + ggtitle(paste0(gene1,'\n',myText)) + 
-      theme(legend.position = "none",
-            axis.text.x = element_text(size = 12),
-            axis.text.y = element_text(size = 12),
-            axis.title.x = element_text(size = 12),
-            axis.title.y = element_text(size = 12))
+  if(colorby != 'None'){
+    myDataExp.c[,colorby] <- as.factor(myDataExp.c[,colorby])
   }
-  if(length(levels(myDataExp.c[,colorby]))==1)
-  {
-    p <- ggplot(myDataExp.c, aes(x=colorby, y=gene1.mut, fill=colorby)) + 
-      customtheme + geom_boxplot() + 
+  
+  if(colorby != 'None'){
+    if(length(levels(myDataExp.c[,colorby]))>1){
+      anovaRes <- aov(lm(myDataExp.c[,gene1]~myDataExp.c[,colorby]))
+      pval <- summary(anovaRes)[[1]][[5]][1]
+      pval <- signif(pval, 6)
+      myText <- paste("Anova P-Val=", pval, sep="")
+      p <- ggplot(myDataExp.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + 
+        geom_boxplot() + customtheme + ggtitle(paste0(gene1,'\n',myText)) + 
+        theme(legend.position = "none",
+              axis.text.x = element_text(size = 12),
+              axis.text.y = element_text(size = 12),
+              axis.title.x = element_text(size = 12),
+              axis.title.y = element_text(size = 12))
+    }
+    if(length(levels(myDataExp.c[,colorby]))==1){
+      p <- ggplot(myDataExp.c, aes(x=colorby, y=gene1.mut, fill=colorby)) + 
+        customtheme + geom_boxplot() + 
+        theme(legend.position = "none",
+              axis.text.x = element_text(size = 12),
+              axis.text.y = element_text(size = 12),
+              axis.title.x = element_text(size = 12),
+              axis.title.y = element_text(size = 12))
+    }
+  } else {
+    tmp <- data.frame(gene = myDataExp.c[,gene1])
+    p <- ggplot(tmp, aes(x='', y=gene, fill='')) + 
+      customtheme + geom_boxplot() + ylab(gene1) + xlab('') +
       theme(legend.position = "none",
             axis.text.x = element_text(size = 12),
             axis.text.y = element_text(size = 12),
