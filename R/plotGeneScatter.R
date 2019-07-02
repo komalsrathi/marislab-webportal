@@ -14,7 +14,7 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   dat.c <- dcast(data = dat.m, formula = variable~gene, value.var = 'value')
   colnames(dat.c)[1] = "Cell_Line"
   
-  # # compute correlation
+  # compute correlation
   cor <- cor.test(dat.c[,gene1], dat.c[,gene2], method = correlation)
   if(is.na(cor$p.value)){
     cor.pval <- NA
@@ -40,8 +40,7 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   # datatype
   if(length(grep('FPKM',datatype))==1) {
     y.axis <- 'FPKM'
-    if(log == FALSE)
-    {
+    if(log == FALSE) {
       y.axis <- y.axis
     } else {
       y.axis <- paste0('Log2','(',y.axis,')')
@@ -49,8 +48,7 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
     }
   } else if(length(grep('RMA',datatype))==1) {
     y.axis <- 'RMA'
-    if(log == FALSE)
-    {
+    if(log == FALSE) {
       y.axis <- y.axis
       dat.c[,c(gene1,gene2)] <- 2^(dat.c[,c(gene1,gene2)])
     } else {
@@ -58,8 +56,7 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
     }
   } else if(length(grep('TPM', datatype))==1) {
     y.axis <- 'TPM'
-    if(log == FALSE)
-    {
+    if(log == FALSE) {
       y.axis <- y.axis
     } else {
       y.axis <- paste0('Log2','(',y.axis,')')
@@ -74,11 +71,11 @@ plotGeneScatter <- function(datatype, dat, gene1, gene2, log, customtheme, corre
   if(colorby != "None"){
     correlations <- plyr::ddply(.data = dat.c, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = gene1, gene2 = gene2, correlation = correlation))
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, color = colorby, label = 'Cell_Line')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
+      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + customtheme + ggtitle(cor.title)
   } else {
     correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
     p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Cell_Line')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
+      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + customtheme + ggtitle(cor.title)
   }
 
   p <- plotly_build(p)
