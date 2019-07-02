@@ -180,7 +180,7 @@ dashboardPage(
                 box(selectInput(inputId = "clgeselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgesubmit2', label = "Get Expression Plot"))), br(), br(),
-              plotlyOutput(outputId = "clgeplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "clgeplot1", width = 1000, height = 600)
       ),
       
       # clggc content
@@ -202,8 +202,8 @@ dashboardPage(
                 box(selectInput(inputId = "clggcselectInput5", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clggcsubmit2', label = "Get Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "clggcplot1", width = 1000, height = 800),
-              DT::dataTableOutput(outputId = "clggctable1")
+              plotlyOutput(outputId = "clggcplot1", width = 800, height = 600),
+              DT::dataTableOutput(outputId = "clggctable1", width = 800)
       ),
       
       # clm content
@@ -222,18 +222,15 @@ dashboardPage(
       # clgcn content
       tabItem(tabName = "clgcn",
               fluidRow(
-                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('Microarray HumanGene1.0 ST (n=28, RMA)'='Microarray_RMA_HumanGene1.0ST_28cells_genes',
-                                                                                                     'Microarray U133Plus2 Broad CCLE (n=17, RMA)'='Microarray_RMA_U133Plus2_17cells_CCLE_genes',
-                                                                                                     'CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes')),
+                box(selectInput(inputId = "clgcnselectInput1", label = "Choose dataset", choices = c('CL RNAseq (STAR) (n=40, FPKM)'='STAR_FPKM_40cells_genes')),
                     actionButton(inputId = "clgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "clgcnselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
-                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')),
-                                checkboxInput(inputId = "clgncheckboxInput1", label = "Log Data"), width = 2, background = 'navy'),
+                box(selectInput(inputId = "clgcnselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')), width = 2, background = 'navy'),
                 box(selectInput(inputId = "clgcnselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'clgcnsubmit2', label = "Get Copy Number Barplot"))), 
               br(), br(),
-              plotlyOutput(outputId = 'clgcnplot1', width = 1000, height = 800)
+              plotlyOutput(outputId = 'clgcnplot1', width = 1000, height = 600)
       ),
       
       tabItem(tabName = "clcg",
@@ -267,7 +264,8 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'clcvmsubmit2', label = "Get CN vs mRNA Plot"))), 
               br(), br(),
-              plotlyOutput(outputId = 'clcvmplot1', width = 1000, height = 800)
+              plotlyOutput(outputId = 'clcvmplot1', width = 800, height = 600),
+              DT::dataTableOutput(outputId = "clcvmtable1", width = 800)
       ),
       
       # clh content
@@ -387,7 +385,7 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcbarsubmit2', label = "Get Expression Barplot"))), 
               br(), br(),
-              plotlyOutput(outputId = "pptcbarplot1", width = 1000, height = 600)
+              plotlyOutput(outputId = "pptcbarplot1", width = 1200, height = 800)
       ),
       tabItem(tabName = "pptcdot",
               fluidRow(
@@ -404,7 +402,7 @@ dashboardPage(
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcdotsubmit2', label = "Get Correlation Plot"))), 
               br(), br(),
-              plotlyOutput(outputId = "pptcdotplot1", width = 1000, height = 600),
+              plotlyOutput(outputId = "pptcdotplot1", width = 1200, height = 800),
               DT::dataTableOutput(outputId = "pptcdottable1")
       ),
       tabItem(tabName = "pptcbox",
@@ -419,7 +417,7 @@ dashboardPage(
                     actionLink("selectall2","Select/Unselect All"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcboxsubmit2', label = "Get Boxplot"))), br(), br(),
-              plotlyOutput(outputId = "pptcboxplot1", width = 1000, height = 800),
+              plotlyOutput(outputId = "pptcboxplot1", width = 1200, height = 800),
               DT::dataTableOutput(outputId = "pptcboxtable1")
       ),
       # tabItem(tabName = "pptcmut",
