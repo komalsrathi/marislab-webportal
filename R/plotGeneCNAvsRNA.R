@@ -12,50 +12,53 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatyp
   tmpDataGC <- data.frame(t(rbind(mrna[gene1,intCL], cna[gene1,intCL])))
   colnames(tmpDataGC) <- c("mRNA", "CNA")
   
-  #For title correlation and p-value
-  tmpcor <- cor.test(tmpDataGC[,"mRNA"], tmpDataGC[,"CNA"], method = correlation)
-  if(tmpcor$p.value==0){
-    tmpcorp <- '< 2.2e-16'
+  # compute correlation
+  cor <- cor.test(tmpDataGC[,"mRNA"], tmpDataGC[,"CNA"], method = correlation)
+  if(is.na(cor$p.value)){
+    cor.pval <- NA
+  } else if(cor$p.value==0){
+    cor.pval <- '< 2.2e-16'
+  } else if(cor$p.value>0){
+    cor.pval <- format(cor$p.value, scientific = T, digits = 3)
+  } 
+  
+  if(is.na(cor$estimate)){
+    cor.est <- NA
+  } else if(cor$estimate==1){
+    cor.est <- 1
+  } else if(cor$estimate!=1){
+    cor.est <- format(cor$estimate, scientific = T, digits = 3)
   }
-  if(tmpcor$p.value>0){
-    tmpcorp <- format(tmpcor$p.value, scientific = T)
-  }
-  if(tmpcor$estimate==1){
-    tmpcore <- 1
-  }
-  if(tmpcor$estimate!=1){
-    tmpcore <- format(tmpcor$estimate, scientific = T)
-  }
-  myText <- paste("Cor=", tmpcore, " | P-Val=", tmpcorp, sep="")
+  cor.title <- paste("Cor = ", cor.est, " | P-Val = ", cor.pval, sep="")
   
   tmpDataGC[,"Cell_Line"] <- rownames(tmpDataGC)
   
   # datatype
-  if(length(grep('FPKM',datatype))==1)
-  {
+  if(length(grep('FPKM',datatype))==1) {
     y.axis <- 'FPKM'
-  }
-  if(length(grep('RMA',datatype))==1)
-  {
+  } else if(length(grep('RMA',datatype))==1) {
     y.axis <- 'RMA'
   }
   
   # merge
   tmpDataGC <- merge(tmpDataGC, phenotype, by.x = 'Cell_Line', by.y = 'CellLine', all.x = TRUE)
   
-  if(colorby == "None"){
-    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', label = 'Cell_Line')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = myText)
-  }
   if(colorby != "None"){
+    correlations <- plyr::ddply(.data = tmpDataGC, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = 'mRNA', gene2 = 'CNA', correlation = correlation))
     p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', color = colorby, label = 'Cell_Line')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = myText)
-  }
+      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + customtheme + ggtitle(cor.title)
+  } else if(colorby == "None"){
+    correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
+    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', label = 'Cell_Line')) + 
+      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + customtheme + ggtitle(cor.title)
+  } 
   
   p <- plotly_build(p)
   p$x$layout$xaxis$title <- paste0("mRNA"," (",y.axis,")")
   p$x$layout$yaxis$title <- paste0("CNA"," (Copy Number)")
   
-  return(p)
+  newList <- list(p, correlations)
+  return(newList)
+  # return(p)
   
 }
