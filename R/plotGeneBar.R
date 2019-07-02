@@ -18,46 +18,27 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
   gene1.mut <- paste('`',gene1,'`',sep='')
   
   # datatype
-  if(length(grep('RMA',datatype))==1)
-  {
+  if(length(grep('RMA',datatype))==1) {
     y.axis <- 'RMA'
-    if(log == FALSE)
-    {
+    if(log == FALSE) {
       y.axis <- y.axis
       dat.c[,gene1] <- 2^(dat.c[,gene1])
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
     }
-  }
-  
-  if(length(grep('FPKM',datatype))==1)
-  {
+  } else if(length(grep('FPKM',datatype)) == 1) {
     y.axis <- 'FPKM'
-    if(log == FALSE)
-    {
+    if(log == FALSE) {
       y.axis <- y.axis
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
       dat.c[,gene1] <- log2(dat.c[,gene1]+1)
     }
-  }
-  
-  if(length(grep('TPM', datatype))==1)
-  {
+  } else if(length(grep('TPM', datatype)) == 1) {
     y.axis <- 'TPM'
-    if(log == FALSE)
-    {
+    if(log == FALSE) {
       y.axis <- y.axis
-    }
-    
-    if(log == TRUE)
-    {
+    } else {
       y.axis <- paste0('Log2','(',y.axis,')')
       dat.c[,gene1] <- log2(dat.c[,gene1]+1)
     }
@@ -67,25 +48,22 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
   dat.c <- merge(dat.c, phenotype, by.x = 'Cell_Line', by.y = 'CellLine', all.x = TRUE)
   
   # sorting of bars
-  if(sortby == "CellLine"){
+  if(sortby == "CellLine") {
     dat.c$Cell_Line <- factor(x = dat.c$Cell_Line, levels = sort(as.character(dat.c$Cell_Line)))
-  }
-  if(sortby == "Gene"){
+  } else if(sortby == "Gene") {
     dat.c$Cell_Line <- reorder(dat.c$Cell_Line, dat.c[,gene1])
-  }
-  if(sortby == "MYCN_Status"){
-    dat.c$Cell_Line <- reorder(dat.c$Cell_Line, as.numeric(dat.c$MYCN_Status))
+  } else if(sortby == "MYCN_Status") {
+    dat.c$Cell_Line <- reorder(dat.c$Cell_Line, as.numeric(as.factor(dat.c$MYCN_Status)))
   }
   
-  # ggplot 
+  # plot 
   if(colorby != "None"){
-    p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill = colorby)) + guides(fill=FALSE) + 
-      geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+    p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut, fill = colorby)) + guides(fill = FALSE) + 
+      geom_bar(stat = "identity", color = 'black', size = 0.2) + customtheme + xlab('') +
       ggtitle(gene1)
-  }
-  if(colorby == "None"){
-    p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut)) + guides(fill=FALSE) + 
-      geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+  } else if(colorby == "None"){
+    p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut)) + 
+      geom_bar(stat = "identity", color = 'black', fill = 'gray', size = 0.2) + customtheme + xlab('') +
       ggtitle(gene1)
   }
   
