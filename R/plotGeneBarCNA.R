@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 #####################################
 
-plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby, logby)
+plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby)
 {
 	
   dat <- dat[rownames(dat) %in% gene1,]
@@ -21,28 +21,20 @@ plotGeneBarCNA <- function(gene1, dat, customtheme, sortby, phenotype, colorby, 
 	# sorting of bars
 	if(sortby == "CellLine"){
 	  dat.c$Cell_Line <- factor(x = dat.c$Cell_Line, levels = sort(as.character(dat.c$Cell_Line)))
-	}
-	if(sortby == "Gene"){
+	} else if(sortby == "Gene"){
 	  dat.c$Cell_Line <- reorder(dat.c$Cell_Line,dat.c[,gene1])
-	}
-	if(sortby == "MYCN_Status"){
+	} else if(sortby == "MYCN_Status"){
 	  dat.c$Cell_Line <- reorder(dat.c$Cell_Line, as.numeric(dat.c$MYCN_Status))
-	}
-	
-	# log data where possible
-	if(logby == TRUE){
-	  dat.c[,gene1] <- log2(dat.c[,gene1]-1)
 	}
 	
 	# plot
 	if(colorby != "None"){
-	  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut, fill = colorby)) + 
-	    geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+	  p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut, fill = colorby)) + guides(fill = FALSE) + 
+	    geom_bar(stat = "identity", color = 'black', size = 0.2) + customtheme + xlab('') +
 	    ggtitle(gene1)
-	}
-	if(colorby == "None"){
-	  p <- ggplot(dat.c, aes_string(x='Cell_Line', y=gene1.mut)) + 
-	    geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+	} else if(colorby == "None"){
+	  p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut)) + 
+	    geom_bar(stat = "identity", color = 'black', fill = 'gray', size = 0.2) + customtheme + xlab('') +
 	    ggtitle(gene1)
 	}
 
