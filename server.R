@@ -36,7 +36,8 @@ source('R/plotGeneBoxPPTC.R')
 
 shinyServer(function(input, output, session){
   
-  tbw <- themebw()
+  # tbw <- themebw()
+  tbw <- theme_Publication()
 
   # data description
   output$datadesctable1 <- DT::renderDataTable({
@@ -182,7 +183,8 @@ shinyServer(function(input, output, session){
         correlation <- input$clggcselectInput4
         colorby <- input$clggcselectInput5
         dotcl <<- plotGeneScatter(datatype = datatype, dat = dat, gene1 = gene1, gene2 = gene2, 
-                                  customtheme = tbw, log = logvalue, corr = correlation, colorby = colorby, phenotype = phenotype)
+                                  customtheme = theme_Publication_scatter(), 
+                                  log = logvalue, corr = correlation, colorby = colorby, phenotype = phenotype)
         dotcl[[1]]
       })
     })
@@ -250,8 +252,7 @@ shinyServer(function(input, output, session){
         sortby <- input$clgcnselectInput3
         phenotype <- cellline_mData
         colorby <- input$clgcnselectInput4
-        logby <- input$clgncheckboxInput1
-        plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = tbw, sortby = sortby, phenotype = phenotype, colorby = colorby, logby = logby)
+        plotGeneBarCNA(dat = dat, gene1 = gene1, customtheme = theme_Publication_cna(), sortby = sortby, phenotype = phenotype, colorby = colorby)
       })
     })
   })
@@ -282,14 +283,25 @@ shinyServer(function(input, output, session){
         correlation <- as.character(input$clcvmselectInput3)
         phenotype <- cellline_mData
         colorby <- input$clcvmselectInput4
-        plotGeneCNAvsRNA(mrna = mrna, 
+        dotclcvm <<- plotGeneCNAvsRNA(mrna = mrna, 
                          cna = cna, 
-                         gene1 = gene1, customtheme = tbw, 
+                         gene1 = gene1, customtheme = theme_Publication_scatter(), 
                          correlation = correlation,
                          datatype = datatype,
                          phenotype = phenotype,
                          colorby = colorby)
+        dotclcvm[[1]]
       })
+    })
+  })
+  
+  output$clcvmtable1 <- renderDataTable({
+    if(input$clcvmsubmit2 == 0){
+      return()
+    }
+    isolate({
+      cor.table <- dotclcvm[[2]]
+      viewDataTable(dat = cor.table)
     })
   })
   
