@@ -5,7 +5,7 @@
 #####################################
 
 # plotGeneScatter begins
-plotCelllinesPdxComparisons <- function(dat, gene1, log, customtheme, correlation, colorby){
+plotCelllinesPdxComparisons <- function(dat, gene1, log, theme_scatter, theme_bar, correlation, colorby){
   
   # load initial dataset
   dat <- dat[dat$gene_symbol %in% gene1,]
@@ -50,32 +50,31 @@ plotCelllinesPdxComparisons <- function(dat, gene1, log, customtheme, correlatio
   } else {
     dat.m$colorby <- dat.m[,colorby]
   }
-  dat.m <- dat.m[with(dat.m, order(dplyr::desc(colorby), FPKM, Label)),]
-  dat.m$Label <- as.character(dat.m$Label)
-  dat.m$Label <- factor(dat.m$Label, levels = unique(as.character(dat.m$Label)))
-  dat.m$labels <- paste0('\nMYCN: ',dat.m$MYCN_Status, '\nALK: ',dat.m$ALK_Status, '\nTP53: ',dat.m$TP53_Status)
+  dat.m <- dat.m[with(dat.m, order(dplyr::desc(colorby), FPKM, Model)),]
+  dat.m$Model <- as.character(dat.m$Model)
+  dat.m$Model <- factor(dat.m$Model, levels = unique(as.character(dat.m$Model)))
+  dat.m$Label <- paste0(dat.m$group ,'\nMYCN: ',dat.m$MYCN_Status, '\nALK: ',dat.m$ALK_Status, '\nTP53: ',dat.m$TP53_Status)
   
   # plot
   if(colorby != "None"){
-    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', color = colorby, label = 'Label')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
+    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', color = colorby, label = 'Model')) + 
+      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + theme_scatter + ggtitle(cor.title)
     
-    q <- ggplot(data = dat.m, aes_string(x = 'Label', y = 'FPKM', fill = 'group', label = 'labels')) + 
-      geom_bar(stat = 'identity', position = 'dodge')  + xlab(label = '') + themebw() + 
-      theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) +
-      guides(color = FALSE) + ggtitle(paste0('Gene = ',gene1))
+    q <- ggplot(data = dat.m, aes_string(x = 'Model', y = 'FPKM', label = 'Label', fill = 'colorby', color = 'group')) + 
+      geom_bar(stat = 'identity', position = 'dodge', size = 0.2) + xlab('') + theme_bar +
+      guides(color = FALSE, label = FALSE, fill = FALSE) + ggtitle(paste0('Gene = ',gene1)) + 
+      scale_color_manual(values = c("black","black"))
   } else {
-    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', label = 'Label')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
+    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', label = 'Model')) + 
+      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + theme_scatter + ggtitle(cor.title)
     
-    q <- ggplot(data = dat.m, aes_string(x = 'Label', y = 'FPKM', fill = 'group', label = 'labels')) + 
-      geom_bar(stat = 'identity', position = 'dodge')  + xlab(label = '') + themebw() + 
-      theme(axis.text.x  = element_text(angle=45), plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+    q <- ggplot(data = dat.m, aes_string(x = 'Model', y = 'FPKM', fill = 'group', label = 'Label')) + 
+      geom_bar(stat = 'identity', position = 'dodge', color = 'black', size = 0.2)  + xlab('') + theme_bar + 
       guides(color = FALSE) + ggtitle(paste0('Gene = ',gene1))
   }
   
   p <- plotly_build(p)
-  q <- plotly_build(q)
+  q <- plotly_build(q) %>% layout(showlegend = FALSE)
   
   newList <- list(p,q)
   return(newList)
