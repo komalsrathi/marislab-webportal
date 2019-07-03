@@ -613,7 +613,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pgcvm",
               fluidRow(
-                box(selectInput(inputId = "pgcvmselectInput1", label = "Select dataset", choices = c('IH251')),
+                box(selectInput(inputId = "pgcvmselectInput1", label = "Select dataset", choices = c('IH250')),
                     actionButton(inputId = "pgcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgcvmselectInput2", label = "Select Gene", choices = c("none")), width = 2, background = "navy"),
                 box(selectInput(inputId = "pgcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy")
