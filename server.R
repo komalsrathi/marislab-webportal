@@ -816,13 +816,11 @@ shinyServer(function(input, output, session){
       updateSelectizeInput(session = session, inputId = "pgcnselectInput2", choices = num, server = TRUE)
       myData.pheno <- get(paste0(dataset,'_mData'))
       cols <- c('None',intersect(colnames(myData.pheno),c('MYCN_Status','RISK','STAGE')))
-      if(length(cols)==0)
-      {
+      if(length(cols)==0) {
         cols <- 'None'
       }
       updateSelectizeInput(session = session, inputId = "pgcnselectInput4", choices = cols, selected = 'None', server = TRUE)
-      cols <- c(cols, gene)
-      updateSelectizeInput(session = session, inputId = "pgcnselectInput3", choices = cols, selected = gene, server = TRUE)
+      updateSelectizeInput(session = session, inputId = "pgcnselectInput3", choices = cols, selected = 'None', server = TRUE)
     })
   })
   
