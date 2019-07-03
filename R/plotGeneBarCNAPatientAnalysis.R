@@ -17,7 +17,10 @@ plotGeneBarCNAPatientAnalysis <- function(gene1, myData, sortby, logby, customth
   # add phenotype data - MYCN status
   myData.c <- merge(myData.c, phenotype, by.x = 'variable', by.y = 'TARGET.USI', all.x = TRUE)
   
-  if(sortby != "None") {
+  if(sortby == "None") {
+    myData.c <- myData.c[order(myData.c[,gene1]),]
+    myData.c$variable <- factor(myData.c$variable, levels=myData.c$variable)
+  } else {
     myData.c <- myData.c[order(myData.c[,sortby]),]
     myData.c$variable <- factor(myData.c$variable, levels=myData.c$variable)
   }
