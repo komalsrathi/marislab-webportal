@@ -1117,7 +1117,7 @@ shinyServer(function(input, output, session){
         logvalue <- input$pdxclplotscheckboxInput1
         correlation <- input$pdxclplotsselectInput3
         colorby <- as.character(input$pdxclplotsselectInput4)
-        pdxcompare <<- plotCelllinesPdxComparisons(dat = dat, gene1 = gene1, log = logvalue, customtheme = tbw, correlation = correlation, colorby = colorby)
+        pdxcompare <<- plotCelllinesPdxComparisons(dat = dat, gene1 = gene1, log = logvalue, theme_scatter = theme_Publication_scatter(), theme_bar = theme_Publication(), correlation = correlation, colorby = colorby)
         pdxcompare[[1]]
       })
     })
