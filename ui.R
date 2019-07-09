@@ -59,8 +59,8 @@ dashboardPage(
       menuItem("PPTC PDX Models", tabName = "pptc", icon = icon("gears"),
                menuSubItem("Expression Barplot", icon = icon("bar-chart"), tabName = "pptcbar"),
                menuSubItem("Expression Scatterplot", icon = icon("bar-chart"), tabName = "pptcdot"),
-               menuSubItem("Expression Boxplot", icon = icon("bar-chart"), tabName = "pptcbox")
-               # menuSubItem("Mutation Table", icon = icon("database"), tabName = "pptcmut")
+               menuSubItem("Expression Boxplot", icon = icon("bar-chart"), tabName = "pptcbox"),
+               menuSubItem("Mutation Table", icon = icon("database"), tabName = "pptcmut")
                ),
       menuItem("Patient Sample Database", icon = icon("database"), tabName = "psdb"),
       menuItem("Patient Sample Visualization Tools", tabName = "patientsamples", icon = icon("gears"),
@@ -420,16 +420,16 @@ dashboardPage(
               plotlyOutput(outputId = "pptcboxplot1", width = 1200, height = 800),
               DT::dataTableOutput(outputId = "pptcboxtable1")
       ),
-      # tabItem(tabName = "pptcmut",
-      #         fluidRow(
-      #           box(selectInput(inputId = "pptcmutselectInput1", label = "Select dataset", choices = c("PPTC Exome Calls (Wheeler Lab)"="PPTC_ExomeCalls")),
-      #               actionButton(inputId = "pptcmutsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-      #           box(selectInput(inputId = "pptcmutselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
-      #         ),
-      #         fluidRow(column(5, actionButton(inputId = 'pptcmutsubmit2', label = "Get Mutation Table"))),
-      #         br(), br(),
-      #         DT::dataTableOutput(outputId = 'pptcmuttable1')
-      # ),
+      tabItem(tabName = "pptcmut",
+              fluidRow(
+                box(selectInput(inputId = "pptcmutselectInput1", label = "Select dataset", choices = c("PPTC Exome Calls"="ExomeCallsPPTC")),
+                    actionButton(inputId = "pptcmutsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+                box(selectInput(inputId = "pptcmutselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+              ),
+              fluidRow(column(5, actionButton(inputId = 'pptcmutsubmit2', label = "Get Mutation Table"))),
+              br(), br(),
+              DT::dataTableOutput(outputId = 'pptcmuttable1')
+      ),
       #### PPTC ####
       
       ##### Patient Samples Utilities #####
@@ -564,7 +564,7 @@ dashboardPage(
                     selectInput(inputId = "pggcselectInput4", label = "Select gene 2", choices = c("none")), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pggccheckboxInput1", label = "Log Data"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pggcselectInput5", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
-                box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("None","STAGE", "MYCN", "RISK")), width = 2, background = "navy")
+                box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("None")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pggcsubmit2', label = "Get Gene Correlation Plot"))), br(), br(),
               plotlyOutput(outputId = "pggcplot1", width = 1000, height = 800),
@@ -601,7 +601,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pgcn",
               fluidRow(
-                box(selectInput(inputId = "pgcnselectInput1", label = "Select dataset", choices = c('IH250')),
+                box(selectInput(inputId = "pgcnselectInput1", label = "Select dataset", choices = c('IH250', 'TARGET_NBL')),
                     actionButton(inputId = "pgcnsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgcnselectInput2", label = "Select gene", choices = c("none")), width = 2, background = "navy"),
                 box(selectInput(inputId = "pgcnselectInput3", label = "Sort by", choices = c("None")), 
@@ -613,7 +613,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pgcvm",
               fluidRow(
-                box(selectInput(inputId = "pgcvmselectInput1", label = "Select dataset", choices = c('IH250')),
+                box(selectInput(inputId = "pgcvmselectInput1", label = "Select dataset", choices = c('IH250', 'TARGET_NBL')),
                     actionButton(inputId = "pgcvmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pgcvmselectInput2", label = "Select Gene", choices = c("none")), width = 2, background = "navy"),
                 box(selectInput(inputId = "pgcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy")
