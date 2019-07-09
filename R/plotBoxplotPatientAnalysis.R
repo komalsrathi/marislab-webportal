@@ -60,7 +60,7 @@ plotBoxplotPatientAnalysis <- function(datatype, gene1, colorby, myDataExp, myDa
     if(length(levels(myDataExp.c[,colorby]))>1){
       anovaRes <- aov(lm(myDataExp.c[,gene1]~myDataExp.c[,colorby]))
       pval <- summary(anovaRes)[[1]][[5]][1]
-      pval <- signif(pval, 6)
+      pval <- format(pval, scientific = T, digits = 3)
       myText <- paste("Anova P-Val=", pval, sep="")
       p <- ggplot(myDataExp.c, aes_string(x=colorby, y=gene1.mut, fill=colorby)) + 
         geom_boxplot() + customtheme + ggtitle(paste0(gene1,'\n',myText)) + 
