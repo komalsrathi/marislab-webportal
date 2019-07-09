@@ -19,13 +19,13 @@ plotGeneCNAvsRNAPatientAnalysis <- function(gene1, myData, mycData, customtheme,
     tmpcorp <- '< 2.2e-16'
   }
   if(tmpcor$p.value>0){
-    tmpcorp <- format(tmpcor$p.value, scientific = T)
+    tmpcorp <- format(tmpcor$p.value, scientific = T, digits = 3)
   }
   if(tmpcor$estimate==1){
     tmpcore <- 1
   }
   if(tmpcor$estimate!=1){
-    tmpcore <- format(tmpcor$estimate, scientific = T)
+    tmpcore <- format(tmpcor$estimate, scientific = T, digits = 3)
   }
   myText <- paste("Cor=", tmpcore, " | P-Val=", tmpcorp, sep="")
 
