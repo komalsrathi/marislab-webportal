@@ -414,126 +414,126 @@ shinyServer(function(input, output, session){
     })
   })
   
-  # pdx data
-  output$pdxdatatable1 <- DT::renderDataTable({
-    if(input$pdxdatasubmit1 == 0){
-      return()
-    }
-    withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
-      isolate({
-        dataset <- as.character(input$pdxdataselectInput1)
-        dat <- get(paste0(dataset,'_data'))
-        viewDataTable(dat = dat)
-      })
-    })
-  })
-  
-  # output expression plot for selected gene
-  observe({
-    if(input$pdxbarsubmit1 == 0){
-      return()
-    }
-    dataset <- as.character(input$pdxbarselectInput1)
-    dat <- get(paste0(dataset,'_data'))
-    num <- rownames(dat)
-    updateSelectizeInput(session = session, inputId = "pdxbarselectInput2", choices = num, server = TRUE)
-  })
-  
-  # pdx bar plot
-  output$pdxbarplot1 <- renderPlotly({
-    if(input$pdxbarsubmit2 == 0){
-      return()
-    }
-    withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
-      isolate({
-        datatype <- as.character(input$pdxbarselectInput1)
-        dat <- get(paste0(datatype,'_data'))
-        phenotype <- get(paste0(datatype,'_mData'))
-        gene1 <- as.character(input$pdxbarselectInput2)
-        logvalue <- input$pdxbarcheckboxInput1
-        sortby <- input$pdxbarselectInput3
-        colorby <- input$pdxbarselectInput4
-        plotGeneBarPDX(datatype = datatype, 
-                       phenotype = phenotype,
-                       dat = dat, 
-                       gene1 = gene1, customtheme = tbw, 
-                       log = logvalue, sortby, colorby)
-      })
-    })
-  })
-  
-  # output correlation plot for selected genes
-  observe({
-    if(input$pdxdotsubmit1 == 0){
-      return()
-    }
-    dataset <- as.character(input$pdxbarselectInput1)
-    dat <- get(paste0(dataset,'_data'))
-    num <- rownames(dat)
-    updateSelectizeInput(session = session, inputId = "pdxdotselectInput2", choices = num, server = TRUE)
-    updateSelectizeInput(session = session, inputId = "pdxdotselectInput3", choices = num, server = TRUE)
-  })
-  
-  output$pdxdotplot1 <- renderPlotly({
-    if(input$pdxdotsubmit2 == 0){
-      return()
-    }
-    withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
-      isolate({
-        datatype <- as.character(input$pdxbarselectInput1)
-        dat <- get(paste0(datatype,'_data'))
-        phenotype <- get(paste0(datatype,'_mData'))
-        gene1 <- as.character(input$pdxdotselectInput2)
-        gene2 <- as.character(input$pdxdotselectInput3)
-        logvalue <- input$pdxdotcheckboxInput1
-        correlation <- input$pdxdotselectInput4
-        colorby <- input$pdxdotselectInput5
-        dotpdx <<- plotGeneScatterPDX(datatype = datatype, dat = dat, 
-                                      phenotype = phenotype,
-                                      gene1 = gene1, gene2 = gene2, 
-                                      customtheme = tbw, 
-                                      log = logvalue, corr = correlation,
-                                      colorby = colorby)
-        dotpdx[[1]]
-      })
-    })
-  })
-  
-  output$pdxdottable1 <- renderDataTable({
-    if(input$pdxdotsubmit2 == 0){
-      return()
-    }
-    isolate({
-      cor.table <- dotpdx[[2]]
-      viewDataTable(dat = cor.table)
-    })
-  })
-  
-  observe({
-    if(input$pdxmsubmit1 == 0){
-      return()
-    }
-    isolate({
-      dat <- as.character(input$pdxmselectInput1)
-      dat <- get(dat)
-      num <- unique(as.character(dat$Gene))
-      updateSelectizeInput(session = session, inputId = "pdxmselectInput2", choices = num, server = TRUE)
-    })
-  })
-  
-  output$pdxmtable1 <- DT::renderDataTable({
-    if(input$pdxmsubmit2 == 0){
-      return()
-    }
-    withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
-      isolate({
-        dataset <- as.character(input$pdxmselectInput1)
-        dataset <- get(dataset)
-        gene <- as.character(input$pdxmselectInput2)
-        viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
-      })
-    })
-  })
+  # # pdx data
+  # output$pdxdatatable1 <- DT::renderDataTable({
+  #   if(input$pdxdatasubmit1 == 0){
+  #     return()
+  #   }
+  #   withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+  #     isolate({
+  #       dataset <- as.character(input$pdxdataselectInput1)
+  #       dat <- get(paste0(dataset,'_data'))
+  #       viewDataTable(dat = dat)
+  #     })
+  #   })
+  # })
+  # 
+  # # output expression plot for selected gene
+  # observe({
+  #   if(input$pdxbarsubmit1 == 0){
+  #     return()
+  #   }
+  #   dataset <- as.character(input$pdxbarselectInput1)
+  #   dat <- get(paste0(dataset,'_data'))
+  #   num <- rownames(dat)
+  #   updateSelectizeInput(session = session, inputId = "pdxbarselectInput2", choices = num, server = TRUE)
+  # })
+  # 
+  # # pdx bar plot
+  # output$pdxbarplot1 <- renderPlotly({
+  #   if(input$pdxbarsubmit2 == 0){
+  #     return()
+  #   }
+  #   withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+  #     isolate({
+  #       datatype <- as.character(input$pdxbarselectInput1)
+  #       dat <- get(paste0(datatype,'_data'))
+  #       phenotype <- get(paste0(datatype,'_mData'))
+  #       gene1 <- as.character(input$pdxbarselectInput2)
+  #       logvalue <- input$pdxbarcheckboxInput1
+  #       sortby <- input$pdxbarselectInput3
+  #       colorby <- input$pdxbarselectInput4
+  #       plotGeneBarPDX(datatype = datatype, 
+  #                      phenotype = phenotype,
+  #                      dat = dat, 
+  #                      gene1 = gene1, customtheme = tbw, 
+  #                      log = logvalue, sortby, colorby)
+  #     })
+  #   })
+  # })
+  # 
+  # # output correlation plot for selected genes
+  # observe({
+  #   if(input$pdxdotsubmit1 == 0){
+  #     return()
+  #   }
+  #   dataset <- as.character(input$pdxbarselectInput1)
+  #   dat <- get(paste0(dataset,'_data'))
+  #   num <- rownames(dat)
+  #   updateSelectizeInput(session = session, inputId = "pdxdotselectInput2", choices = num, server = TRUE)
+  #   updateSelectizeInput(session = session, inputId = "pdxdotselectInput3", choices = num, server = TRUE)
+  # })
+  # 
+  # output$pdxdotplot1 <- renderPlotly({
+  #   if(input$pdxdotsubmit2 == 0){
+  #     return()
+  #   }
+  #   withProgress(session = session, message = "Plotting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+  #     isolate({
+  #       datatype <- as.character(input$pdxbarselectInput1)
+  #       dat <- get(paste0(datatype,'_data'))
+  #       phenotype <- get(paste0(datatype,'_mData'))
+  #       gene1 <- as.character(input$pdxdotselectInput2)
+  #       gene2 <- as.character(input$pdxdotselectInput3)
+  #       logvalue <- input$pdxdotcheckboxInput1
+  #       correlation <- input$pdxdotselectInput4
+  #       colorby <- input$pdxdotselectInput5
+  #       dotpdx <<- plotGeneScatterPDX(datatype = datatype, dat = dat, 
+  #                                     phenotype = phenotype,
+  #                                     gene1 = gene1, gene2 = gene2, 
+  #                                     customtheme = tbw, 
+  #                                     log = logvalue, corr = correlation,
+  #                                     colorby = colorby)
+  #       dotpdx[[1]]
+  #     })
+  #   })
+  # })
+  # 
+  # output$pdxdottable1 <- renderDataTable({
+  #   if(input$pdxdotsubmit2 == 0){
+  #     return()
+  #   }
+  #   isolate({
+  #     cor.table <- dotpdx[[2]]
+  #     viewDataTable(dat = cor.table)
+  #   })
+  # })
+  # 
+  # observe({
+  #   if(input$pdxmsubmit1 == 0){
+  #     return()
+  #   }
+  #   isolate({
+  #     dat <- as.character(input$pdxmselectInput1)
+  #     dat <- get(dat)
+  #     num <- unique(as.character(dat$Gene))
+  #     updateSelectizeInput(session = session, inputId = "pdxmselectInput2", choices = num, server = TRUE)
+  #   })
+  # })
+  # 
+  # output$pdxmtable1 <- DT::renderDataTable({
+  #   if(input$pdxmsubmit2 == 0){
+  #     return()
+  #   }
+  #   withProgress(session = session, message = "Getting data...", detail = "Takes a while...", min = 1, value = 10, max = 10,{
+  #     isolate({
+  #       dataset <- as.character(input$pdxmselectInput1)
+  #       dataset <- get(dataset)
+  #       gene <- as.character(input$pdxmselectInput2)
+  #       viewDataTable.fixedcols(dat = cellMutationTable(gene, dataset))
+  #     })
+  #   })
+  # })
   
   # patient sample database
   output$psdbtable1 <- DT::renderDataTable({
