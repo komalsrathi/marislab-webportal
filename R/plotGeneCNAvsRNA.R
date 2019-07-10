@@ -45,12 +45,14 @@ plotGeneCNAvsRNA <- function(mrna, cna, gene1, customtheme, correlation, datatyp
   
   if(colorby != "None"){
     correlations <- plyr::ddply(.data = tmpDataGC, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = 'mRNA', gene2 = 'CNA', correlation = correlation))
-    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', color = colorby, label = 'Cell_Line')) + 
-      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + customtheme + ggtitle(cor.title)
+    p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', fill = colorby, label = 'Cell_Line')) + 
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2) + customtheme + ggtitle(cor.title)
+    # p <- p + geom_smooth(method = lm, se = FALSE, linetype = 'dashed', size = 0.5)
   } else if(colorby == "None"){
     correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
     p <- ggplot(data = tmpDataGC, aes_string(x = 'mRNA', y = 'CNA', label = 'Cell_Line')) + 
-      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + customtheme + ggtitle(cor.title)
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2, fill = "gray") + customtheme + ggtitle(cor.title) 
+    # p <- p + geom_smooth(method = lm, se = FALSE, linetype = 'dashed', size = 0.5)
   } 
   
   p <- plotly_build(p)
