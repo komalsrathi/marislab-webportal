@@ -57,8 +57,9 @@ plotCelllinesPdxComparisons <- function(dat, gene1, log, theme_scatter, theme_ba
   
   # plot
   if(colorby != "None"){
-    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', color = colorby, label = 'Model')) + 
-      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + theme_scatter + ggtitle(cor.title)
+    p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', fill = colorby, label = 'Model')) + 
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2) + theme_scatter + ggtitle(cor.title)
+    # p <- p + geom_smooth(method = lm, se = FALSE, linetype = 'dashed')
     
     q <- ggplot(data = dat.m, aes_string(x = 'Model', y = 'FPKM', label = 'Label', fill = 'colorby', color = 'group')) + 
       geom_bar(stat = 'identity', position = 'dodge', size = 0.2) + xlab('') + theme_bar +
@@ -66,7 +67,8 @@ plotCelllinesPdxComparisons <- function(dat, gene1, log, theme_scatter, theme_ba
       scale_color_manual(values = c("black","black"))
   } else {
     p <- ggplot(data = dat, aes_string(x = 'PDX', y = 'CellLines', label = 'Model')) + 
-      geom_point(size = 3) + geom_smooth(method = lm, se = FALSE, linetype = 'dashed') + theme_scatter + ggtitle(cor.title)
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2, fill = "gray") + theme_scatter + ggtitle(cor.title)
+    # p <- p + geom_smooth(method = lm, se = FALSE, linetype = 'dashed')
     
     q <- ggplot(data = dat.m, aes_string(x = 'Model', y = 'FPKM', fill = 'group', label = 'Label')) + 
       geom_bar(stat = 'identity', position = 'dodge', color = 'black', size = 0.2)  + xlab('') + theme_bar + 
