@@ -10,6 +10,7 @@ library(gridExtra)
 library(shinyIncubator)
 library(survival)
 library(ggthemes)
+library(shinyWidgets)
 options(gsubfn.engine = "R")
 options(shiny.sanitize.errors = TRUE)
 library(RGA)
@@ -377,14 +378,14 @@ dashboardPage(
                                                                                                        "RNASeq TPM (hg19, n = 244, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcbarsubmit1", label = "Load dataset"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
-                box(selectInput(inputId = "pptcbarselectInput3", label = "Select Tumor", choices = c("none")), width = 2, background = "navy"),
+                box(pickerInput(inputId = "pptcbarselectInput3", label = "Select Tumor", choices = c("none"), options = list(`actions-box` = TRUE), multiple = TRUE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput4", label = "Sort by", choices = c('Gene','PDX')), width = 2, background = 'navy'),
                 box(selectInput(inputId = "pptcbarselectInput5", label = "Color by", choices = "None"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pptcbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcbarsubmit2', label = "Get Expression Barplot"))), 
               br(), br(),
-              plotlyOutput(outputId = "pptcbarplot1", width = 1200, height = 800)
+              plotlyOutput(outputId = "pptcbarplot1", width = 1200, height = 600)
       ),
       tabItem(tabName = "pptcdot",
               fluidRow(
@@ -393,14 +394,14 @@ dashboardPage(
                     actionButton(inputId = "pptcdotsubmit1", label = "Load dataset"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcdotselectInput2", label = "Select Gene 1", choices = "none"),
                     selectInput(inputId = "pptcdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
-                box(selectInput(inputId = "pptcdotselectInput4", label = "Select Tumor", choices = c("none"), multiple = TRUE), width = 2, background = "navy"),
+                box(pickerInput(inputId = "pptcdotselectInput4", label = "Select Tumor", choices = c("none"), options = list(`actions-box` = TRUE), multiple = TRUE), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcdotselectInput5", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = 'navy'),
                 box(selectInput(inputId = "pptcdotselectInput6", label = "Color by", choices = "None"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pptcdotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcdotsubmit2', label = "Get Correlation Plot"))), 
               br(), br(),
-              plotlyOutput(outputId = "pptcdotplot1", width = 1200, height = 800),
+              plotlyOutput(outputId = "pptcdotplot1", width = 800, height = 600),
               DT::dataTableOutput(outputId = "pptcdottable1")
       ),
       tabItem(tabName = "pptcbox",
@@ -410,11 +411,10 @@ dashboardPage(
                     actionButton(inputId = "pptcboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pptcboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pptcboxcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "pptcboxselectInput3", label = "Select Tumor", choices = c("none"), multiple = TRUE),
-                    actionLink("selectall2","Select/Unselect All"), width = 2, background = "navy")
+                box(pickerInput(inputId = "pptcboxselectInput3", label = "Select Tumor", choices=c("none"), options = list(`actions-box` = TRUE), multiple = TRUE),width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcboxsubmit2', label = "Get Boxplot"))), br(), br(),
-              plotlyOutput(outputId = "pptcboxplot1", width = 1200, height = 800),
+              plotlyOutput(outputId = "pptcboxplot1", width = 1000, height = 600),
               DT::dataTableOutput(outputId = "pptcboxtable1")
       ),
       tabItem(tabName = "pptcmut",
