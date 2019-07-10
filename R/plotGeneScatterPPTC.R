@@ -61,7 +61,11 @@ plotGeneScatterPPTC <- function(gene1, gene2, myDataExp, myDataAnn, log, tumor, 
     y.axis <- "FPKM"
   } else {
     y.axis <- "log2(FPKM)"
-    myDataExp.c[,c(gene1,gene2)] <- log2(myDataExp.c[,c(gene1,gene2)]+1)
+    if(gene1 == gene2){
+      myDataExp.c[,c(gene1)] <- log2(myDataExp.c[,c(gene1)] + 1)
+    } else {
+      myDataExp.c[,c(gene1,gene2)] <- log2(myDataExp.c[,c(gene1,gene2)]+1)
+    }
   }
   
   # add annotation data to expression set
@@ -71,12 +75,14 @@ plotGeneScatterPPTC <- function(gene1, gene2, myDataExp, myDataAnn, log, tumor, 
   if(colorby != "None"){
     correlations <- plyr::ddply(.data = myDataExp.c, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = gene1, gene2 = gene2, correlation = correlation))
     print(correlations)
-    p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'MODEL', color = colorby)) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
+    p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, fill = colorby, label = 'MODEL')) + 
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2) + customtheme + ggtitle(cor.title)
+    # p <- p + geom_smooth(method = lm, se = FALSE, linetype = 'dashed', size = 0.5)
   } else {
     correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
     p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'MODEL')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2, fill = "gray") + customtheme + ggtitle(cor.title)
+    # p <- p + geom_smooth(method = lm, se = FALSE, linetype = 'dashed', size = 0.5)
   }
   
   p <- plotly_build(p)
