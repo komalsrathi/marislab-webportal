@@ -9,7 +9,7 @@ themebw <- function(){
 	return(tt)
 }
 
-theme_Publication <- function(base_size=12, base_family="Helvetica") {
+theme_Publication <- function(base_size=11, base_family="Helvetica") {
   library(grid)
   library(ggthemes)
   (theme_foundation(base_size=base_size, base_family=base_family)
@@ -21,10 +21,11 @@ theme_Publication <- function(base_size=12, base_family="Helvetica") {
             axis.title = element_text(size = rel(1)),
             axis.title.y = element_text(angle=90,vjust =2),
             axis.title.x = element_text(vjust = -0.2),
-            axis.text = element_text(), 
+            axis.text = element_text(size = rel(1)), 
             axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
             axis.line = element_line(colour="black"),
             axis.ticks = element_line(),
+            legend.text = element_text(size = rel(1)),
             legend.key = element_rect(colour = NA),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
@@ -36,7 +37,7 @@ theme_Publication <- function(base_size=12, base_family="Helvetica") {
 }
 
 
-theme_Publication_cna <- function(base_size=12, base_family="Helvetica") {
+theme_Publication_cna <- function(base_size=11, base_family="Helvetica") {
   library(grid)
   library(ggthemes)
   (theme_foundation(base_size=base_size, base_family=base_family)
@@ -48,12 +49,13 @@ theme_Publication_cna <- function(base_size=12, base_family="Helvetica") {
             axis.title = element_text(size = rel(1), face = "bold"),
             axis.title.y = element_text(angle=90,vjust =2),
             axis.title.x = element_text(vjust = -0.2),
-            axis.text = element_text(), 
+            axis.text = element_text(size = rel(1)), 
             axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
             axis.line = element_line(colour="black"),
             axis.ticks = element_line(),
             panel.grid.major = element_line(colour="#f0f0f0"),
             panel.grid.minor = element_blank(),
+            legend.text = element_text(size = rel(1)),
             legend.key = element_rect(colour = NA),
             plot.margin=unit(c(10,5,5,5),"mm"),
             strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
@@ -62,7 +64,7 @@ theme_Publication_cna <- function(base_size=12, base_family="Helvetica") {
 }
 
 
-theme_Publication_scatter <- function(base_size=12, base_family="Helvetica") {
+theme_Publication_scatter <- function(base_size=11, base_family="Helvetica") {
   library(grid)
   library(ggthemes)
   (theme_foundation(base_size=base_size, base_family=base_family)
@@ -74,9 +76,10 @@ theme_Publication_scatter <- function(base_size=12, base_family="Helvetica") {
             axis.title = element_text(size = rel(1)),
             axis.title.y = element_text(angle=90,vjust =2),
             axis.title.x = element_text(vjust = -0.2),
-            axis.text = element_text(), 
+            axis.text = element_text(size = rel(1)), 
             axis.line = element_line(colour="black"),
             axis.ticks = element_line(),
+            legend.text = element_text(size = rel(1)),
             legend.key = element_rect(colour = NA),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
