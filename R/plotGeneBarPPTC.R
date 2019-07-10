@@ -36,7 +36,7 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   dat.c <- merge(dat.c, phenotype, by = "MODEL", all.x = TRUE)
   
   # subset if tumor is defined
-  dat.c <- dat.c[which(dat.c$CANCER_TYPE == tumor),]
+  dat.c <- dat.c[which(dat.c$CANCER_TYPE %in% tumor),]
   
   # sorting of bars
   if(sortby == "PDX"){
@@ -47,18 +47,13 @@ plotGeneBarPPTC <- function(dat, phenotype, gene1, log, customtheme, sortby, tum
   
   # ggplot 
   if(colorby == "None"){
-    p <- ggplot(dat.c, aes_string(x='MODEL', y=gene1.mut)) + guides(fill=FALSE) + 
-      geom_bar(stat="identity") + customtheme + 
-      theme(axis.text.x  = element_text(angle=45), 
-            plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+    p <- ggplot(dat.c, aes_string(x = 'MODEL', y = gene1.mut)) + 
+      geom_bar(stat = "identity", color = 'black', fill = 'gray', size = 0.2) + customtheme + xlab('') +
       ggtitle(gene1)
   } else {
-    p <- ggplot(dat.c, aes_string(x='MODEL', y=gene1.mut, fill = colorby)) + 
-      geom_bar(stat="identity") + customtheme + 
-      theme(axis.text.x  = element_text(angle=45), 
-            plot.margin = unit(c(0.5, 0.5, 2, 0.5), "cm")) + 
+    p <- ggplot(dat.c, aes_string(x = 'MODEL', y = gene1.mut, fill = colorby)) + 
+      geom_bar(stat = "identity", color = 'black', size = 0.2) + customtheme + xlab('') +
       ggtitle(gene1)
-    
   }
   p <- plotly_build(p)
   p$x$layout$yaxis$title <- y.axis
