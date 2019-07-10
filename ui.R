@@ -296,60 +296,60 @@ dashboardPage(
       ##### Cell Lines Utilities #####
       
       
-      ##### PDX #####
-      # pdxdata
-      tabItem(tabName = "pdxdata",
-              fluidRow(
-                box(selectInput(inputId = 'pdxdataselectInput1', label = 'Select dataset',choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38_Califano_subtracted',
-                                                                                                      'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_Wheeler_subtracted')), width = 3, background = "navy")
-              ),
-              fluidRow(column(5, actionButton(inputId = 'pdxdatasubmit1', label = "Load dataset"))), br(), br(),
-              DT::dataTableOutput(outputId = "pdxdatatable1")
-      ),
-
-      # pdxbar
-      tabItem(tabName = "pdxbar",
-              fluidRow(
-                box(selectInput(inputId = "pdxbarselectInput1", label = "Select dataset", choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38_Califano_subtracted',
-                                                                                                      'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_Wheeler_subtracted')),
-                    actionButton(inputId = "pdxbarsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pdxbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
-                box(checkboxInput(inputId = "pdxbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "pdxbarselectInput3", label = "Sort by", choices = c('Gene','PDX')), width = 2, background = 'navy'),
-                box(selectInput(inputId = "pdxbarselectInput4", label = "Color by", choices = c('None','ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = 'navy')
-              ),
-              fluidRow(column(5, actionButton(inputId = 'pdxbarsubmit2', label = "Get Expression Plot"))), br(), br(),
-              plotlyOutput(outputId = "pdxbarplot1", width = 1000, height = 800)
-      ),
-
-      # pdxdot content
-      tabItem(tabName = "pdxdot",
-              fluidRow(
-                box(selectInput(inputId = "pdxdotselectInput1", label = "Select dataset", choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38_Califano_subtracted',
-                                                                                                      'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_Wheeler_subtracted')),
-                    actionButton(inputId = "pdxdotsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pdxdotselectInput2", label = "Select Gene 1", choices = "none"),
-                    selectInput(inputId = "pdxdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
-                box(checkboxInput(inputId = "pdxdotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "pdxdotselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
-                box(selectInput(inputId = "pdxdotselectInput5", label = "Color by", choices = c("None", 'ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = "navy")
-              ),
-              fluidRow(column(5, actionButton(inputId = 'pdxdotsubmit2', label = "Get Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "pdxdotplot1", width = 1000, height = 800),
-              DT::dataTableOutput(outputId = "pdxdottable1")
-      ),
-
-      tabItem(tabName = "pdxm",
-              fluidRow(
-                box(selectInput(inputId = "pdxmselectInput1", label = "Select dataset", choices = c("PDX Exome Calls (Wheeler Lab)"="ExomeCallsPDX")),
-                    actionButton(inputId = "pdxmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
-                box(selectInput(inputId = "pdxmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
-              ),
-              fluidRow(column(5, actionButton(inputId = 'pdxmsubmit2', label = "Get Mutation Table"))),
-              br(), br(),
-              DT::dataTableOutput(outputId = 'pdxmtable1')
-      ),
-      ##### PDX #####
+      # ##### PDX #####
+      # # pdxdata
+      # tabItem(tabName = "pdxdata",
+      #         fluidRow(
+      #           box(selectInput(inputId = 'pdxdataselectInput1', label = 'Select dataset',choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38_Califano_subtracted',
+      #                                                                                                 'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_Wheeler_subtracted')), width = 3, background = "navy")
+      #         ),
+      #         fluidRow(column(5, actionButton(inputId = 'pdxdatasubmit1', label = "Load dataset"))), br(), br(),
+      #         DT::dataTableOutput(outputId = "pdxdatatable1")
+      # ),
+      # 
+      # # pdxbar
+      # tabItem(tabName = "pdxbar",
+      #         fluidRow(
+      #           box(selectInput(inputId = "pdxbarselectInput1", label = "Select dataset", choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38_Califano_subtracted',
+      #                                                                                                 'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_Wheeler_subtracted')),
+      #               actionButton(inputId = "pdxbarsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+      #           box(selectInput(inputId = "pdxbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
+      #           box(checkboxInput(inputId = "pdxbarcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
+      #           box(selectInput(inputId = "pdxbarselectInput3", label = "Sort by", choices = c('Gene','PDX')), width = 2, background = 'navy'),
+      #           box(selectInput(inputId = "pdxbarselectInput4", label = "Color by", choices = c('None','ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = 'navy')
+      #         ),
+      #         fluidRow(column(5, actionButton(inputId = 'pdxbarsubmit2', label = "Get Expression Plot"))), br(), br(),
+      #         plotlyOutput(outputId = "pdxbarplot1", width = 1000, height = 800)
+      # ),
+      # 
+      # # pdxdot content
+      # tabItem(tabName = "pdxdot",
+      #         fluidRow(
+      #           box(selectInput(inputId = "pdxdotselectInput1", label = "Select dataset", choices = c('PDX Califano Lab (n=16, FPKM, hg38)'='PDX_FPKM_hg38_Califano_subtracted',
+      #                                                                                                 'PDX Wheeler Lab (n=30, FPKM, hg38)'='PDX_FPKM_hg38_Wheeler_subtracted')),
+      #               actionButton(inputId = "pdxdotsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+      #           box(selectInput(inputId = "pdxdotselectInput2", label = "Select Gene 1", choices = "none"),
+      #               selectInput(inputId = "pdxdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
+      #           box(checkboxInput(inputId = "pdxdotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
+      #           box(selectInput(inputId = "pdxdotselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
+      #           box(selectInput(inputId = "pdxdotselectInput5", label = "Color by", choices = c("None", 'ALK_Status','MYCN_Status','TP53_Status')), width = 2, background = "navy")
+      #         ),
+      #         fluidRow(column(5, actionButton(inputId = 'pdxdotsubmit2', label = "Get Correlation Plot"))), br(), br(),
+      #         plotlyOutput(outputId = "pdxdotplot1", width = 1000, height = 800),
+      #         DT::dataTableOutput(outputId = "pdxdottable1")
+      # ),
+      # 
+      # tabItem(tabName = "pdxm",
+      #         fluidRow(
+      #           box(selectInput(inputId = "pdxmselectInput1", label = "Select dataset", choices = c("PDX Exome Calls (Wheeler Lab)"="ExomeCallsPDX")),
+      #               actionButton(inputId = "pdxmsubmit1", label = "Load dataset"), width = 3, background = "navy"),
+      #           box(selectInput(inputId = "pdxmselectInput2", label = "Select Gene", choices = "none"), width = 3, background = "navy")
+      #         ),
+      #         fluidRow(column(5, actionButton(inputId = 'pdxmsubmit2', label = "Get Mutation Table"))),
+      #         br(), br(),
+      #         DT::dataTableOutput(outputId = 'pdxmtable1')
+      # ),
+      # ##### PDX #####
 
       
       #### PDX-Cell lines ####
@@ -373,9 +373,8 @@ dashboardPage(
       #### PPTC ####
       tabItem(tabName = "pptcbar",
               fluidRow(
-                box(selectInput(inputId = "pptcbarselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 244, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       # "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
-                                                                                                       "Kallisto (hg19, n = 244, CHOP)"="PPTC_TPM_hg19_Wheeler")),
+                box(selectInput(inputId = "pptcbarselectInput1", label = "Select dataset", choices = c("RNASeq FPKM (hg19, n = 244, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
+                                                                                                       "RNASeq TPM (hg19, n = 244, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcbarsubmit1", label = "Load dataset"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcbarselectInput3", label = "Select Tumor", choices = c("none")), width = 2, background = "navy"),
@@ -389,9 +388,8 @@ dashboardPage(
       ),
       tabItem(tabName = "pptcdot",
               fluidRow(
-                box(selectInput(inputId = "pptcdotselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 244, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       # "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
-                                                                                                       "Kallisto (hg19, n = 244, CHOP)"="PPTC_TPM_hg19_Wheeler")),
+                box(selectInput(inputId = "pptcdotselectInput1", label = "Select dataset", choices = c("RNASeq FPKM (hg19, n = 244, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
+                                                                                                       "RNASeq TPM (hg19, n = 244, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcdotsubmit1", label = "Load dataset"), width = 2, background = "navy"),
                 box(selectInput(inputId = "pptcdotselectInput2", label = "Select Gene 1", choices = "none"),
                     selectInput(inputId = "pptcdotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
@@ -407,9 +405,8 @@ dashboardPage(
       ),
       tabItem(tabName = "pptcbox",
               fluidRow(
-                box(selectInput(inputId = "pptcboxselectInput1", label = "Select dataset", choices = c("RNASeq (hg19, n = 244, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
-                                                                                                       # "NBL RNASeq (hg38, n = 33, CHOP)"="PPTC_FPKM_hg38_Wheeler_subtracted",
-                                                                                                       "Kallisto (hg19, n = 244, CHOP)"="PPTC_TPM_hg19_Wheeler")),
+                box(selectInput(inputId = "pptcboxselectInput1", label = "Select dataset", choices = c("RNASeq FPKM (hg19, n = 244, BCM)"="PPTC_FPKM_hg19_Wheeler_subtracted",
+                                                                                                       "RNASeq TPM (hg19, n = 244, CHOP)"="PPTC_TPM_hg19_Wheeler")),
                     actionButton(inputId = "pptcboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "pptcboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "pptcboxcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
@@ -435,9 +432,9 @@ dashboardPage(
       ##### Patient Samples Utilities #####
       tabItem(tabName = "psdb",
               fluidRow(
-                box(selectInput(inputId = 'psdbselectInput1', label = 'Select dataset',choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='NB88',
-                                                                                                   'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='HI51',
-                                                                                                   'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='OBER649',
+                box(selectInput(inputId = 'psdbselectInput1', label = 'Select dataset',choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='GSE16476',
+                                                                                                   'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='GSE16237',
+                                                                                                   'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='GSE45547',
                                                                                                    'IH250 (n=250, RMA)'='IH250',
                                                                                                    'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960',
                                                                                                    'GSE19274 (GPL6102 HumanWG6v2, n=100, RMA)'='GSE19274',
@@ -461,10 +458,10 @@ dashboardPage(
       ),
       tabItem(tabName = "pgeh",
               fluidRow(
-                box(selectInput(inputId = "pgehselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='NB88',
-                                                                                                    'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='HI51',
+                box(selectInput(inputId = "pgehselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='GSE16476',
+                                                                                                    'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='GSE16237',
                                                                                                     'IH250 (n=250, RMA)'='IH250',
-                                                                                                    'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='OBER649',
+                                                                                                    'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='GSE45547',
                                                                                                     'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960',
                                                                                                     'GSE19274 (GPL6102 HumanWG6v2, n=100, RMA)'='GSE19274',
                                                                                                     'GSE13136 (GPL570 U133Plus2, n=30, RMA)'='GSE13136',
@@ -494,10 +491,10 @@ dashboardPage(
       ),
       tabItem(tabName = "pgebp",
               fluidRow(
-                box(selectInput(inputId = "pgebpselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='NB88',
-                                                                                                     'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='HI51',
+                box(selectInput(inputId = "pgebpselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='GSE16476',
+                                                                                                     'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='GSE16237',
                                                                                                      'IH250 (n=250, RMA)'='IH250',
-                                                                                                     'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='OBER649',
+                                                                                                     'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='GSE45547',
                                                                                                      'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960',
                                                                                                      'GSE19274 (GPL6102 HumanWG6v2, n=100, RMA)'='GSE19274',
                                                                                                      'GSE13136 (GPL570 U133Plus2, n=30, RMA)'='GSE13136',
@@ -522,7 +519,7 @@ dashboardPage(
       ),
       tabItem(tabName = "pkm",
               fluidRow(
-                box(selectInput(inputId = "pkmselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='NB88',
+                box(selectInput(inputId = "pkmselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='GSE16476',
                                                                                                    'IH250 (n=250, RMA)'='IH250',
                                                                                                    'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960',
                                                                                                    'GSE49711 (GPL17553	IlluminaHiseq2000, n=498, FPKM)'='GSE49711_FPKM',
@@ -539,10 +536,10 @@ dashboardPage(
       ),
       tabItem(tabName = "pggc",
               fluidRow(
-                box(selectInput(inputId = "pggcselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='NB88',
-                                                                                                    'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='HI51',
+                box(selectInput(inputId = "pggcselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='GSE16476',
+                                                                                                    'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='GSE16237',
                                                                                                     'IH250 (n=250, RMA)'='IH250',
-                                                                                                    'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='OBER649',
+                                                                                                    'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='GSE45547',
                                                                                                     'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960',
                                                                                                     'GSE19274 (GPL6102 HumanWG6v2, n=100, RMA)'='GSE19274',
                                                                                                     'GSE13136 (GPL570 U133Plus2, n=30, RMA)'='GSE13136',
@@ -572,10 +569,10 @@ dashboardPage(
       ),
       tabItem(tabName = "pmcg",
               fluidRow(
-                box(selectInput(inputId = "pmcgselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='NB88',
-                                                                                                    'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='HI51',
+                box(selectInput(inputId = "pmcgselectInput1", label = "Select dataset", choices = c('GSE16476 (GPL570	U133Plus2.0, n=88, RMA)'='GSE16476',
+                                                                                                    'GSE16237 (GPL570 U133Plus2, n=51, RMA)'='GSE16237',
                                                                                                     'IH250 (n=250, RMA)'='IH250',
-                                                                                                    'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='OBER649',
+                                                                                                    'GSE45547 (GPL16876 Custom44k, n=649, RMA)'='GSE45547',
                                                                                                     'GSE3960 (GPL8300 U95, n=101, RMA)'='GSE3960',
                                                                                                     'GSE19274 (GPL6102 HumanWG6v2, n=100, RMA)'='GSE19274',
                                                                                                     'GSE13136 (GPL570 U133Plus2, n=30, RMA)'='GSE13136',
