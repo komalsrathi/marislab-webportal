@@ -151,7 +151,7 @@ shinyServer(function(input, output, session){
         sortby <- input$clgeselectInput3
         colorby <- input$clgeselectInput4
         plotGeneBar(datatype = datatype, dat = dat, phenotype = phenotype, colorby = colorby,
-                    gene1 = gene1, customtheme = tbw, log = logvalue, sortby)
+                    gene1 = gene1, customtheme = theme_Publication(), log = logvalue, sortby)
       })
     })
   })
@@ -1144,7 +1144,7 @@ shinyServer(function(input, output, session){
     mdat <- get(paste0(dataset,'_mData'))
     tum <- unique(mdat$CANCER_TYPE)
     cols <- c("None",colnames(mdat))
-    updateSelectizeInput(session = session, inputId = "pptcbarselectInput3", choices = tum, server = TRUE)
+    updatePickerInput(session = session, inputId = "pptcbarselectInput3", choices = tum)
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput5", choices = cols, selected = 'None', server = TRUE)
   })
   
@@ -1164,7 +1164,7 @@ shinyServer(function(input, output, session){
         sortby <- input$pptcbarselectInput4
         colorby <- input$pptcbarselectInput5
         plotGeneBarPPTC(dat = dat, phenotype = phenotype,
-                        gene1 = gene1, customtheme = tbw, 
+                        gene1 = gene1, customtheme = theme_Publication(), 
                         log = logvalue, sortby, tumor, colorby)
       })
     })
@@ -1185,7 +1185,7 @@ shinyServer(function(input, output, session){
     mdat <- get(paste0(dataset,'_mData'))
     tum <- unique(mdat$CANCER_TYPE)
     cols <- c("None", colnames(mdat))
-    updateSelectizeInput(session = session, inputId = "pptcdotselectInput4", choices = tum, server = TRUE)
+    updatePickerInput(session = session, inputId = "pptcdotselectInput4", choices = tum)
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput6", choices = cols, server = TRUE)
   })
   
@@ -1208,7 +1208,7 @@ shinyServer(function(input, output, session){
         dotpptc <<- plotGeneScatterPPTC(myDataExp = myDataExp, myDataAnn = myDataAnn,
                                         gene1 = gene1, gene2 = gene2,
                                         log = logvalue, tumor = tumor, correlation = correlation,
-                                        customtheme = tbw, colorby = colorby)
+                                        customtheme = theme_Publication_scatter(), colorby = colorby)
         dotpptc[[1]]
       })
     })
@@ -1268,12 +1268,13 @@ shinyServer(function(input, output, session){
     dataset <- as.character(input$pptcboxselectInput1)
     mdat <- get(paste0(dataset,'_mData'))
     tum <- unique(as.character(mdat$CANCER_TYPE))
-    if(input$selectall2 == 1 | input$selectall2 %% 2 != 0){
-      updateSelectizeInput(session = session, inputId = 'pptcboxselectInput3', choices = tum, server = TRUE, selected = tum)
-    }
-    if(input$selectall2 == 0 | input$selectall2 %% 2 == 0){
-      updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE, selected = NULL)
-    }
+    # if(input$selectall2 == 1 | input$selectall2 %% 2 != 0){
+    #   updateSelectizeInput(session = session, inputId = 'pptcboxselectInput3', choices = tum, server = TRUE, selected = tum)
+    # }
+    # if(input$selectall2 == 0 | input$selectall2 %% 2 == 0){
+    #   updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE, selected = NULL)
+    # }
+    updatePickerInput(session = session, inputId = 'pptcboxselectInput3', choices = tum, selected = NULL)
   })
   
   
@@ -1290,7 +1291,7 @@ shinyServer(function(input, output, session){
         logvalue <- input$pptcboxcheckboxInput1
         tumor <- as.character(input$pptcboxselectInput3)
         tukeyplot <<- plotGeneBoxPPTC(gene1 = gene1, tumor = tumor, myDataAnn = myDataAnn,
-                        myDataExp = myDataExp, log = logvalue, customtheme = tbw)
+                        myDataExp = myDataExp, log = logvalue, customtheme = theme_Publication())
         tukeyplot[[1]]
       })
     })
