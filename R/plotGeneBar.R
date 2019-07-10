@@ -58,7 +58,7 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
   
   # plot 
   if(colorby != "None"){
-    p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut, fill = colorby)) + guides(fill = FALSE) + 
+    p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut, fill = colorby)) + 
       geom_bar(stat = "identity", color = 'black', size = 0.2) + customtheme + xlab('') +
       ggtitle(gene1)
   } else if(colorby == "None"){
