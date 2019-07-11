@@ -42,7 +42,11 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
   if(length(grep('FPKM',datatype))==0) {
     if(log==FALSE) {
       y.axis <- "RMA"
-      myDataExp.c[,c(gene1,gene2)] <- 2^(myDataExp.c[,c(gene1,gene2)])
+      if(gene1 == gene2){
+        myDataExp.c[,c(gene1)] <- 2^(myDataExp.c[,c(gene1)])
+      } else {
+        myDataExp.c[,c(gene1,gene2)] <- 2^(myDataExp.c[,c(gene1,gene2)])
+      }
     } else {
       y.axis <- "log2(RMA)"
     }
@@ -52,7 +56,11 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
       y.axis <- "FPKM"
     } else {
       y.axis <- "log2(FPKM)"
-      myDataExp.c[,c(gene1,gene2)] <- log2(myDataExp.c[,c(gene1,gene2)]+1)
+      if(gene1 == gene2){
+        myDataExp.c[,c(gene1)] <- log2(myDataExp.c[,c(gene1)]+1)
+      } else {
+        myDataExp.c[,c(gene1,gene2)] <- log2(myDataExp.c[,c(gene1,gene2)]+1)
+      }
     }
   }
   
@@ -73,12 +81,12 @@ plotGeneScatterPatientData <- function(datatype, gene1, gene2, myDataExp, myData
   
   if(colorby != "None"){
     correlations <- plyr::ddply(.data = myDataExp.c, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = gene1, gene2 = gene2, correlation = correlation))
-    p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Sample', color = colorby)) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
+    p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, fill = colorby, label = 'Sample')) + 
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2) + customtheme + ggtitle(cor.title)
   } else {
     correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
     p <- ggplot(data = myDataExp.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Sample')) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(cor.title)
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2, fill = "gray") + customtheme + ggtitle(cor.title)
   }
   
   p <- plotly_build(p)
