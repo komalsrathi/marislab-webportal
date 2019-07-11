@@ -897,7 +897,8 @@ shinyServer(function(input, output, session){
                         logby = logby, 
                         tumData = tumData,
                         normData = normData, 
-                        normDataAnnot = normDataAnnot)
+                        normDataAnnot = normDataAnnot,
+                        customtheme = theme_Publication())
       })
     })
   })
@@ -920,10 +921,12 @@ shinyServer(function(input, output, session){
       isolate({
         gene1 <- input$tvnbaselectInput2
         logby <- input$tvnbacheckboxInput1
-        boxPlotGeneHighSUTC(gene1 = gene1, logby = logby, 
+        boxPlotGeneHighSUTC(gene1 = gene1, 
+                            logby = logby, 
                             tumData = tumData,
                             normData = normData, 
-                            normDataAnnot = normDataAnnot)
+                            normDataAnnot = normDataAnnot,
+                            customtheme = theme_Publication())
       })
     })
   })
@@ -1187,7 +1190,7 @@ shinyServer(function(input, output, session){
     tum <- unique(mdat$CANCER_TYPE)
     cols <- c("None", colnames(mdat))
     updatePickerInput(session = session, inputId = "pptcdotselectInput4", choices = tum, selected = tum[1])
-    updateSelectizeInput(session = session, inputId = "pptcdotselectInput6", choices = cols, server = TRUE)
+    updateSelectizeInput(session = session, inputId = "pptcdotselectInput6", choices = cols, server = TRUE, selected = "None")
   })
   
   # create plot
