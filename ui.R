@@ -14,6 +14,8 @@ library(shinyWidgets)
 options(gsubfn.engine = "R")
 options(shiny.sanitize.errors = TRUE)
 library(RGA)
+library(ggpubr)
+library(survminer)
 
 dashboardPage(
   
@@ -414,8 +416,8 @@ dashboardPage(
                 box(pickerInput(inputId = "pptcboxselectInput3", label = "Select Tumor", choices=c("none"), options = list(`actions-box` = TRUE), multiple = TRUE),width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pptcboxsubmit2', label = "Get Boxplot"))), br(), br(),
-              plotlyOutput(outputId = "pptcboxplot1", width = 1000, height = 600),
-              DT::dataTableOutput(outputId = "pptcboxtable1")
+              plotlyOutput(outputId = "pptcboxplot1", width = 1200, height = 600)
+              # DT::dataTableOutput(outputId = "pptcboxtable1")
       ),
       tabItem(tabName = "pptcmut",
               fluidRow(
@@ -487,7 +489,7 @@ dashboardPage(
                 
               ),
               fluidRow(column(5, actionButton(inputId = 'pgehsubmit2', label = "Get Expression Plot"))), br(), br(),
-              plotlyOutput(outputId = "pgehplot1", width = 1200, height = 800)
+              plotlyOutput(outputId = "pgehplot1", width = 1200, height = 600)
       ),
       tabItem(tabName = "pgebp",
               fluidRow(
@@ -514,8 +516,8 @@ dashboardPage(
                 box(selectInput(inputId = "pgebpselectInput2", label = "Color by", choices = c("STAGE", "MYCN", "RISK")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgebpsubmit2', label = "Get Patient Boxplot"))), br(), br(),
-              plotlyOutput(outputId = "pgebpplot1", width = 1000, height = 800),
-              DT::dataTableOutput(outputId = "pgebtable1")
+              plotlyOutput(outputId = "pgebpplot1", width = 800, height = 600)
+              # DT::dataTableOutput(outputId = "pgebtable1")
       ),
       tabItem(tabName = "pkm",
               fluidRow(
@@ -532,7 +534,7 @@ dashboardPage(
                 box(selectInput(inputId = "pkmselectInput4", label = "RISK", choices = "none"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pkmsubmit2', label = "Get Kaplan-Meier Plot"))), br(), br(),
-              plotlyOutput(outputId = "pkmplot1", width = 1000, height = 800)
+              plotOutput(outputId = "pkmplot1", width = 800, height = 800)
       ),
       tabItem(tabName = "pggc",
               fluidRow(
@@ -564,8 +566,8 @@ dashboardPage(
                 box(selectInput(inputId = "pggcselectInput2", label = "Color by", choices = c("None")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pggcsubmit2', label = "Get Gene Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "pggcplot1", width = 1000, height = 800),
-              DT::dataTableOutput(outputId = "pggctable1")
+              plotlyOutput(outputId = "pggcplot1", width = 800, height = 600),
+              DT::dataTableOutput(outputId = "pggctable1", width = 800)
       ),
       tabItem(tabName = "pmcg",
               fluidRow(
@@ -606,7 +608,7 @@ dashboardPage(
                 box(selectInput(inputId = "pgcnselectInput4", label = "Color by", choices = c("None")), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgcnsubmit2', label = "Get Copy Number Barplot"))), br(), br(),
-              plotOutput(outputId = "pgcnplot1", width = 1000, height = 800)
+              plotOutput(outputId = "pgcnplot1", width = 1200, height = 600)
       ),
       tabItem(tabName = "pgcvm",
               fluidRow(
@@ -616,7 +618,7 @@ dashboardPage(
                 box(selectInput(inputId = "pgcvmselectInput3", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'pgcvmsubmit2', label = "Get mRNA/CNA Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "pgcvmplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "pgcvmplot1", width = 800, height = 600)
       ),
       ##### Patient Samples Utilities #####
       
@@ -629,7 +631,7 @@ dashboardPage(
                 box(checkboxInput(inputId = "tvnbcheckboxInput1", label = "Log"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'tvnbsubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
-              plotlyOutput(outputId = "tvnbplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "tvnbplot1", width = 1200, height = 600)
       ),
       tabItem(tabName = "tvnba",
               fluidRow(
@@ -639,7 +641,7 @@ dashboardPage(
                 box(checkboxInput(inputId = "tvnbacheckboxInput1", label = "Log"), width = 2, background = "navy")
               ),
               fluidRow(column(5, actionButton(inputId = 'tvnbasubmit2', label = "Comparison with Normal GTEx data"))), br(), br(),
-              plotlyOutput(outputId = "tvnbaplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "tvnbaplot1", width = 1200, height = 600)
       ),
       ##### RNASeq Target Data #####
       
@@ -659,17 +661,17 @@ dashboardPage(
                     actionButton(inputId = "tgeboxsubmit1", label = "Load dataset"), width = 3, background = "navy"),
                 box(selectInput(inputId = "tgeboxselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "tgeboxcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
-                box(selectInput(inputId = "tgeboxselectInput3", label = "Tumor type", choices = c('AML'='TARGET-20-',
+                box(pickerInput(inputId = "tgeboxselectInput3", label = "Tumor type", choices = c('AML'='TARGET-20-',
                                                                                                   'AML-IF'='TARGET-21-',
                                                                                                   'NBL'='TARGET-30-',
                                                                                                   'OS'='TARGET-40-',
                                                                                                   'WT'='TARGET-50-',
                                                                                                   'CCSK'='TARGET-51-',
-                                                                                                  'RT'='TARGET-52-'), multiple = TRUE), width = 2, background = 'navy')
+                                                                                                  'RT'='TARGET-52-'), options = list(`actions-box` = TRUE), multiple = TRUE, selected = c('NBL'='TARGET-30-')), width = 2, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'tgeboxsubmit2', label = "Get Boxplot"))), br(), br(),
-              plotlyOutput(outputId = "tgeboxplot1", width = 1000, height = 800),
-              DT::dataTableOutput(outputId = "tgeboxtable1")
+              plotlyOutput(outputId = "tgeboxplot1", width = 800, height = 600)
+              # DT::dataTableOutput(outputId = "tgeboxtable1")
       ),
       tabItem(tabName = "tgedot",
               fluidRow(
@@ -680,16 +682,16 @@ dashboardPage(
                     selectInput(inputId = "tgedotselectInput3", label = "Select Gene 2", choices = "none"), width = 2, background = "navy"),
                 box(checkboxInput(inputId = "tgedotcheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
                 box(selectInput(inputId = "tgedotselectInput4", label = "Correlation", choices = c('Pearson' = 'pearson', 'Spearman' = 'spearman')), width = 2, background = "navy"),
-                box(selectInput(inputId = "tgedotselectInput5", label = "Tumor type", choices = c('AML'='TARGET-20-',
+                box(pickerInput(inputId = "tgedotselectInput5", label = "Tumor type", choices = c('AML'='TARGET-20-',
                                                                                                   'AML-IF'='TARGET-21-',
                                                                                                   'NBL'='TARGET-30-',
                                                                                                   'OS'='TARGET-40-',
                                                                                                   'WT'='TARGET-50-',
                                                                                                   'CCSK'='TARGET-51-',
-                                                                                                  'RT'='TARGET-52-'), multiple = TRUE), width = 2, background = 'navy')
+                                                                                                  'RT'='TARGET-52-'), options = list(`actions-box` = TRUE), multiple = TRUE, selected = c('NBL'='TARGET-30-')), width = 2, background = 'navy')
               ),
               fluidRow(column(5, actionButton(inputId = 'tgedotsubmit2', label = "Get Correlation Plot"))), br(), br(),
-              plotlyOutput(outputId = "tgedotplot1", width = 1000, height = 800)
+              plotlyOutput(outputId = "tgedotplot1", width = 800, height = 600)
       ),
       #### Target Data ####
       
