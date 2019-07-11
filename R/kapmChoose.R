@@ -8,8 +8,7 @@ source('R/kapmPlot.R')
 
 kapmChoose <- function(datatype, myDataExp, myDataAnn, risk, genes, endpoint)
 {
-  if(endpoint == "os")
-  {
+  if(endpoint == "os") {
     tVar <- 'nti_surv_overall'
     eVar <- 'nti_event_overall_num'
   } else {
@@ -17,6 +16,5 @@ kapmChoose <- function(datatype, myDataExp, myDataAnn, risk, genes, endpoint)
     eVar <- 'nti_event_progrfree_num'
   }
   out <- kapmPlot(genes, myDataExp, myDataAnn, risk, createPlot = T, tVar = tVar, eVar = eVar)
-  out <- plotly_build(out)
   return(out)
 }
