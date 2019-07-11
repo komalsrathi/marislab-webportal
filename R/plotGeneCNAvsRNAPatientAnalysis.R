@@ -27,12 +27,12 @@ plotGeneCNAvsRNAPatientAnalysis <- function(gene1, myData, mycData, customtheme,
   if(tmpcor$estimate!=1){
     tmpcore <- format(tmpcor$estimate, scientific = T, digits = 3)
   }
-  myText <- paste("Cor=", tmpcore, " | P-Val=", tmpcorp, sep="")
+  cor.title <- paste("Cor=", tmpcore, " | P-Val=", tmpcorp, sep="")
 
   tmpDataGC[,"CL_NAME"] <- rownames(tmpDataGC)
   
-  p <- ggplot(tmpDataGC, aes(x = mRNA, y = CNA)) + customtheme + 
-    geom_point() + geom_smooth(method="lm") + ggtitle(myText)
+  p <- ggplot(data = tmpDataGC, aes(x = mRNA, y = CNA)) + 
+    geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2, fill = "gray") + customtheme + ggtitle(cor.title)
   
   p <- plotly_build(p)
   p$x$layout$xaxis$title <- paste0("mRNA"," (RMA)")
