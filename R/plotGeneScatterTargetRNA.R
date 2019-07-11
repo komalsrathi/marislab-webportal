@@ -64,20 +64,32 @@ plotGeneScatterTargetRNA <- function(datatype, dat, gene1, gene2, log, customthe
   dat.c$Tumor <- as.factor(dat.c$Tumor)
   colorby = "Tumor"
   
-  if(length(levels(dat.c[,colorby]))>1){
-    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, color = "Tumor", label = "Sample")) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title) +
-      theme(axis.text.x = element_text(size = 12),
-            axis.text.y = element_text(size = 12),
-            legend.text = element_text(size = 10),
-            legend.title = element_text(size = 12))
-  }
-  if(length(levels(dat.c[,colorby]))==1){
-    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = "Sample")) + 
-      geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title) + 
-      theme(axis.text.x = element_text(size = 12),
-            axis.text.y = element_text(size = 12),
-            legend.text = element_text(size = 12))
+  # if(length(levels(dat.c[,colorby]))>1){
+  #   p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, color = "Tumor", label = "Sample")) + 
+  #     geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title) +
+  #     theme(axis.text.x = element_text(size = 12),
+  #           axis.text.y = element_text(size = 12),
+  #           legend.text = element_text(size = 10),
+  #           legend.title = element_text(size = 12))
+  # }
+  # if(length(levels(dat.c[,colorby]))==1){
+  #   p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = "Sample")) + 
+  #     geom_point() + geom_smooth(method = lm) + customtheme + ggtitle(label = cor.title) + 
+  #     theme(axis.text.x = element_text(size = 12),
+  #           axis.text.y = element_text(size = 12),
+  #           legend.text = element_text(size = 12))
+  # }
+  
+  # colorby tumor
+  if(length(levels(dat.c[,colorby])) > 1){
+    # correlations <- plyr::ddply(.data = dat.c, .variables = colorby, .fun = function(x) getCorr(dat = x, gene1 = gene1, gene2 = gene2, correlation = correlation))
+    # print(correlations)
+    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, fill = "Tumor", label = 'Sample')) + 
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2) + customtheme + ggtitle(cor.title)
+  } else {
+    # correlations <- data.frame(Cor = cor.est, Pval = cor.pval)
+    p <- ggplot(data = dat.c, aes_string(x = gene1.mut, y = gene2.mut, label = 'Sample')) + 
+      geom_point(size = 3, shape = 21, colour = 'black', stroke = 0.2, fill = "gray") + customtheme + ggtitle(cor.title)
   }
   
   p <- plotly_build(p)
