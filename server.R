@@ -595,7 +595,7 @@ shinyServer(function(input, output, session){
                                    myDataAnn = myDataAnn,
                                    sortby = sortby, log = log, 
                                    density = density, colorby = colorby,
-                                   customtheme = tbw)
+                                   customtheme = theme_Publication())
       })
     })
   })
@@ -640,31 +640,31 @@ shinyServer(function(input, output, session){
                                    myDataExp = myDataExp, 
                                    myDataAnn = myDataAnn,
                                    log = log,
-                                   customtheme = tbw)
+                                   customtheme = theme_Publication())
       })
     })
   })
   
-  output$pgebtable1 <- DT::renderDataTable({
-    if(input$pgebpsubmit2 == 0){
-      return()
-    }
-    isolate({
-      dataset <- input$pgebpselectInput1
-      myDataExp <- get(paste0(dataset,'_data'))
-      myDataAnn <- get(paste0(dataset,'_mData'))
-      log <- input$pgebpcheckboxInput1
-      colorby <- input$pgebpselectInput2
-      gene1 <- input$pgebpselectInput3
-      dat <- getTukeyHSDBoxplotPatientAnalysis(gene1 = gene1, 
-                                               datatype = dataset,
-                                               colorby = colorby, 
-                                               myDataExp = myDataExp, 
-                                               myDataAnn = myDataAnn,
-                                               log = log)
-      viewDataTable(dat = dat)
-    })
-  })
+  # output$pgebtable1 <- DT::renderDataTable({
+  #   if(input$pgebpsubmit2 == 0){
+  #     return()
+  #   }
+  #   isolate({
+  #     dataset <- input$pgebpselectInput1
+  #     myDataExp <- get(paste0(dataset,'_data'))
+  #     myDataAnn <- get(paste0(dataset,'_mData'))
+  #     log <- input$pgebpcheckboxInput1
+  #     colorby <- input$pgebpselectInput2
+  #     gene1 <- input$pgebpselectInput3
+  #     dat <- getTukeyHSDBoxplotPatientAnalysis(gene1 = gene1, 
+  #                                              datatype = dataset,
+  #                                              colorby = colorby, 
+  #                                              myDataExp = myDataExp, 
+  #                                              myDataAnn = myDataAnn,
+  #                                              log = log)
+  #     viewDataTable(dat = dat)
+  #   })
+  # })
   
   # kaplan meier plot
   observe ({
@@ -694,7 +694,7 @@ shinyServer(function(input, output, session){
   })
   
   # kaplan meier plot
-  output$pkmplot1 <- renderPlotly({
+  output$pkmplot1 <- renderPlot({
     if(input$pkmsubmit2 == 0){
       return()
     }
@@ -753,7 +753,7 @@ shinyServer(function(input, output, session){
                                              datatype = dataset,
                                              myDataExp = myDataExp, myDataAnn = myDataAnn,
                                              log = log, colorby = colorby, correlation = correlation,
-                                             customtheme = tbw)
+                                             customtheme = theme_Publication_scatter())
         dotpp[[1]]
       })
     })
@@ -838,7 +838,7 @@ shinyServer(function(input, output, session){
         logby <- input$pgcncheckboxInput1
         sortby <- input$pgcnselectInput3
         colorby <- input$pgcnselectInput4
-        plotGeneBarCNAPatientAnalysis(gene1 = gene1, myData = myData, sortby = sortby, customtheme = tbw, logby = logby, phenotype = myData.pheno, colorby = colorby)
+        plotGeneBarCNAPatientAnalysis(gene1 = gene1, myData = myData, sortby = sortby, customtheme = theme_Publication_cna(), logby = logby, phenotype = myData.pheno, colorby = colorby)
       })
     })
   })
@@ -870,7 +870,7 @@ shinyServer(function(input, output, session){
         mycData <- get(paste0(dataset,'_cdata'))
         gene1 <- as.character(input$pgcvmselectInput2)
         correlation <- input$pgcvmselectInput3
-        plotGeneCNAvsRNAPatientAnalysis(gene1 = gene1, myData = myData, mycData = mycData, customtheme = tbw, correlation = correlation)
+        plotGeneCNAvsRNAPatientAnalysis(gene1 = gene1, myData = myData, mycData = mycData, customtheme = theme_Publication_scatter(), correlation = correlation)
       })
     })
   })
@@ -965,28 +965,28 @@ shinyServer(function(input, output, session){
         logvalue <- input$tgeboxcheckboxInput1
         colorby <- as.character(input$tgeboxselectInput3)
         plotBoxplotTargetRNA(gene1 = gene1, colorby = colorby, datatype = datatype, 
-                             dat = dat, log = logvalue, customtheme = tbw, 
+                             dat = dat, log = logvalue, customtheme = theme_Publication(), 
                              targetcode = Target724_targetcode)
       })
     })
   })
   
-  output$tgeboxtable1 <- DT::renderDataTable({
-    if(input$tgeboxsubmit2 == 0){
-      return()
-    }
-    isolate({
-      datatype <- as.character(input$tgeboxselectInput1)
-      dat <- get(datatype)
-      gene1 <- as.character(input$tgeboxselectInput2)
-      logvalue <- input$tgeboxcheckboxInput1
-      colorby <- as.character(input$tgeboxselectInput3)
-      dat <- getTukeyHSDBoxplotTargetRNA(gene1 = gene1, colorby = colorby, datatype = datatype, 
-                           dat = dat, log = logvalue, 
-                           targetcode = Target724_targetcode)
-      viewDataTable(dat = dat)
-    })
-  })
+  # output$tgeboxtable1 <- DT::renderDataTable({
+  #   if(input$tgeboxsubmit2 == 0){
+  #     return()
+  #   }
+  #   isolate({
+  #     datatype <- as.character(input$tgeboxselectInput1)
+  #     dat <- get(datatype)
+  #     gene1 <- as.character(input$tgeboxselectInput2)
+  #     logvalue <- input$tgeboxcheckboxInput1
+  #     colorby <- as.character(input$tgeboxselectInput3)
+  #     dat <- getTukeyHSDBoxplotTargetRNA(gene1 = gene1, colorby = colorby, datatype = datatype, 
+  #                          dat = dat, log = logvalue, 
+  #                          targetcode = Target724_targetcode)
+  #     viewDataTable(dat = dat)
+  #   })
+  # })
   
   # target rnaseq dotplot
   observe({
@@ -1013,7 +1013,8 @@ shinyServer(function(input, output, session){
         logvalue <- input$tgedotcheckboxInput1
         correlation <- input$tgedotselectInput4
         colorby <- as.character(input$tgedotselectInput5)
-        plotGeneScatterTargetRNA(datatype = datatype, dat = dat, gene1 = gene1, gene2 = gene2, log = logvalue, customtheme = tbw, 
+        plotGeneScatterTargetRNA(datatype = datatype, dat = dat, gene1 = gene1, gene2 = gene2, log = logvalue, 
+                                 customtheme = theme_Publication_scatter(), 
                                  correlation = correlation, colorby = colorby, targetcode = Target724_targetcode)
       })
     })
@@ -1144,7 +1145,7 @@ shinyServer(function(input, output, session){
     mdat <- get(paste0(dataset,'_mData'))
     tum <- unique(mdat$CANCER_TYPE)
     cols <- c("None",colnames(mdat))
-    updatePickerInput(session = session, inputId = "pptcbarselectInput3", choices = tum)
+    updatePickerInput(session = session, inputId = "pptcbarselectInput3", choices = tum, selected = tum[1])
     updateSelectizeInput(session = session, inputId = "pptcbarselectInput5", choices = cols, selected = 'None', server = TRUE)
   })
   
@@ -1185,7 +1186,7 @@ shinyServer(function(input, output, session){
     mdat <- get(paste0(dataset,'_mData'))
     tum <- unique(mdat$CANCER_TYPE)
     cols <- c("None", colnames(mdat))
-    updatePickerInput(session = session, inputId = "pptcdotselectInput4", choices = tum)
+    updatePickerInput(session = session, inputId = "pptcdotselectInput4", choices = tum, selected = tum[1])
     updateSelectizeInput(session = session, inputId = "pptcdotselectInput6", choices = cols, server = TRUE)
   })
   
@@ -1274,7 +1275,7 @@ shinyServer(function(input, output, session){
     # if(input$selectall2 == 0 | input$selectall2 %% 2 == 0){
     #   updateSelectizeInput(session = session, inputId = "pptcboxselectInput3", choices = tum, server = TRUE, selected = NULL)
     # }
-    updatePickerInput(session = session, inputId = 'pptcboxselectInput3', choices = tum, selected = NULL)
+    updatePickerInput(session = session, inputId = 'pptcboxselectInput3', choices = tum, selected = tum[1])
   })
   
   
@@ -1290,22 +1291,24 @@ shinyServer(function(input, output, session){
         gene1 <- as.character(input$pptcboxselectInput2)
         logvalue <- input$pptcboxcheckboxInput1
         tumor <- as.character(input$pptcboxselectInput3)
-        tukeyplot <<- plotGeneBoxPPTC(gene1 = gene1, tumor = tumor, myDataAnn = myDataAnn,
+        # tukeyplot <<- plotGeneBoxPPTC(gene1 = gene1, tumor = tumor, myDataAnn = myDataAnn,
+        #                 myDataExp = myDataExp, log = logvalue, customtheme = theme_Publication())
+        # tukeyplot[[1]]
+        plotGeneBoxPPTC(gene1 = gene1, tumor = tumor, myDataAnn = myDataAnn,
                         myDataExp = myDataExp, log = logvalue, customtheme = theme_Publication())
-        tukeyplot[[1]]
       })
     })
   })
   
   
-  output$pptcboxtable1 <- renderDataTable({
-    if(input$pptcboxsubmit2 == 0){
-      return()
-    }
-    isolate({
-      tukey.table <- tukeyplot[[2]]
-      viewDataTable(dat = tukey.table)
-    })
-  })
+  # output$pptcboxtable1 <- renderDataTable({
+  #   if(input$pptcboxsubmit2 == 0){
+  #     return()
+  #   }
+  #   isolate({
+  #     tukey.table <- tukeyplot[[2]]
+  #     viewDataTable(dat = tukey.table)
+  #   })
+  # })
   
 }) # shinyServer ends
