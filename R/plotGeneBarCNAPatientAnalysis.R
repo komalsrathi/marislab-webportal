@@ -34,25 +34,13 @@ plotGeneBarCNAPatientAnalysis <- function(gene1, myData, sortby, logby, customth
   gene1.mut <- paste('`',gene1,'`',sep='')
   
   if(colorby == "None"){
-    p <- ggplot(myData.c, aes_string(x='Patient_Sample', y = gene1.mut)) + 
-      customtheme + geom_bar(stat="identity") + 
-      theme(axis.text.x  = element_blank(),
-            axis.ticks.x = element_blank(),
-            axis.text.y = element_text(size = 16),
-            axis.title.y= element_text(size = 16),
-            axis.title.x = element_text(size = 16),
-            plot.title = element_text(size = 18)) + ggtitle(gene1) + 
-      ylab("Copy Number\n") + xlab("\nSample")
+    p <- ggplot(myData.c, aes_string(x = 'Patient_Sample', y = gene1.mut)) + 
+      geom_bar(stat = "identity", color = 'black', fill = 'gray', size = 0.2) + customtheme + xlab('') +
+      ggtitle(gene1)
   } else {
-    p <- ggplot(myData.c, aes_string(x = 'Patient_Sample', y = gene1.mut, fill = colorby)) + 
-      customtheme + geom_bar(stat="identity") + 
-      theme(axis.text.x  = element_blank(),
-            axis.ticks.x = element_blank(),
-            axis.text.y = element_text(size = 16),
-            axis.title.y= element_text(size = 16),
-            axis.title.x = element_text(size = 16),
-            plot.title = element_text(size = 18)) + ggtitle(gene1) + 
-      ylab("Copy Number\n") + xlab("\nSample")
+    p <- ggplot(myData.c, aes_string(x = 'Patient_Sample', y = gene1.mut, fill = colorby)) + guides(fill = FALSE) + 
+      geom_bar(stat = "identity", color = 'black', size = 0.2) + customtheme + xlab('') +
+      ggtitle(gene1)
   }
   
   
