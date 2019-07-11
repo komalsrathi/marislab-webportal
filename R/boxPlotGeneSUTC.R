@@ -36,18 +36,23 @@ boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
   tmpDat$Tissue <- as.factor(tmpDat$Tissue)
   tmpDat$Tissue <- relevel(tmpDat$Tissue, ref = 'TARGET NBL')
   
-  p <- ggplot(tmpDat, aes(Tissue, FPKM, fill = Tissue)) + 
-    geom_boxplot() + 
-    ggtitle(gene1) + theme_bw() + 
-    theme(axis.text.x = element_text(size = 12, angle = 60, hjust = 0),
-          axis.text.y = element_text(size = 12),
-          plot.margin = unit(c(1, 1, 7, 1), "cm"),
-          legend.position = "none")
+  p <- p <- ggplot(tmpDat, aes(x=Tissue, y=FPKM)) + 
+    stat_boxplot(geom ='errorbar', width = 0.2) +
+    geom_boxplot(lwd = 0.5, fatten = 0.7, outlier.shape = 1, width = 0.5, outlier.size = 1, aes(fill = Tissue)) +
+    geom_jitter(width = 0.1, pch = 21, stroke = 0.2, aes(fill = Tissue)) + customtheme + 
+    ggtitle(gene1) + theme(legend.position = "none") + 
+    stat_compare_means(method = "anova", label.x.npc = "center", label.y.npc = "top", color = "red")
   
   p <- plotly_build(p)
   
   p$x$layout$yaxis$title <- y.axis
   p$x$layout$xaxis$title <- ""
 
+  # remove outliers
+  p$x$data[1:length(levels(tmpDat[,'Tissue'])) + 1] <- lapply(p$x$data[1:length(levels(tmpDat[,'Tissue'])) + 1], FUN = function(x){
+    x$marker = list(opacity = 0)
+    return(x)
+  })
+  
   return(p)
 }
