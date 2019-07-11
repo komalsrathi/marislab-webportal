@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 ###################################
 
-boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
+boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot, customtheme)
 {
   # format data
   normData <- normData[rownames(normData) == gene1,]
