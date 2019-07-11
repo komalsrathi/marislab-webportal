@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 ###################################
 
-boxPlotGeneHighSUTC <- function(gene1, logby, tumData, normData, normDataAnnot)
+boxPlotGeneHighSUTC <- function(gene1, logby, tumData, normData, normDataAnnot, customtheme)
 {
   
   # format data
