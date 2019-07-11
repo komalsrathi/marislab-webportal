@@ -77,24 +77,28 @@ plotGeneBarPatientAnalysis <- function(datatype, gene1, myDataExp, myDataAnn, so
   {
     if(density == FALSE)
     {
-      p <- ggplot(myDataExp.c, aes_string(x='Patient_Sample', y=gene1.mut)) + 
-        geom_bar(stat="identity") + customtheme + theme(axis.text.x  = element_text(angle=90)) + ggtitle(gene1)
+      p <- ggplot(myDataExp.c, aes_string(x = 'Patient_Sample', y = gene1.mut)) + 
+        geom_bar(stat = "identity", color = 'black', fill = 'gray', size = 0.2) + 
+        customtheme + xlab('') + ggtitle(gene1)
     }
     if(density == TRUE)
     {
-      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=1)) + geom_density(alpha = 0.5) + customtheme + ggtitle(gene1) 
+      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=1)) + guides(fill = FALSE) + 
+        geom_density(alpha = 0.5) + customtheme + ggtitle(gene1) 
     }
   }
   if(colorby!="None")
   {
     if(density == FALSE)
     {
-      p <- ggplot(myDataExp.c, aes_string(x='Patient_Sample', y=gene1.mut, fill=colorby)) + customtheme +
-        geom_bar(stat="identity") + theme(axis.text.x  = element_text(angle=90)) + ggtitle(gene1)
+      p <- ggplot(myDataExp.c, aes_string(x = 'Patient_Sample', y = gene1.mut, fill = colorby)) + 
+        geom_bar(stat = "identity", color = 'black', size = 0.2) + customtheme +
+        ggtitle(gene1)
     }
     if(density == TRUE)
     {
-      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill=colorby)) + geom_density(alpha = 0.5) + customtheme + ggtitle(gene1) 
+      p <- ggplot(myDataExp.c, aes_string(gene1.mut, fill = colorby)) + 
+        geom_density(alpha = 0.5) + customtheme + ggtitle(gene1) 
     }
   }
   
