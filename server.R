@@ -148,10 +148,11 @@ shinyServer(function(input, output, session){
         phenotype <- cellline_mData
         gene1 <- as.character(input$clgeselectInput2)
         logvalue <- input$clgecheckboxInput1
+        density <- as.character(input$clgecheckboxInput2)
         sortby <- input$clgeselectInput3
         colorby <- input$clgeselectInput4
         plotGeneBar(datatype = datatype, dat = dat, phenotype = phenotype, colorby = colorby,
-                    gene1 = gene1, customtheme = theme_Publication(), log = logvalue, sortby)
+                    gene1 = gene1, customtheme = theme_Publication(), log = logvalue, sortby, density)
       })
     })
   })

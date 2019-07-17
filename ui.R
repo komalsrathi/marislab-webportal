@@ -178,7 +178,8 @@ dashboardPage(
                                                                                                     'Modified CL RNAseq (STAR) (n=8, FPKM)'='STAR_FPKM_8cells_modified_genes')),
                     actionButton(inputId = "clgesubmit1", label = "Load dataset"), width = 4, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput2", label = "Select Gene", choices = "none"), width = 2, background = "navy"),
-                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), width = 2, background = "navy"),
+                box(checkboxInput(inputId = "clgecheckboxInput1", label = "Log", value = FALSE), 
+                    checkboxInput(inputId = "clgecheckboxInput2", label = "Density"), width = 2, background = "navy"),
                 box(selectInput(inputId = "clgeselectInput3", label = "Sort by", choices = c('Gene','CellLine', 'MYCN_Status')), width = 2, background = 'navy'),
                 box(selectInput(inputId = "clgeselectInput4", label = "Color by", choices = c('None', 'MYCN_Status', 'ALK_Status','TP53_Status')), width = 2, background = "navy")
               ),
