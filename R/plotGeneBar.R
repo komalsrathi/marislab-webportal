@@ -4,7 +4,7 @@
 # Organization: DBHi, CHOP
 ####################################
 
-plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortby, colorby)
+plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortby, colorby, density)
 {
   
   # load initial dataset and subset by gene
@@ -58,13 +58,23 @@ plotGeneBar <- function(datatype, dat, phenotype, gene1, log, customtheme, sortb
   
   # plot 
   if(colorby != "None"){
-    p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut, fill = colorby)) + 
-      geom_bar(stat = "identity", color = 'black', size = 0.2) + customtheme + xlab('') +
-      ggtitle(gene1)
+    if(density == FALSE){
+      p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut, fill = colorby)) + 
+        geom_bar(stat = "identity", color = 'black', size = 0.2) + customtheme + xlab('') +
+        ggtitle(gene1)
+    } else {
+      p <- ggplot(dat.c, aes_string(x = gene1.mut, fill = colorby)) + 
+        geom_density(alpha = 0.5) + customtheme + ggtitle(gene1) 
+    }
   } else if(colorby == "None"){
-    p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut)) + 
-      geom_bar(stat = "identity", color = 'black', fill = 'gray', size = 0.2) + customtheme + xlab('') +
-      ggtitle(gene1)
+    if(density == FALSE) {
+      p <- ggplot(dat.c, aes_string(x = 'Cell_Line', y = gene1.mut)) + 
+        geom_bar(stat = "identity", color = 'black', fill = 'gray', size = 0.2) + customtheme + xlab('') +
+        ggtitle(gene1)
+    } else {
+      p <- ggplot(dat.c, aes_string(x = gene1.mut, fill=1)) + guides(fill = FALSE) + 
+        geom_density(alpha = 0.5) + customtheme + ggtitle(gene1) 
+    }
   }
   
   p <- plotly_build(p)
