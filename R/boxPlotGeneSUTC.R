@@ -36,7 +36,7 @@ boxPlotGeneSUTC <- function(gene1, logby, tumData, normData, normDataAnnot, cust
   tmpDat$Tissue <- as.factor(tmpDat$Tissue)
   tmpDat$Tissue <- relevel(tmpDat$Tissue, ref = 'TARGET NBL')
   
-  p <- p <- ggplot(tmpDat, aes(x=Tissue, y=FPKM)) + 
+  p <- ggplot(tmpDat, aes(x=Tissue, y=FPKM)) + 
     stat_boxplot(geom ='errorbar', width = 0.2) +
     geom_boxplot(lwd = 0.5, fatten = 0.7, outlier.shape = 1, width = 0.5, outlier.size = 1, aes(fill = Tissue)) +
     geom_jitter(width = 0.1, pch = 21, stroke = 0.2, aes(fill = Tissue)) + customtheme + 
